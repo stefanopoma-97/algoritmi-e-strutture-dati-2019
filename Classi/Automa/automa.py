@@ -106,23 +106,35 @@ class Transizione:
         out = out + "]"
         return out
 
+    def eventi_to_string(self, eventi):
+        out="{"
+
+        if eventi is None:
+            out+=" : }"
+        else:
+            for e in eventi:
+                out+=e.to_string()+";"
+            out+="}"
+
+        return out
+
     def to_string(self):
         return stato_to_string(self.stato_sorgente) + ">" + self.nome + ">" + stato_to_string(
-            self.stato_destinazione) + self.oss_ril_to_string()
+            self.stato_destinazione) + self.oss_ril_to_string()+" " + self.eventi_to_string(self.input) + " " + self.eventi_to_string(self.output)
 
 
 class Evento:
     '''Classe rappresentante l'evento (input e output di una transizione)'''
 
-    def __init__(self, nome, nome_link=None):
+    def __init__(self, nome, link=None):
         '''L'eventi è costituito da
         nome: stringa
         link: Link'''
         self.nome = nome
-        self.nome_link = nome_link
+        self.link = link
 
     def to_string(self):
-        return self.nome_link + " " + self.nome
+        return self.link.nome + ":" + self.nome
 
 
 def get_transizioni(automa):
@@ -157,3 +169,9 @@ def transizioni_to_string(transizioni):
 def transizione_to_string(transizione):
     '''data una lista di transizioni ritorna una stringa'''
     return transizione.to_string()
+
+def automi_to_string(automi):
+    stringa = ""
+    for x in range(len(automi)):
+        stringa = stringa + automi[x].to_string() + "\n"
+    return stringa
