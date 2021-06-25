@@ -1,30 +1,39 @@
 from graphviz import Digraph
+from Classi.Automa.automa import *
 
 
 def stampa_automa(automa):
-    f = Digraph('finite_state_machine', filename='nome file', format='png')
+    '''stampa l'automa con graphviz'''
+    gra = Digraph()
+    for s in automa.stati:
+        gra.node(s.nome)
+    for t in get_transizioni(automa):
+        gra.edge(t.stato_sorgente.nome, t.stato_destinazione.nome)
+
+    print(gra.source)
+
+def stampa_automa_su_file(automa, filename):
+    gra = Digraph('nome automa', filename=filename, format='png')
 
     for s in automa.stati:
-        f.node(s.nome, shape='circle')
+        gra.node(s.nome, shape='circle')
 
-    for state in fsm.final_states:
-        if state != "":
-            f.node(state, shape='doublecircle')
+    if automa.stati_finali[0] is not None:
+        for s in automa.stati_finali:
+            gra.node(s.nome, shape='doublecircle')
 
-    for edge_fsm in fsm.edges:
-        f.edge(edge_fsm.source, edge_fsm.destination, edge_fsm.label)
+    for t in get_transizioni(automa):
+        gra.edge(t.stato_sorgente.nome, t.stato_destinazione.nome, t.nome)
 
-    f.render(directory="Output/" + filename + "/FSM_graph")
+    print(gra.source)
 
-    summary = open("Output/" + filename + "/FSM_graph/" + fsm.name + "_summary.txt", "w")
-    summary.write("Numero di stati:" + str(len(fsm.states)) + "\n")
-    i = 1
-    for state in fsm.states:
-        summary.write(str(i) + ") " + str(state) + "\n")
-        i = i + 1
-    summary.write("Numero di transizioni:" + str(len(fsm.edges)) + "\n")
-    i = 1
-    for e in fsm.edges:
-        summary.write(str(i) + ") " + str(e.source) + " -> " + e.label + " -> " + e.destination + "\n")
-        i = i + 1
-    summary.close()
+    gra.render(directory="Output/grafici_automi/"+filename)
+
+    riassunto = open("Output/grafici_automi/"+filename+"/"+filename+"_riassunto.txt", "w")
+    riassunto.write("Numero di stati:"+str(len(automa.stati))+"\n")
+    riassunto.write(stati_to_string(automa.stati)+"\n")
+
+    riassunto.write("Numero di transizioni:" + str(len(get_transizioni(automa))) + "\n")
+    riassunto.write(transizioni_to_string(get_transizioni(automa))+"\n")
+    riassunto.close()
+
