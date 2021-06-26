@@ -4,8 +4,8 @@ from Classi.Automa.rete import *
 from graphviz import Digraph
 
 # Creo un nuovo automa
-automa1 = Automa('automa 1')
-automa2 = Automa('automa 2')
+automa1 = Automa('automa1')
+automa2 = Automa('automa2')
 
 # definisco i suoi stati
 stato1 = Stato("20")
@@ -68,18 +68,28 @@ link2 = Link("L2", automa2, automa1)
 evento1.link=link1
 evento2.link=link2
 
-print('Automa')
+print("Automa 1")
 automa1.stampa()
-automa2.stampa()
+print("Automa 1 txt")
+print(automa1.to_string_txt())
+
+print("Automa 2 txt")
+print(automa2.to_string_txt())
 
 
-print("grafico")
-#stampa_automa(automa1)
 
-stampa_automa_su_file(automa1, cartella="singolo")
-stampa_automa_su_file(automa2, cartella="singolo")
 
-stampa_automi_su_file([automa1, automa2],cartella="test doppio")
+#automa2.stampa()
+
+
+#STAMPA SU FILE
+# print("grafico")
+# #stampa_automa(automa1)
+#
+# stampa_automa_su_file(automa1, cartella="singolo")
+# stampa_automa_su_file(automa2, cartella="singolo")
+
+#stampa_automi_su_file([automa1, automa2],cartella="test doppio")
 
 
 
@@ -87,4 +97,28 @@ stampa_automi_su_file([automa1, automa2],cartella="test doppio")
 
 rete = Rete("rete 1", [automa1, automa2], [link1, link2])
 #rete.stampa()
-stampa_rete_su_file(rete,cartella="singolo")
+print("Link txt")
+print(rete.to_string_link_txt())
+
+print("Transizioni txt")
+print(rete.to_string_txt())
+
+#STAMPA RETE SU FILE
+#stampa_rete_su_file(rete,cartella="singolo")
+
+
+#INPUT / OUTPUT FILE
+# cartella="grafici_automi/singolo"
+# salva_automa_su_file(automa1, cartella, 'automa1_save')
+#
+# automa_load = carica_automa_da_file(cartella, 'automa1_save')
+# print("LOAD")
+# automa_load.stampa()
+
+
+#CHIUEDI FILE INPUT
+# from tkinter.filedialog import askopenfilename
+#
+# filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
+# print(filename)
+

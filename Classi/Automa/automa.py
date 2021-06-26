@@ -1,4 +1,5 @@
 '''modulo contenente le classi per creare un automa'''
+import pickle
 
 
 class Automa:
@@ -43,6 +44,31 @@ class Automa:
         stringa = stringa + "Transizioni\n"
         stringa = stringa + transizioni_to_string(get_transizioni(self))
 
+        return stringa
+
+    def to_string_txt(self):
+        '''Converte automa nella stringa utilizzata per importarlo dal file .txt'''
+        stringa = self.nome + "\n"
+
+        if (len(self.stati) == 1) and (self.stati[0] is None):
+            stringa = stringa + "\n"
+        else:
+            for s in self.stati:
+                stringa += s.nome+","
+            stringa = stringa[:-1]
+            stringa += "\n"
+
+        if (len(self.stati_finali) == 1) and (self.stati_finali[0] is None):
+            stringa = stringa + "\n"
+        else:
+            for s in self.stati_finali:
+                stringa += s.nome+","
+            stringa = stringa[:-1]
+            stringa += "\n"
+
+        for t in get_transizioni(self):
+            stringa += t.stato_sorgente.nome+">"+t.nome+">"+t.stato_destinazione.nome+","
+        stringa = stringa[:-1]
         return stringa
 
     def stampa(self):
@@ -175,3 +201,13 @@ def automi_to_string(automi):
     for x in range(len(automi)):
         stringa = stringa + automi[x].to_string() + "\n"
     return stringa
+
+def salva_automa_su_file(automa, cartella, filename):
+    with open('Output/'+cartella+'/'+filename, 'wb') as config_dictionary_file:
+        # Step 3
+        pickle.dump(automa, config_dictionary_file)
+
+def carica_automa_da_file(cartella, filename):
+    with open('Output/'+cartella+'/'+filename, 'rb') as config_dictionary_file:
+        automa_load = pickle.load(config_dictionary_file)
+        return automa_load
