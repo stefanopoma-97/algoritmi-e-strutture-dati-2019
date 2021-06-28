@@ -69,6 +69,7 @@ class Automa:
         for t in get_transizioni(self):
             stringa += t.stato_sorgente.nome+">"+t.nome+">"+t.stato_destinazione.nome+","
         stringa = stringa[:-1]
+        stringa += "\n"
         return stringa
 
     def stampa(self):
@@ -86,7 +87,12 @@ class Stato:
 
     def add_transizione(self, transizione):
         '''Aggiunge una transizione allo stato'''
-        self.transizioni = self.transizioni.append(transizione)
+        elenco = self.transizioni
+        lista = []
+        for t in elenco:
+            lista.append(t)
+        lista.append(transizione)
+        self.transizioni=lista
 
     def to_string(self):
         stringa = ""
@@ -142,6 +148,30 @@ class Transizione:
             out+="}"
 
         return out
+
+    def add_input(self, evento):
+        '''Aggiunge un evento all'input'''
+        if self.input is None:
+            self.input = [evento]
+        else:
+            elenco = self.input
+            lista = []
+            for e in elenco:
+                lista.append(e)
+            lista.append(evento)
+            self.input=lista
+
+    def add_output(self, evento):
+        '''Aggiunge un evento all'input'''
+        if self.output is None:
+            self.output = [evento]
+        else:
+            elenco = self.output
+            lista = []
+            for e in elenco:
+                lista.append(e)
+            lista.append(evento)
+            self.output=lista
 
     def to_string(self):
         '''converte la transizione in una stringa facilmente leggibile'''

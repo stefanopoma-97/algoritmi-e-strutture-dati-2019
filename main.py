@@ -40,6 +40,9 @@ transizione4.stato_destinazione = stato4
 
 # automaticamente lo stato verrà popolato con l'array delle transizioni uscenti
 stato1.transizioni = [transizione1, transizione3]
+#stato1.add_transizione(transizione1)
+#stato1.add_transizione(transizione2)
+
 stato2.transizioni = [transizione2]
 stato3.transizioni = [transizione4]
 
@@ -55,8 +58,11 @@ transizione3.rilevanza = "r3"
 evento1 = Evento("e1")
 evento2 = Evento("e2")
 
-transizione1.input = [evento1]
-transizione1.output = [evento1, evento2]
+#transizione1.input = [evento1]
+transizione1.add_input(evento1)
+#transizione1.output = [evento1, evento2]
+transizione1.add_output(evento1)
+transizione1.add_output(evento2)
 
 transizione2.input = [evento2]
 
@@ -110,6 +116,7 @@ stampa_rete_su_file(rete,cartella="singolo")
 cartella="grafici_automi/singolo"
 salva_automa_su_file(automa1, cartella, 'automa1_save')
 salva_automa_su_file_txt(automa1, cartella, 'automa1_save')
+salva_automa_su_file_txt(automa2, cartella, 'automa2_save')
 automa_load = carica_automa_da_file(cartella, 'automa1_save')
 print("LOAD")
 automa_load.stampa()
@@ -127,3 +134,8 @@ rete_load.stampa()
 # filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
 # print(filename)
 
+transizioni=[]
+for a in rete.automi:
+    transizioni+=get_transizioni(a)
+
+print(transizioni_to_string(transizioni))

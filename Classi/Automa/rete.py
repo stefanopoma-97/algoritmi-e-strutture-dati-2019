@@ -38,16 +38,16 @@ class Rete:
         stringa=""
         for l in self.links:
             stringa += l.automa_sorgente.nome+">"+l.nome+">"+l.automa_destinazione.nome+"\n"
-        stringa = stringa[:-1]
+        #stringa = stringa[:-1]
         return stringa
 
     def to_string_txt(self):
         '''Converte la rete nella stringa utilizzata per importare la rete stessa da file'''
-        stringa=""
+        stringa = self.nome + "\n"
         for a in self.automi:
             for t in get_transizioni(a):
                 stringa += a.nome + ","
-                stringa += t.nome + ":"
+                stringa += t.nome + ","
 
                 if t.input is None:
                     stringa += " /"
@@ -60,7 +60,7 @@ class Rete:
                 else:
                     stringa += "{"
                     for e in t.output:
-                        stringa += e.nome+"("+e.link.nome+"),"
+                        stringa += e.nome+"("+e.link.nome+");"
                     stringa = stringa[:-1]
                     stringa += "},"
                 if t.osservazione is None:
