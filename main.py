@@ -108,12 +108,15 @@ stampa_rete_su_file(rete,cartella="singolo")
 
 #INPUT / OUTPUT FILE
 cartella="grafici_automi/singolo"
-#salva_automa_su_file(automa1, cartella, 'automa1_save')
-# automa_load = carica_automa_da_file(cartella, 'automa1_save')
-# print("LOAD")
-# automa_load.stampa()
+salva_automa_su_file(automa1, cartella, 'automa1_save')
+salva_automa_su_file_txt(automa1, cartella, 'automa1_save')
+automa_load = carica_automa_da_file(cartella, 'automa1_save')
+print("LOAD")
+automa_load.stampa()
 
 salva_rete_su_file(rete,cartella,"rete_save")
+salva_rete_su_file_txt(rete,cartella,"rete_save")
+salva_links_su_file_txt(rete,cartella,"links_save")
 rete_load = carica_rete_da_file(cartella, 'rete_save')
 print("LOAD")
 rete_load.stampa()
