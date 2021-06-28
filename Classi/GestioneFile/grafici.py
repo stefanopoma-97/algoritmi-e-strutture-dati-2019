@@ -4,7 +4,8 @@ from Classi.Automa.rete import *
 
 
 def stampa_automa(automa):
-    '''stampa l'automa con graphviz'''
+    '''stampa l'automa con graphviz
+    l'output è presentato su riga di comando'''
     gra = Digraph()
     for s in automa.stati:
         gra.node(s.nome)
@@ -60,6 +61,10 @@ def stampa_automa_su_file_new(gra, automa):
     # riassunto.close()
 
 def stampa_automa_su_file(automa, cartella):
+    '''Stampa l'automa su un file PNG
+    Input: automa, nome cartella di output
+    Output: viene generato un file .png nella cartella selezionata
+    viene anche creato un file nome automa_riassunto.txt contenente le informazioni sull'automa in questione'''
     gra = Digraph(automa.nome, filename=automa.nome, format='png')
 
     for s in automa.stati:
@@ -85,6 +90,10 @@ def stampa_automa_su_file(automa, cartella):
     riassunto.close()
 
 def stampa_rete_su_file(rete, cartella):
+    '''Stampa la rete su un file PNG
+        Input: rete, nome cartella di output
+        Output: viene generato un file .png nella cartella selezionata
+        viene anche creato un file nome rete_riassunto.txt contenente le informazioni sull'automa in questione'''
     gra = Digraph("rete", filename=rete.nome, format='png')
 
     for automa in rete.automi:

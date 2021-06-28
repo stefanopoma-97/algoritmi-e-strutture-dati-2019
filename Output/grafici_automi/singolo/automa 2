@@ -1,5 +1,0 @@
-digraph "automa 2" {
-	30 [shape=circle]
-	31 [shape=circle]
-	30 -> 31 [label="30>t4>31[Oss: None; ril: None] { : } { : }"]
-}

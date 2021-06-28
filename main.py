@@ -1,7 +1,6 @@
-from Classi.Automa.automa import *
-from Classi.Automa.grafici import *
+from Classi.GestioneFile.grafici import *
 from Classi.Automa.rete import *
-from graphviz import Digraph
+from Classi.GestioneFile.input_output import *
 
 # Creo un nuovo automa
 automa1 = Automa('automa1')
@@ -83,11 +82,11 @@ print(automa2.to_string_txt())
 
 
 #STAMPA SU FILE
-# print("grafico")
-# #stampa_automa(automa1)
-#
-# stampa_automa_su_file(automa1, cartella="singolo")
-# stampa_automa_su_file(automa2, cartella="singolo")
+print("grafico")
+#stampa_automa(automa1)
+
+stampa_automa_su_file(automa1, cartella="singolo")
+stampa_automa_su_file(automa2, cartella="singolo")
 
 #stampa_automi_su_file([automa1, automa2],cartella="test doppio")
 
@@ -104,17 +103,20 @@ print("Transizioni txt")
 print(rete.to_string_txt())
 
 #STAMPA RETE SU FILE
-#stampa_rete_su_file(rete,cartella="singolo")
+stampa_rete_su_file(rete,cartella="singolo")
 
 
 #INPUT / OUTPUT FILE
-# cartella="grafici_automi/singolo"
-# salva_automa_su_file(automa1, cartella, 'automa1_save')
-#
+cartella="grafici_automi/singolo"
+#salva_automa_su_file(automa1, cartella, 'automa1_save')
 # automa_load = carica_automa_da_file(cartella, 'automa1_save')
 # print("LOAD")
 # automa_load.stampa()
 
+salva_rete_su_file(rete,cartella,"rete_save")
+rete_load = carica_rete_da_file(cartella, 'rete_save')
+print("LOAD")
+rete_load.stampa()
 
 #CHIUEDI FILE INPUT
 # from tkinter.filedialog import askopenfilename

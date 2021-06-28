@@ -75,10 +75,6 @@ class Automa:
         '''Stampa automa'''
         print(self.to_string())
 
-    def passaggio(self):
-        self.stato_corrente[0] = self.stati[1]
-
-
 class Stato:
     '''Stato di un automa
     nome: Stringa
@@ -89,6 +85,7 @@ class Stato:
         self.transizioni = transizioni
 
     def add_transizione(self, transizione):
+        '''Aggiunge una transizione allo stato'''
         self.transizioni = self.transizioni.append(transizione)
 
     def to_string(self):
@@ -118,6 +115,7 @@ class Transizione:
         self.output = output
 
     def oss_ril_to_string(self):
+        '''Stampa le etichette di osservabilità e rilevanza'''
         out = "[Oss: "
         if self.osservazione is not None:
             out = out + self.osservazione
@@ -133,6 +131,7 @@ class Transizione:
         return out
 
     def eventi_to_string(self, eventi):
+        '''stampa gli eventi legati alla transizione'''
         out="{"
 
         if eventi is None:
@@ -145,6 +144,7 @@ class Transizione:
         return out
 
     def to_string(self):
+        '''converte la transizione in una stringa facilmente leggibile'''
         return stato_to_string(self.stato_sorgente) + ">" + self.nome + ">" + stato_to_string(
             self.stato_destinazione) + self.oss_ril_to_string()+" " + self.eventi_to_string(self.input) + " " + self.eventi_to_string(self.output)
 
@@ -160,10 +160,12 @@ class Evento:
         self.link = link
 
     def to_string(self):
+        '''converte l'evento in una stringa facilmente leggibile'''
         return self.link.nome + ":" + self.nome
 
 
 def get_transizioni(automa):
+    '''Dato un automa restituisce l'elenco delle sue transizioni'''
     transizioni = []
     for s in automa.stati:
         transizioni = transizioni + s.transizioni
@@ -197,17 +199,10 @@ def transizione_to_string(transizione):
     return transizione.to_string()
 
 def automi_to_string(automi):
+    '''data una lista di automi li converte in stringhe facilmente leggibili'''
     stringa = ""
     for x in range(len(automi)):
         stringa = stringa + automi[x].to_string() + "\n"
     return stringa
 
-def salva_automa_su_file(automa, cartella, filename):
-    with open('Output/'+cartella+'/'+filename, 'wb') as config_dictionary_file:
-        # Step 3
-        pickle.dump(automa, config_dictionary_file)
 
-def carica_automa_da_file(cartella, filename):
-    with open('Output/'+cartella+'/'+filename, 'rb') as config_dictionary_file:
-        automa_load = pickle.load(config_dictionary_file)
-        return automa_load

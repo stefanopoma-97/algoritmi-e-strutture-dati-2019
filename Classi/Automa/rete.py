@@ -1,6 +1,7 @@
 from Classi.Automa.automa import *
 
 class Link:
+    '''Classe rappresentate un link tra due automi'''
     def __init__(self, nome, automa_sorgente, automa_destinazione, evento=None):
         self.nome = nome
         self.automa_sorgente=automa_sorgente
@@ -8,6 +9,7 @@ class Link:
         self.evento=evento
 
     def to_string(self):
+        '''Converte il link in una stringa facilmente leggibile'''
         if self.evento is not None:
             return "Nome link: "+self.nome + "\nautoma sorgente: "+self.automa_sorgente.nome+"\nautoma destinazione: "+self.automa_destinazione.nome+"\nevento: "+self.evento.nome
         else:
@@ -25,12 +27,14 @@ class Rete:
         self.links=links
 
     def to_string(self):
+        '''Converte la rete in una stringa facilmente leggibile'''
         return "Rete: "+self.nome + "\nautomi: \n"+automi_to_string(self.automi)+"\nlinks: \n"+links_to_string(self.links)
 
     def stampa(self):
         print(self.to_string())
 
     def to_string_link_txt(self):
+        '''Converte i link della rete nella stringa utilizzata per importare i link da file'''
         stringa=""
         for l in self.links:
             stringa += l.automa_sorgente.nome+">"+l.nome+">"+l.automa_destinazione.nome+"\n"
@@ -38,6 +42,7 @@ class Rete:
         return stringa
 
     def to_string_txt(self):
+        '''Converte la rete nella stringa utilizzata per importare la rete stessa da file'''
         stringa=""
         for a in self.automi:
             for t in get_transizioni(a):
