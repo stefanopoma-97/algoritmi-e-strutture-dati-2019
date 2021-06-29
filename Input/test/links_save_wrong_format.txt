@@ -1,0 +1,3 @@
+automa1>L1>automa2
+automa4>L2>automa1
+lupppp

@@ -1,0 +1,5 @@
+rete 1/ rete 2
+automa1,t1,e1(L1)/{e1(L1);e2(L2)},o1,r1
+automa1,t3, /{ }, ,r3
+automa1,t2,e2(L2)/{ },o2, 
+automa2,t5, /{ }, , 

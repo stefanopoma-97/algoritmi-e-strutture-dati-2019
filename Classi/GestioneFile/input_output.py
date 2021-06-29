@@ -2,6 +2,12 @@
 import pickle
 from Classi.Automa.automa import *
 from Classi.Automa.rete import *
+import re
+
+REGEX_AUTOMA="^[a-zA-Z0-9]+\\n[0-9]+(\,[0-9]+)*\\n([0-9]+(\,[0-9]+)*)?\\n[0-9]+\>[a-zA-Z0-9]+\>[0-9]+(\,[0-9]+\>[a-zA-Z0-9]+\>[0-9]+)*\\n"
+REGEX_LINK="^[a-zA-Z0-9]+\>[a-zA-Z0-9]+\>[a-zA-Z0-9]+\\n([a-zA-Z0-9]+\>[a-zA-Z0-9]+\>[a-zA-Z0-9]+\\n)*"
+REGEX_RETE="^[a-zA-Z0-9 ]+\\n([a-zA-Z0-9]+\,[a-zA-Z0-9]+\,(([a-zA-Z0-9]+\([a-zA-Z0-9]+\))| )\/\{((([a-zA-Z0-9]+\([a-zA-Z0-9]+\))(\;[a-zA-Z0-9]+\([a-zA-Z0-9]+\))*)| )\}\,([a-zA-Z0-9]+| )\,([a-zA-Z0-9]+| )\\n)*"
+
 
 
 
@@ -55,6 +61,16 @@ def carica_rete_da_file(cartella, filename):
 def carica_automa_da_file_txt(cartella, filename):
     '''Carica un automa da un file .txt'''
     f = open('Input/'+cartella+'/'+filename, "r")
+    stringa_regex = f.read()
+    x = re.fullmatch(REGEX_AUTOMA, stringa_regex)
+    if x:
+        print("Inizio a leggere il file")
+    else:
+        print("problema nella lettura")
+        return "Il formato del file non è corretto. Impossibile importarlo"
+    f.close()
+
+    f = open('Input/' + cartella + '/' + filename, "r")
     automa = Automa("nome")
 
 
@@ -86,7 +102,7 @@ def carica_automa_da_file_txt(cartella, filename):
             stati.append(Stato(s))
         automa.stati_finali=stati
 
-    # Riga 4: "stato1">"stato2">"etichetta","stato1">"stato2">"etichetta"\n
+    # Riga 4: "stato1">"etichetta">"stato2","stato1">"stato2">"etichetta"\n
 
     riga = f.readline()
     riga = riga[:-1]  # tolgo \n
@@ -131,6 +147,17 @@ def carica_links_da_file_txt(cartella, filename, automi):
     Devono essere forniti gli automi esistenti'''
     f = open('Input/'+cartella+'/'+filename, "r")
 
+    stringa_regex = f.read()
+    x = re.fullmatch(REGEX_LINK, stringa_regex)
+    if x:
+        print("Inizio a leggere il file")
+    else:
+        print("problema nella lettura")
+        return "Il formato del file non è corretto. Impossibile importarlo"
+    f.close()
+
+    f = open('Input/' + cartella + '/' + filename, "r")
+
     links=[]
 
     while (True):
@@ -167,6 +194,16 @@ def carica_rete_da_file_txt(cartella, filename, automi, links):
     devono essere forniti automi e links esistenti'''
     f = open('Input/' + cartella + '/' + filename, "r")
 
+    stringa_regex = f.read()
+    x = re.fullmatch(REGEX_RETE, stringa_regex)
+    if x:
+        print("Inizio a leggere il file")
+    else:
+        print("problema nella lettura")
+        return "Il formato del file non è corretto. Impossibile importarlo"
+    f.close()
+
+    f = open('Input/' + cartella + '/' + filename, "r")
     # Riga 1: "nome"\n
     riga = f.readline()
     rete = Rete(riga[:-1], automi, links)
