@@ -3,6 +3,7 @@ import pickle
 from Classi.Automa.automa import *
 from Classi.Automa.rete import *
 import re
+from tkinter import filedialog
 
 REGEX_AUTOMA="^[a-zA-Z0-9]+\\n[0-9]+(\,[0-9]+)*\\n([0-9]+(\,[0-9]+)*)?\\n[0-9]+\>[a-zA-Z0-9]+\>[0-9]+(\,[0-9]+\>[a-zA-Z0-9]+\>[0-9]+)*\\n"
 REGEX_LINK="^[a-zA-Z0-9]+\>[a-zA-Z0-9]+\>[a-zA-Z0-9]+\\n([a-zA-Z0-9]+\>[a-zA-Z0-9]+\>[a-zA-Z0-9]+\\n)*"
@@ -58,19 +59,32 @@ def carica_rete_da_file(cartella, filename):
 
 
 
-def carica_automa_da_file_txt(cartella, filename):
+def carica_automa_da_file_txt(*args):
     '''Carica un automa da un file .txt'''
-    f = open('Input/'+cartella+'/'+filename, "r")
+
+    if len(args)==1:
+        f = open(args[0], "r")
+    else:
+        file = filedialog.askopenfilename()
+        estensione = file.split(".")
+        if len(estensione) != 2 or estensione[1] != "txt":
+            return "Estensione del file errata. Seleziona un file .txt"
+        f = open(file, "r")
+
     stringa_regex = f.read()
     x = re.fullmatch(REGEX_AUTOMA, stringa_regex)
     if x:
-        print("Inizio a leggere il file")
+        print("Formato del file corretto")
     else:
-        print("problema nella lettura")
+        print("Problema nella lettura")
         return "Il formato del file non è corretto. Impossibile importarlo"
     f.close()
 
-    f = open('Input/' + cartella + '/' + filename, "r")
+    if len(args)==1:
+        f = open(args[0], "r")
+    else:
+        f = open(file, "r")
+
     automa = Automa("nome")
 
 
@@ -142,10 +156,18 @@ def carica_automa_da_file_txt(cartella, filename):
 
     return automa
 
-def carica_links_da_file_txt(cartella, filename, automi):
+def carica_links_da_file_txt(automi, *args):
     '''Carica dei links da un file txt
     Devono essere forniti gli automi esistenti'''
-    f = open('Input/'+cartella+'/'+filename, "r")
+
+    if len(args)==1:
+        f = open(args[0], "r")
+    else:
+        file = filedialog.askopenfilename()
+        estensione = file.split(".")
+        if len(estensione) != 2 or estensione[1] != "txt":
+            return "Estensione del file errata. Seleziona un file .txt"
+        f = open(file, "r")
 
     stringa_regex = f.read()
     x = re.fullmatch(REGEX_LINK, stringa_regex)
@@ -156,7 +178,10 @@ def carica_links_da_file_txt(cartella, filename, automi):
         return "Il formato del file non è corretto. Impossibile importarlo"
     f.close()
 
-    f = open('Input/' + cartella + '/' + filename, "r")
+    if len(args)==1:
+        f = open(args[0], "r")
+    else:
+        f = open(file, "r")
 
     links=[]
 
@@ -189,10 +214,17 @@ def carica_links_da_file_txt(cartella, filename, automi):
     f.close()
     return links
 
-def carica_rete_da_file_txt(cartella, filename, automi, links):
+def carica_rete_da_file_txt(automi, links, *args):
     '''Carica una rete da un file .txt
     devono essere forniti automi e links esistenti'''
-    f = open('Input/' + cartella + '/' + filename, "r")
+    if len(args) == 1:
+        f = open(args[0], "r")
+    else:
+        file = filedialog.askopenfilename()
+        estensione = file.split(".")
+        if len(estensione) != 2 or estensione[1] != "txt":
+            return "Estensione del file errata. Seleziona un file .txt"
+        f = open(file, "r")
 
     stringa_regex = f.read()
     x = re.fullmatch(REGEX_RETE, stringa_regex)
@@ -203,8 +235,10 @@ def carica_rete_da_file_txt(cartella, filename, automi, links):
         return "Il formato del file non è corretto. Impossibile importarlo"
     f.close()
 
-    f = open('Input/' + cartella + '/' + filename, "r")
-    # Riga 1: "nome"\n
+    if len(args)==1:
+        f = open(args[0], "r")
+    else:
+        f = open(file, "r")    # Riga 1: "nome"\n
     riga = f.readline()
     rete = Rete(riga[:-1], automi, links)
 

@@ -235,4 +235,12 @@ def automi_to_string(automi):
         stringa = stringa + automi[x].to_string() + "\n"
     return stringa
 
+def controlla_inserimento_automa(automi, automa):
+    nome=automa.nome
+    out=True
 
+    for a in automi:
+        if a.nome == nome:
+            out=False
+
+    return out
