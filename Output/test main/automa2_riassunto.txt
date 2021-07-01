@@ -1,0 +1,5 @@
+Numero di stati:2
+30; 31; 
+Numero di transizioni:1
+30>t4>31[Oss: None; ril: None] { : } { : }
+

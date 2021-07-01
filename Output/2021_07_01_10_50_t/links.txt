@@ -1,0 +1,2 @@
+automa1>L1>automa2
+automa2>L2>automa1

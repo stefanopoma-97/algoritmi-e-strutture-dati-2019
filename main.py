@@ -88,11 +88,12 @@ print(automa2.to_string_txt())
 
 
 #STAMPA SU FILE
+cartella="1"
 print("grafico")
 #stampa_automa(automa1)
 
-stampa_automa_su_file(automa1, cartella="singolo")
-stampa_automa_su_file(automa2, cartella="singolo")
+stampa_automa_su_file(automa1, cartella=cartella)
+stampa_automa_su_file(automa2, cartella=cartella)
 
 #stampa_automi_su_file([automa1, automa2],cartella="test doppio")
 
@@ -109,24 +110,23 @@ print("Transizioni txt")
 print(rete.to_string_txt())
 
 #STAMPA RETE SU FILE
-stampa_rete_su_file(rete,cartella="singolo")
+#stampa_rete_su_file(rete,cartella=cartella)
 
 
 #INPUT / OUTPUT FILE
-cartella="grafici_automi/singolo"
 salva_automa_su_file(automa1, cartella, 'automa1_save')
-salva_automa_su_file_txt(automa1, cartella, 'automa1_save')
-salva_automa_su_file_txt(automa2, cartella, 'automa2_save')
-automa_load = carica_automa_da_file(cartella, 'automa1_save')
-print("LOAD")
-automa_load.stampa()
+# salva_automa_su_file_txt(automa1, cartella, 'automa1_save')
+# salva_automa_su_file_txt(automa2, cartella, 'automa2_save')
+# automa_load = carica_automa_da_file(cartella, 'automa1_save')
+# print("LOAD")
+# automa_load.stampa()
 
-salva_rete_su_file(rete,cartella,"rete_save")
-salva_rete_su_file_txt(rete,cartella,"rete_save")
-salva_links_su_file_txt(rete,cartella,"links_save")
-rete_load = carica_rete_da_file(cartella, 'rete_save')
-print("LOAD")
-rete_load.stampa()
+# salva_rete_su_file(rete,cartella,"rete_save")
+# salva_rete_su_file_txt(rete,cartella,"rete_save")
+# salva_links_su_file_txt(rete,cartella,"links_save")
+# rete_load = carica_rete_da_file(cartella, 'rete_save')
+# print("LOAD")
+# rete_load.stampa()
 
 #CHIUEDI FILE INPUT
 # from tkinter.filedialog import askopenfilename
@@ -134,8 +134,8 @@ rete_load.stampa()
 # filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
 # print(filename)
 
-transizioni=[]
-for a in rete.automi:
-    transizioni+=get_transizioni(a)
-
-print(transizioni_to_string(transizioni))
+# transizioni=[]
+# for a in rete.automi:
+#     transizioni+=get_transizioni(a)
+#
+# print(transizioni_to_string(transizioni))

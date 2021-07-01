@@ -3,6 +3,12 @@ from tkinter.filedialog import askopenfilename
 from Classi.GestioneFile.input_output import *
 from Classi.Automa.automa import *
 from Classi.Automa.rete import *
+from Classi.GestioneFile.grafici import *
+from Classi.Automa.rete import *
+from Classi.GestioneFile.input_output import *
+import datetime
+
+
 
 
 #rile
@@ -15,9 +21,10 @@ from Classi.Automa.rete import *
 #FUNZIONI
 def crea_rete():
     # Variabili
-    global stato, cartella, automi, links, rete
+    global stato, cartella, automi, links, rete, cartella_save
     stato = "1"
     cartella = ""
+    cartella_save = ""
     automi = []
     links = []
     rete = None
@@ -35,7 +42,10 @@ def crea_rete():
                 sg.Button("Carica Transizioni", key="carica_transizioni", disabled=True)
             ],
             [
-                sg.Button("Reset", key="reset", disabled=False)
+                sg.Button("Reset", key="reset", disabled=False),
+                sg.Button("Salva su file", key="salva", disabled=True),
+                sg.Button("Mostra grafici", key="stampa", disabled=True),
+                sg.Button("Carica rete 1", key="rete1", disabled=False)
             ],
             [
                 sg.Text("Automi:"),
@@ -98,15 +108,6 @@ def crea_rete():
                 window_crea_rete['automi'].update(
                     window_crea_rete['automi'].get() + "\n"+a.to_string())
 
-    def aggiorna_elenco_links():
-        listOfGlobals = globals()
-        links = listOfGlobals['links']
-
-        window_crea_rete['link'].update("")
-        if len(links)!=0:
-            for l in links:
-                window_crea_rete['link'].update(
-                    window_crea_rete['link'].get() + "\n"+l.to_string())
 
     def aggiorna_elenco_links():
         listOfGlobals = globals()
@@ -184,6 +185,10 @@ def crea_rete():
             window_crea_rete['informazioni'].update(
                 window_crea_rete['informazioni'].get() + "\n" + a.to_string_txt())
             rete = a
+            window_crea_rete['salva'].update(disabled=False)
+            window_crea_rete['carica_automa'].update(disabled=True)
+            window_crea_rete['carica_link'].update(disabled=True)
+            window_crea_rete['carica_transizioni'].update(disabled=True)
 
         else:
             window_crea_rete['informazioni'].update(
@@ -217,9 +222,121 @@ def crea_rete():
         aggiorna_elenco_links()
         aggiorna_elenco_automi()
 
+    def salva_su_file():
+        listOfGlobals = globals()
+        cartella = listOfGlobals['cartella']
+        cartella_save = listOfGlobals['cartella_save']
+        automi = listOfGlobals['automi']
+        links = listOfGlobals['links']
+        rete = listOfGlobals['rete']
+
+
+        x = datetime.datetime.now()
+        data_attuale = str(x.strftime("%Y_%m_%d_%H_%M"))
+        cartella_save = data_attuale +"_"+cartella
+
+        window_crea_rete['informazioni'].update(
+            window_crea_rete['informazioni'].get() + "\n" + "Salvo file nella cartella: "+cartella_save)
+
+        for a in automi:
+            stampa_automa_su_file(a, cartella=cartella_save)
+        stampa_rete_su_file(rete, cartella=cartella_save)
+
+        window_crea_rete['informazioni'].update(
+            window_crea_rete['informazioni'].get() + "\n" + "Creati file PNG dei grafici")
+
+        salva_rete_su_file_txt(rete, cartella_save, rete.nome)
+        salva_rete_su_file(rete, cartella_save, rete.nome)
+        salva_rete_su_file_txt(rete, cartella_save, rete.nome)
+        salva_links_su_file_txt(rete, cartella_save, "links")
+
+        for a in automi:
+            salva_automa_su_file(a, cartella_save, a.nome)
+            salva_automa_su_file_txt(a, cartella_save, a.nome)
+
+        window_crea_rete['informazioni'].update(
+            window_crea_rete['informazioni'].get() + "\n" + "Creati file per la rete, i links e gli automi")
+
+
+        window_crea_rete['salva'].update(disabled=True)
+        window_crea_rete['stampa'].update(disabled=False)
+        listOfGlobals['cartella_save'] = cartella_save
+
+    def stampa_grafici():
+        listOfGlobals = globals()
+        automi = listOfGlobals['automi']
+        links = listOfGlobals['links']
+        rete = listOfGlobals['rete']
+        cartella_save = listOfGlobals['cartella_save']
+
+        immagini=[]
+        titoli=[]
+
+        for a in automi:
+            immagini.append(sg.Image(filename='Output/' + cartella_save + '/' + a.nome + '_grafico.png'))
+            titoli.append(sg.Text(a.nome))
+        immagine_rete = sg.Image(filename='Output/' + cartella_save + '/' + rete.nome + '_grafico.png')
+
+
+
+        grafici_automi = [
+            immagini
+        ]
+
+        grafici_reti = [
+            immagine_rete
+        ]
+
+        layout_grafici = [
+            [
+                sg.Column(grafici_automi)
+            ],
+            [
+                immagine_rete
+            ]
+        ]
+
+        window_mostra_grafici = sg.Window('Mostra grafici', layout_grafici)
+
+        while True:
+            event, values = window_mostra_grafici.read()
+            if event == sg.WINDOW_CLOSED:
+                break
+        window_mostra_grafici.close()
+
+    def carica_rete1():
+        listOfGlobals = globals()
+
+        a1 = carica_automa_da_file_txt("Input/test/automa1_save.txt")
+        a2 = carica_automa_da_file_txt("Input/test/automa2_save.txt")
+        automi = [a1, a2]
+
+        links = carica_links_da_file_txt(automi, "Input/test/links_save.txt")
+
+        rete = carica_rete_da_file_txt(automi, links, "Input/test/rete_save.txt")
+
+        listOfGlobals['automi'] = automi
+        listOfGlobals['links'] = links
+        listOfGlobals['rete'] = rete
+
+        aggiorna_elenco_automi()
+        aggiorna_elenco_links()
+        aggiorna_rete()
+
+        window_crea_rete['conferma_cartella'].update(disabled=True)
+        window_crea_rete['input_cartella'].update(disabled=True)
+        window_crea_rete['carica_automa'].update(disabled=True)
+        window_crea_rete['carica_link'].update(disabled=True)
+        window_crea_rete['carica_transizioni'].update(disabled=True)
+        window_crea_rete['salva'].update(disabled=False)
+        window_crea_rete['stampa'].update(disabled=True)
+        window_crea_rete['informazioni'].update("Caricata rete 1")
+
+
     def reset():
         listOfGlobals = globals()
         listOfGlobals['cartella'] = ""
+        listOfGlobals['cartella_save'] = ""
         listOfGlobals['stato'] = "1"
         listOfGlobals['automi'] = []
         listOfGlobals['links'] = []
@@ -232,6 +349,8 @@ def crea_rete():
         window_crea_rete['carica_automa'].update(disabled=True)
         window_crea_rete['carica_link'].update(disabled=True)
         window_crea_rete['carica_transizioni'].update(disabled=True)
+        window_crea_rete['salva'].update(disabled=True)
+        window_crea_rete['stampa'].update(disabled=True)
         window_crea_rete['informazioni'].update("RESET")
 
 
@@ -262,6 +381,13 @@ def crea_rete():
             carica_rete()
             print("cartella: " + cartella)
             print("len automi: " +str(len(automi)))
+        elif event == "salva":
+            salva_su_file()
+            print("cartella salvataggio: "+cartella_save)
+        elif event == "stampa":
+            stampa_grafici()
+        elif event == "rete1":
+            carica_rete1()
 
 
 

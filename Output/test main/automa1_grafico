@@ -1,0 +1,7 @@
+digraph automa1 {
+	20 [shape=circle]
+	21 [shape=circle]
+	20 -> 21 [label="20>t1>21[Oss: o1; ril: r1] {L1:e1;} {L1:e1;L2:e2;}"]
+	20 -> 20 [label="20>t3>20[Oss: None; ril: r3] { : } { : }"]
+	21 -> 20 [label="21>t2>20[Oss: o2; ril: None] {L2:e2;} { : }"]
+}

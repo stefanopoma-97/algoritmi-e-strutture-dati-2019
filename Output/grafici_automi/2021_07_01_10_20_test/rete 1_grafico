@@ -1,0 +1,6 @@
+digraph rete {
+	automa1 [shape=box]
+	automa2 [shape=box]
+	automa1 -> automa2 [label=L1]
+	automa2 -> automa1 [label=L2]
+}

@@ -65,23 +65,24 @@ def stampa_automa_su_file(automa, cartella):
     Input: automa, nome cartella di output
     Output: viene generato un file .png nella cartella selezionata
     viene anche creato un file nome automa_riassunto.txt contenente le informazioni sull'automa in questione'''
-    gra = Digraph(automa.nome, filename=automa.nome, format='png')
+    gra = Digraph(automa.nome, filename=automa.nome+"_grafico", format='png')
 
     for s in automa.stati:
         gra.node(s.nome, shape='circle')
 
-    if automa.stati_finali[0] is not None:
+    if automa.stati_finali[0] is not None or automa.stati_finali[0]!="":
         for s in automa.stati_finali:
-            gra.node(s.nome, shape='doublecircle')
+            if s.nome!="":
+                gra.node(s.nome, shape='doublecircle')
 
     for t in get_transizioni(automa):
-        gra.edge(t.stato_sorgente.nome, t.stato_destinazione.nome, label=transizione_to_string(t))
+        gra.edge(t.stato_sorgente.nome, t.stato_destinazione.nome, label=t.nome)
 
     print(gra.source)
 
-    gra.render(directory="Output/grafici_automi/"+cartella)
+    gra.render(directory="Output/"+cartella)
 
-    riassunto = open("Output/grafici_automi/"+cartella+"/"+automa.nome+"_riassunto.txt", "w")
+    riassunto = open("Output/"+cartella+"/"+automa.nome+"_riassunto.txt", "w")
     riassunto.write("Numero di stati:"+str(len(automa.stati))+"\n")
     riassunto.write(stati_to_string(automa.stati)+"\n")
 
@@ -94,7 +95,7 @@ def stampa_rete_su_file(rete, cartella):
         Input: rete, nome cartella di output
         Output: viene generato un file .png nella cartella selezionata
         viene anche creato un file nome rete_riassunto.txt contenente le informazioni sull'automa in questione'''
-    gra = Digraph("rete", filename=rete.nome, format='png')
+    gra = Digraph("rete", filename=rete.nome+"_grafico", format='png')
 
     for automa in rete.automi:
         gra.node(automa.nome, shape='box')
@@ -104,9 +105,9 @@ def stampa_rete_su_file(rete, cartella):
 
     print(gra.source)
 
-    gra.render(directory="Output/grafici_automi/" + cartella)
+    gra.render(directory="Output/" + cartella)
 
-    riassunto = open("Output/grafici_automi/"+cartella+"/"+rete.nome+"_riassunto.txt", "w")
+    riassunto = open("Output/" + cartella+"/"+rete.nome+"_riassunto.txt", "w")
     riassunto.write("Numero di automi:" + str(len(rete.automi)) + "\n")
     riassunto.write("Numero di link:" + str(len(rete.links)) + "\n")
     riassunto.close()
