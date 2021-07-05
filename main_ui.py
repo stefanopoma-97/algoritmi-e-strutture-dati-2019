@@ -7,15 +7,8 @@ from Classi.GestioneFile.grafici import *
 from Classi.Automa.rete import *
 from Classi.GestioneFile.input_output import *
 import datetime
+from Classi.GUI.Gui_rete import *
 
-
-
-
-#rile
-# filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
-# f = open(filename, "r")
-# stringa_regex = f.read()
-# print(stringa_regex)
 
 
 #FUNZIONI
@@ -393,6 +386,7 @@ def crea_rete():
 
 layout = [[sg.Text("Home\nQuesta è la home, seleziona cosa vuoi fare")],
           [sg.Button("Crea una rete", key='crea_rete', size=(35, 2))],
+            [sg.Button("Importa rete da file", key='importa_rete', size=(35, 2))],
           [sg.Button("ESCI", key="esci")]]
 
 # Crea la finestra
@@ -406,7 +400,10 @@ while True:
         break
     elif event == "crea_rete":
         print("Avvio creazione rete")
-        crea_rete()
+        gui_crea_rete()
+    elif event == "importa_rete":
+        print("Avvio importa rete")
+        gui_importa_rete()
 
 window.close()
 

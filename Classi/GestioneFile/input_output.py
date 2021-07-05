@@ -51,11 +51,26 @@ def salva_links_su_file_txt(rete, cartella, filename):
     file_txt.write(rete.to_string_link_txt())
     file_txt.close()
 
-def carica_rete_da_file(cartella, filename):
+def carica_rete_da_file(*args):
     '''Carica la rete da un file generato in precedenza'''
-    with open('Output/'+cartella+'/'+filename, 'rb') as config_dictionary_file:
-        rete_load = pickle.load(config_dictionary_file)
-        return rete_load
+    if len(args)==1:
+        with open('Output/' +args[0], 'rb') as config_dictionary_file:
+            rete_load = pickle.load(config_dictionary_file)
+            return rete_load
+    else:
+        file = filedialog.askopenfilename()
+        estensione = file.split(".")
+        if len(estensione) != 1:
+            return "Estensione del file errata. Seleziona il file corretto"
+        with open(file, 'rb') as config_dictionary_file:
+            rete_load = pickle.load(config_dictionary_file)
+            if (isinstance(rete_load, Rete)):
+                return rete_load
+            else:
+                return "Il file selezionato non contine una rete"
+
+
+
 
 
 

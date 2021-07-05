@@ -1,5 +1,6 @@
 rete 1
-automa1,t1,e1(L1)/{e1(L1);e2(L2)},o1,r1
-automa1,t3, /{ }, ,r3
-automa1,t2,e2(L2)/{ },o2, 
-automa2,t4, /{ }, , 
+C2,t2a,e2(L2)/{e3(L3)},o2, 
+C2,t2b, /{e3(L3)}, ,r
+C3,t3a, /{e2(L2)},o3, 
+C3,t3b,e3(L3)/{ }, , 
+C3,t3c,e3(L3)/{ }, ,f

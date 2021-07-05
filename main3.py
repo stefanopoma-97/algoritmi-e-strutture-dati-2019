@@ -37,4 +37,13 @@ else:
 # else:
 #   print("No match")
 
+rete = carica_rete_da_file()
+
+if (isinstance(rete, Rete)):
+  print("OK")
+elif (isinstance(rete, str)):
+  print(rete)
+else:
+  print("Error")
+
 

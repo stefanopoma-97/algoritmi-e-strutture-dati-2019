@@ -1,8 +1,0 @@
-digraph automa1 {
-	20 [shape=circle]
-	21 [shape=circle]
-	"" [shape=doublecircle]
-	20 -> 21 [label=t1]
-	20 -> 20 [label=t3]
-	21 -> 20 [label=t2]
-}

@@ -1,5 +1,0 @@
-digraph automa2 {
-	30 [shape=circle]
-	31 [shape=circle]
-	30 -> 31 [label=t4]
-}

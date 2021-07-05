@@ -1,0 +1,7 @@
+digraph C3 {
+	30 [shape=circle]
+	31 [shape=circle]
+	30 -> 31 [label=t3a]
+	31 -> 31 [label=t3c]
+	31 -> 30 [label=t3b]
+}

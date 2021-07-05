@@ -69,6 +69,9 @@ def stampa_automa_su_file(automa, cartella):
 
     for s in automa.stati:
         gra.node(s.nome, shape='circle')
+    gra.node("start", shape="point", label="")
+
+    gra.node(automa.stato_corrente[0].nome, shape='circle', color='red')
 
     if automa.stati_finali[0] is not None or automa.stati_finali[0]!="":
         for s in automa.stati_finali:
@@ -77,6 +80,8 @@ def stampa_automa_su_file(automa, cartella):
 
     for t in get_transizioni(automa):
         gra.edge(t.stato_sorgente.nome, t.stato_destinazione.nome, label=t.nome)
+
+    gra.edge("start", automa.stati_iniziali[0].nome, label="")
 
     print(gra.source)
 
