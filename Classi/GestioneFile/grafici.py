@@ -1,6 +1,7 @@
 from graphviz import Digraph
 from Classi.Automa.automa import *
 from Classi.Automa.rete import *
+from  Classi.Spazio.spazio_comportamentale import *
 
 
 def stampa_automa(automa):
@@ -94,6 +95,40 @@ def stampa_automa_su_file(automa, cartella):
     riassunto.write("Numero di transizioni:" + str(len(get_transizioni(automa))) + "\n")
     riassunto.write(transizioni_to_string(get_transizioni(automa))+"\n")
     riassunto.close()
+
+
+def stampa_spazio_su_file(spazio, cartella):
+    '''Stampa l'automa su un file PNG
+    Input: automa, nome cartella di output
+    Output: viene generato un file .png nella cartella selezionata
+    viene anche creato un file nome automa_riassunto.txt contenente le informazioni sull'automa in questione'''
+    gra = Digraph(spazio.nome, filename=spazio.nome+"_grafico", format='png')
+
+    for s in spazio.nodi:
+        gra.node(s.output, shape='circle')
+    gra.node("start", shape="point", label="")
+
+    if spazio.nodi_finali[0] is not None or spazio.nodi_finali[0]!="":
+        for s in spazio.nodi_finali:
+            if s.output!="":
+                gra.node(s.output, shape='doublecircle')
+
+    for t in spazio.transizioni:
+        gra.edge(t.nodo_sorgente.output, t.nodo_destinazione.output, label=t.nome)
+
+    gra.edge("start", spazio.nodi_iniziali[0].output, label="")
+
+    print(gra.source)
+
+    gra.render(directory="Output/"+cartella)
+
+    # riassunto = open("Output/"+cartella+"/"+automa.nome+"_riassunto.txt", "w")
+    # riassunto.write("Numero di stati:"+str(len(automa.stati))+"\n")
+    # riassunto.write(stati_to_string(automa.stati)+"\n")
+    #
+    # riassunto.write("Numero di transizioni:" + str(len(get_transizioni(automa))) + "\n")
+    # riassunto.write(transizioni_to_string(get_transizioni(automa))+"\n")
+    # riassunto.close()
 
 def stampa_rete_su_file(rete, cartella):
     '''Stampa la rete su un file PNG

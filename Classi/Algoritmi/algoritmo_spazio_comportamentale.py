@@ -29,14 +29,26 @@ def crea_spazio_comportamentale(rete):
     #Inserisco il nodo iniziale nell'array
     nodi.append(nodo_attuale)
     print("Creata lista di nodi\n")
+    transizioni=[]
 
-    controllo_transizioni(nodi, nodo_attuale)
+    controllo_transizioni(nodi, nodo_attuale, transizioni)
+
+    nodi_finali=[]
+    nodi_iniziali=[]
+    for n in nodi:
+        if n.finale:
+            nodi_finali.append(n)
+        if n.iniziale:
+            nodi_iniziali.append(n)
+    spazio = Spazio_comportamentale("spazio1", nodi_finali, nodi_iniziali, nodi, transizioni)
+
+    return spazio
 
 
 
 
 
-def controllo_transizioni(nodi, nodo_attuale):
+def controllo_transizioni(nodi, nodo_attuale, transizioni_spazio):
     '''Partendo dal nodo attuale controllo tutte le transizioni che possono scattare e le faccio scattare'''
     print("Controllo transizioni in nodo numero: "+str(nodi.index(nodo_attuale)))
     print("\t"+nodo_attuale.to_string()+"\n")
@@ -47,6 +59,7 @@ def controllo_transizioni(nodi, nodo_attuale):
     #scorro gli stati
     for s in stati_correnti:
         print("Scorro stati, in nodo numero: "+str(nodi.index(nodo_attuale)))
+        print("il nodo ha transizioni: "+str(len(nodo_attuale.transizioni)))
         print("stato: "+s.nome+"\n")
 
         #scorro transizioni dello stato
@@ -61,36 +74,80 @@ def controllo_transizioni(nodi, nodo_attuale):
                 #creo il nuovo nodo generato dallo scatto della transizione
                 print("inizio a creare il nuovo nodo")
                 nuovo_nodo = deepcopy(nodo_attuale)
-                aggiorna_nodo(nuovo_nodo, t)
-                print("Nuovo nodo creato con valore " + str(nodi.index(nuovo_nodo)))
+                nuovo_nodo.iniziale = False
+                nuovo_nodo = aggiorna_nodo(nuovo_nodo, t)
+                nuovo_nodo.finale = nuovo_nodo.is_finale()
+                nuovo_nodo.output = nuovo_nodo.get_output()
+
+                print("Nuovo nodo creato")
                 print("\t" + nuovo_nodo.to_string() + "\n")
+                #controllo che il nodo sia nuovo
+                contiene = contiene_nodo(nuovo_nodo, nodi)
+                if (isinstance(contiene, Nodo)):
+                    print("Il nuovo nodo è già presente nella lista")
+                    if contiene.iniziale:
+                        contiene.finale = True
+                    tra = crea_nuova_transizione(nodo_attuale, contiene, t)
+                    transizioni_spazio.append(tra)
+                    #nodo_attuale.transizioni.append(tra)
+                    print("Creata la nuova transizione: ")
+                    print("\t"+tra.to_string())
+                    print("numero totale di transizioni: "+str(len(transizioni_spazio)))
+                else:
+                    print("Inserisco il nuovo nodo")
+                    nodi.append(nuovo_nodo)
+                    print("Il suo indice è " + str(nodi.index(nuovo_nodo)))
+                    tra = crea_nuova_transizione(nodo_attuale, nuovo_nodo, t)
+                    transizioni_spazio.append(tra)
+                    #nodo_attuale.transizioni.append(tra)
+                    print("numero totale di transizioni: " + str(len(transizioni_spazio)))
+                    print("Creata la nuova transizione: ")
+                    print("\t" + tra.to_string())
+                    print("numero totale di transizioni: " + str(len(transizioni_spazio)))
+                    controllo_transizioni(nodi, nuovo_nodo, transizioni_spazio)
 
             else:
                 print("La transizione non scatta, esco dal ciclo")
 
+    print("ho concluso tutte gli stati di nodo: " + str(nodi.index(nodo_attuale)))
+    nodo_attuale.check = True
 
+
+
+def crea_nuova_transizione(sorgente, destinazione, transizione):
+    nuova_transizione = Transizione_spazio(transizione.nome, sorgente, destinazione, transizione.osservazione, transizione.rilevanza)
+    return nuova_transizione
 
 
 
 
 def aggiorna_nodo(nodo, transizione):
     '''dato un nodo e una transizione viene fatta scattare la transizione aggiornando il nodo stesso'''
-
+    print("aggiorno i valori del nuovo nodo")
     #scorro eventi di input
     for evento in transizione.input:
+        print("input")
         if (evento.nome != "" and evento.link != None):
             #tolgo i valori dai link di input
             nodo.links[evento.link.nome][1]=""
+            print("ho aggiornato "+evento.link.nome+" mettendolo a "+ nodo.links[evento.link.nome][1])
     for evento in transizione.output:
+        print("output")
         if (evento.nome != "" and evento.link != None):
             #inserisco l'evento nel link di output
-            nodo.links[evento.link.nome]=evento.nome
+            nodo.links[evento.link.nome][1]=evento.nome
+            print("ho aggiornato "+evento.link.nome+" mettendolo a "+ nodo.links[evento.link.nome][1])
+
 
     #ricavo la posizione dello stato sorgente
-    indice = nodo.stati.index(transizione.stato_sorgente)
+    for index, s in enumerate(nodo.stati):
+        if s.nome == transizione.stato_sorgente.nome:
+            print("ho aggiornato lo stato "+nodo.stati[index].nome)
+            nodo.stati[index] = transizione.stato_destinazione
+            print(" mettendolo a " +nodo.stati[index].nome)
 
-    #lo sostituisco con lo stato destinazione
-    nodo.stati[indice] = transizione.stato_destinazione
+    return nodo
+
 
 
 

@@ -10,7 +10,7 @@ class Spazio_comportamentale:
     nodi:[Nodo]
     transizioni:[Transizioni_spazio]'''
 
-    def __init__(self, nome, nodi_finali=[None], nodi_iniziali=[None], nodi=[None], transizioni=[None]):
+    def __init__(self, nome, nodi_finali=[], nodi_iniziali=[], nodi=[], transizioni=[]):
         self.nome = nome
         self.nodi_finali = nodi_finali
         self.nodi_iniziali = nodi_iniziali
@@ -34,12 +34,18 @@ class Spazio_comportamentale:
         if (len(self.nodi) == 1) and (self.nodi[0] is None):
             stringa = stringa + "Nodi: None\n"
         else:
-            stringa = stringa + "Nodi: " + stati_to_string(self.stati) + "\n"
+            stringa = stringa + "Nodi: " + stati_to_string(self.nodi) + "\n"
 
         stringa = stringa + "Transizioni\n"
         stringa = stringa + transizioni_to_string(self.transizioni)
 
         return stringa
+
+def get_transizioni_spazio(spazio):
+    transizioni = []
+    for s in spazio.nodi:
+        transizioni = transizioni + s.transizioni
+    return transizioni
 
 def nodi_to_string(nodi):
     stringa=""
@@ -95,7 +101,7 @@ class Nodo:
 
 
     def add_transizione(self, transizione):
-        '''Aggiunge una transizione allo stato'''
+        '''Aggiunge una transizione al nodo'''
         elenco = self.transizioni
         lista = []
         for t in elenco:
@@ -104,8 +110,16 @@ class Nodo:
         self.transizioni=lista
 
     def to_string(self):
-        stringa = "ID: "+self.id+": "+self.output+", check: "+str(self.check)+", finale: "+str(self.finale)+", iniziale: "+str(self.iniziale)
+        self.output = self.get_output()
+        stringa = "ID: "+self.id+", output: ["+self.output+"], check: "+str(self.check)+", finale: "+str(self.finale)+", iniziale: "+str(self.iniziale)
         return stringa
+
+def contiene_nodo(nodo, nodi):
+    out = nodo.get_output()
+    for n in nodi:
+        if (n.get_output() == out):
+            return n
+    return False
 
 
 class Transizione_spazio:
@@ -146,5 +160,5 @@ class Transizione_spazio:
 
     def to_string(self):
         '''converte la transizione in una stringa facilmente leggibile'''
-        return self.nodo_sorgente.to_string() + "\n\t>>>>>" + "\t"+self.nome + "\t>>>>>\n" + self.nodo_sorgente.to_string() +"\n"+\
+        return self.nodo_sorgente.to_string() + "\n\t>>>>>" + "\t"+self.nome + "\t>>>>>\n" + self.nodo_destinazione.to_string() +"\n"+\
             "\t"+self.oss_ril_to_string()

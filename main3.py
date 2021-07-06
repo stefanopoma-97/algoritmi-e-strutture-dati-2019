@@ -79,5 +79,13 @@ rete = carica_rete_da_file(file)
 # print(tran.to_string())
 
 
-crea_spazio_comportamentale(rete)
+spazio = crea_spazio_comportamentale(rete)
+print("\n\n\n----------------")
+print(spazio.to_string())
+
+stampa_spazio_su_file(spazio, "SPAZIO/")
+
+
+print("NUMERO DI TRANSIZIONI: "+str(len(spazio.transizioni)))
+print("NUMERO DI TRANSIZIONI metodo: "+str(len(get_transizioni_spazio(spazio))))
 
