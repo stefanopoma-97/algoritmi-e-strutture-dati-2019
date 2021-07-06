@@ -41,10 +41,14 @@ def crea_spazio_comportamentale(rete):
         if n.iniziale:
             nodi_iniziali.append(n)
     spazio = Spazio_comportamentale("spazio1", nodi_finali, nodi_iniziali, nodi, transizioni)
+    sistema_transizioni(spazio)
 
     return spazio
 
 
+def sistema_transizioni(spazio):
+    for t in spazio.transizioni:
+        t.nodo_sorgente.transizioni.append(t)
 
 
 

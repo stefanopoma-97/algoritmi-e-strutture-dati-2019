@@ -7,6 +7,8 @@ from Classi.GestioneFile.grafici import *
 from Classi.Automa.rete import *
 from Classi.GestioneFile.input_output import *
 import datetime
+from Classi.Spazio.spazio_comportamentale import *
+from Classi.Algoritmi.algoritmo_spazio_comportamentale import *
 
 
 
@@ -402,13 +404,15 @@ def gui_crea_rete():
 
 
 def gui_crea_spazio_comportamentale(a, l, r, c, c2, s):
-    global stato, cartella, automi, links, rete, cartella_save
+    global stato, cartella, automi, links, rete, cartella_save, spazio_comportamentale, nome_spazio
     stato = s
     cartella = c2
     cartella_save = c
     automi = a
     links = l
     rete = r
+    spazio_comportamentale=None
+    nome_spazio = ""
 
     print("Pagina creazione spazio comportamentale")
     print("cartella_save: "+cartella_save)
@@ -422,6 +426,11 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s):
                 sg.Text("Dai un nome alla cartella dove salvare lo spazio comportamentale"),
                 sg.Input(key='input_cartella', size=(20, 1)),
                 sg.Button('Conferma', key='conferma_cartella')
+            ],
+            [
+                sg.Text("Dai un nome allo spazio comportamentale"),
+                sg.Input(key='input_nome_spazio', size=(20, 1), disabled=True),
+                sg.Button('Conferma', key='conferma_nome_spazio', disabled=True)
             ],
             [
                 sg.Button("avvio", key="avvio", disabled=True),
@@ -471,7 +480,9 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s):
 
             window_spazio_comportamentale['conferma_cartella'].update(disabled=True)
             window_spazio_comportamentale['input_cartella'].update(disabled=True)
-            window_spazio_comportamentale['avvio'].update(disabled=False)
+            window_spazio_comportamentale['conferma_nome_spazio'].update(disabled=False)
+            window_spazio_comportamentale['input_nome_spazio'].update(disabled=False)
+            window_spazio_comportamentale['avvio'].update(disabled=True)
             window_spazio_comportamentale['informazioni'].update(
                 window_spazio_comportamentale['informazioni'].get() + "\nCartella selezionata: " + cartella_save)
             listOfGlobals['cartella_save'] = cartella_save
@@ -479,11 +490,43 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s):
             sg.Popup('Attenzione!',
                      'Inserire un nome non vuoto')
 
+    def conferma_nome_spazio():
+        listOfGlobals = globals()
+        nome_spazio = listOfGlobals['nome_spazio']
+
+        if values['input_nome_spazio'] != "":
+            nome_spazio = values['input_nome_spazio']
+
+            window_spazio_comportamentale['conferma_cartella'].update(disabled=True)
+            window_spazio_comportamentale['input_cartella'].update(disabled=True)
+            window_spazio_comportamentale['conferma_nome_spazio'].update(disabled=True)
+            window_spazio_comportamentale['input_nome_spazio'].update(disabled=True)
+            window_spazio_comportamentale['avvio'].update(disabled=False)
+            window_spazio_comportamentale['informazioni'].update(
+                window_spazio_comportamentale['informazioni'].get() + "\nNome spazio impostato: " + nome_spazio)
+            listOfGlobals['nome_spazio'] = nome_spazio
+        else:
+            sg.Popup('Attenzione!',
+                     'Inserire un nome non vuoto')
+
     def reset():
         window_spazio_comportamentale['conferma_cartella'].update(disabled=False)
         window_spazio_comportamentale['input_cartella'].update(disabled=False)
+        window_spazio_comportamentale['conferma_nome_spazio'].update(disabled=True)
+        window_spazio_comportamentale['input_nome_spazio'].update(disabled=True)
         window_spazio_comportamentale['avvio'].update(disabled=True)
         window_spazio_comportamentale['informazioni'].update("RESET")
+
+    def algoritmo_crea_spazio_comportamentale():
+        listOfGlobals = globals()
+        rete = listOfGlobals['rete']
+        spazio_comportamentale = listOfGlobals['spazio_comportamentale']
+        spazio_comportamentale = crea_spazio_comportamentale(rete)
+
+        window_spazio_comportamentale['informazioni'].update(
+            window_spazio_comportamentale['informazioni'].get() + "\nCreato lo spazio comportamentale: \n" + spazio_comportamentale.to_string())
+        listOfGlobals['spazio_comportamentale'] = spazio_comportamentale
+        window_spazio_comportamentale['avvio'].update(disabled=True)
 
 
 
@@ -496,6 +539,10 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s):
             reset()
         elif event == "conferma_cartella":
             conferma_cartella()
+        elif event == "avvio":
+            algoritmo_crea_spazio_comportamentale()
+        elif event == "conferma_nome_spazio":
+            conferma_nome_spazio()
 
 
 

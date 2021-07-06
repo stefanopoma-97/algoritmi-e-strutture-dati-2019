@@ -83,7 +83,7 @@ spazio = crea_spazio_comportamentale(rete)
 print("\n\n\n----------------")
 print(spazio.to_string())
 
-stampa_spazio_su_file(spazio, "SPAZIO/")
+stampa_spazio_su_file(spazio, "SPAZIO")
 
 
 print("NUMERO DI TRANSIZIONI: "+str(len(spazio.transizioni)))

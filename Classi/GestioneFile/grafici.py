@@ -122,13 +122,11 @@ def stampa_spazio_su_file(spazio, cartella):
 
     gra.render(directory="Output/"+cartella)
 
-    # riassunto = open("Output/"+cartella+"/"+automa.nome+"_riassunto.txt", "w")
-    # riassunto.write("Numero di stati:"+str(len(automa.stati))+"\n")
-    # riassunto.write(stati_to_string(automa.stati)+"\n")
-    #
-    # riassunto.write("Numero di transizioni:" + str(len(get_transizioni(automa))) + "\n")
-    # riassunto.write(transizioni_to_string(get_transizioni(automa))+"\n")
-    # riassunto.close()
+    riassunto = open("Output/"+cartella+"/"+spazio.nome+"_riassunto.txt", "w")
+    riassunto.write("Numero di nodi:"+str(len(spazio.nodi))+"\n")
+
+    riassunto.write("Numero di transizioni:" + str(len(spazio.transizioni)) + "\n")
+    riassunto.close()
 
 def stampa_rete_su_file(rete, cartella):
     '''Stampa la rete su un file PNG
