@@ -54,7 +54,7 @@ def salva_links_su_file_txt(rete, cartella, filename):
 def carica_rete_da_file(*args):
     '''Carica la rete da un file generato in precedenza'''
     if len(args)==1:
-        with open('Output/' +args[0], 'rb') as config_dictionary_file:
+        with open(args[0], 'rb') as config_dictionary_file:
             rete_load = pickle.load(config_dictionary_file)
             return rete_load
     else:
@@ -167,6 +167,7 @@ def carica_automa_da_file_txt(*args):
         #print(transizioni_to_string(automa.stati[0].transizioni))
         #print("stato2")
         #print(transizioni_to_string(automa.stati[1].transizioni))
+        automa.transizioni = get_transizioni(automa)
         f.close()
 
     return automa
@@ -300,10 +301,13 @@ def carica_rete_da_file_txt(automi, links, *args):
                 link = link_presente[0]
                 evento = Evento(nome_evento, link)
                 t.add_input(evento)
-                t.osservazione = lista_componenti[3]
-                t.rilevanza = lista_componenti[4]
+                #t.osservazione = lista_componenti[3]
+                #t.rilevanza = lista_componenti[4]
             else:
                 return "Il seguente link non esiste: "+nome_link
+        else:
+            evento = Evento("")
+            t.add_input(evento)
 
         # Output
         elenco_eventi = lista_eventi[1][1:-1] # tolgo le {
@@ -319,11 +323,14 @@ def carica_rete_da_file_txt(automi, links, *args):
                 if (len(link_presente) == 1):
                     link = link_presente[0]
                     evento = Evento(nome_evento, link)
-                    t.add_input(evento)
-                    t.osservazione = lista_componenti[3]
-                    t.rilevanza = lista_componenti[4]
+                    t.add_output(evento)
+                    #t.osservazione = lista_componenti[3]
+                    #t.rilevanza = lista_componenti[4]
                 else:
                     return "Il seguente link non esiste: "+nome_link
+        else:
+            evento = Evento("")
+            t.add_output(evento)
 
     f.close()
     return rete

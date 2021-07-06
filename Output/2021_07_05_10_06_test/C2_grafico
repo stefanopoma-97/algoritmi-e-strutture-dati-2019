@@ -1,6 +1,0 @@
-digraph C2 {
-	20 [shape=circle]
-	21 [shape=circle]
-	20 -> 21 [label=t2a]
-	21 -> 20 [label=t2b]
-}

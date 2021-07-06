@@ -11,12 +11,13 @@ class Automa:
     stato_iniziale:Stato
     stati:[Stato]'''
 
-    def __init__(self, nome, stato_corrente=None, stati_finali=[None], stati_iniziali=None, stati=[None]):
+    def __init__(self, nome, stato_corrente=None, stati_finali=[None], stati_iniziali=None, stati=[None], transizioni=[None]):
         self.nome = nome
         self.stato_corrente = stato_corrente
         self.stati_finali = stati_finali
         self.stati_iniziali = stati_iniziali
         self.stati = stati
+        self.transizioni = transizioni
 
     def to_string(self):
         '''Converte automa in una Stringa'''
@@ -66,7 +67,7 @@ class Automa:
             stringa = stringa[:-1]
             stringa += "\n"
 
-        for t in get_transizioni(self):
+        for t in self.transizioni:
             stringa += t.stato_sorgente.nome+">"+t.nome+">"+t.stato_destinazione.nome+","
         stringa = stringa[:-1]
         stringa += "\n"
@@ -143,9 +144,12 @@ class Transizione:
         if eventi is None:
             out+=" : }"
         else:
-            for e in eventi:
-                out+=e.to_string()+";"
-            out+="}"
+            if eventi[0].nome == "":
+                out += " : }"
+            else:
+                for e in eventi:
+                    out+=e.to_string()+";"
+                out+="}"
 
         return out
 
@@ -172,6 +176,7 @@ class Transizione:
                 lista.append(e)
             lista.append(evento)
             self.output=lista
+
 
     def to_string(self):
         '''converte la transizione in una stringa facilmente leggibile'''

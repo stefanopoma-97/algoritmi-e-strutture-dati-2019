@@ -1,0 +1,6 @@
+Numero di stati:2
+20; 21; 
+Numero di transizioni:2
+20>t2a>21[Oss: o2; ril:  ] {L2:e2;} {L3:e3;}
+21>t2b>20[Oss:  ; ril: r] { : } {L3:e3;}
+

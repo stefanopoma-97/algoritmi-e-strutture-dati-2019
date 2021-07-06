@@ -103,18 +103,18 @@ stampa_automa_su_file(automa2, cartella=cartella)
 
 rete = Rete("rete 1", [automa1, automa2], [link1, link2])
 #rete.stampa()
-print("Link txt")
-print(rete.to_string_link_txt())
+#print("Link txt")
+#print(rete.to_string_link_txt())
 
-print("Transizioni txt")
-print(rete.to_string_txt())
+#print("Transizioni txt")
+#print(rete.to_string_txt())
 
 #STAMPA RETE SU FILE
 #stampa_rete_su_file(rete,cartella=cartella)
 
 
 #INPUT / OUTPUT FILE
-salva_automa_su_file(automa1, cartella, 'automa1_save')
+#salva_automa_su_file(automa1, cartella, 'automa1_save')
 # salva_automa_su_file_txt(automa1, cartella, 'automa1_save')
 # salva_automa_su_file_txt(automa2, cartella, 'automa2_save')
 # automa_load = carica_automa_da_file(cartella, 'automa1_save')

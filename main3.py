@@ -1,6 +1,10 @@
 from Classi.GestioneFile.grafici import *
 from Classi.Automa.rete import *
 from Classi.GestioneFile.input_output import *
+from Classi.Spazio.spazio_comportamentale import *
+from Classi.Algoritmi.algoritmo_spazio_comportamentale import *
+
+
 import re
 REGEX_AUTOMA="^[a-zA-Z0-9]+\\n[0-9]+(\,[0-9]+)*\\n([0-9]+(\,[0-9]+)*)?\\n[0-9]+\>[a-zA-Z0-9]+\>[0-9]+(\,[0-9]+\>[a-zA-Z0-9]+\>[0-9]+)*\\n"
 REGEX_LINK="^[a-zA-Z0-9]+\>[a-zA-Z0-9]+\>[a-zA-Z0-9]+\\n([a-zA-Z0-9]+\>[a-zA-Z0-9]+\>[a-zA-Z0-9]+\\n)*"
@@ -36,14 +40,44 @@ else:
 #   print("YES! We have a match rete!")
 # else:
 #   print("No match")
+file="Input/test/rete 1 new"
+rete = carica_rete_da_file(file)
+#print(rete.to_string())
 
-rete = carica_rete_da_file()
+# automi = rete.automi
+# links = rete.links
+# stati = rete.get_stati()
+# transizioni = rete.get_transizioni()
+# automi[0].stampa()
+# print(stati[1].to_string())
+#
+# automi[0].stato_corrente=[stati[1]]
+# automi[0].stampa()
+#
+# print("STATI Correnti")
+#
+# stati_correnti = rete.get_stati_correnti()
+# print(stati_to_string(stati_correnti))
+# link1=links[0]
+# link2=links[1]
+# print(link1.to_string())
+# print(link2.to_string())
+#
+#
+#
+#
+# dizionario = dict()
+# dizionario[link1.nome]=[link1, link1.evento.nome]
+# dizionario[link2.nome]=[link2, link2.evento.nome]
+#
+#
+#
+# nodo1 = Nodo(stati, "", False, dizionario, True)
+# nodo2 = Nodo(stati, "", False, dizionario, True)
+#
+# tran = Transizione_spazio("t1",nodo1,nodo2,"o","r")
+# print(tran.to_string())
 
-if (isinstance(rete, Rete)):
-  print("OK")
-elif (isinstance(rete, str)):
-  print(rete)
-else:
-  print("Error")
 
+crea_spazio_comportamentale(rete)
 

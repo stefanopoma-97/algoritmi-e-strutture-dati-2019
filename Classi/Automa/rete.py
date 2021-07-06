@@ -2,7 +2,7 @@ from Classi.Automa.automa import *
 
 class Link:
     '''Classe rappresentate un link tra due automi'''
-    def __init__(self, nome, automa_sorgente, automa_destinazione, evento=None):
+    def __init__(self, nome, automa_sorgente, automa_destinazione, evento=Evento("")):
         self.nome = nome
         self.automa_sorgente=automa_sorgente
         self.automa_destinazione=automa_destinazione
@@ -10,10 +10,10 @@ class Link:
 
     def to_string(self):
         '''Converte il link in una stringa facilmente leggibile'''
-        if self.evento is not None:
+        if self.evento.nome!="":
             return "Nome link: "+self.nome + "\nautoma sorgente: "+self.automa_sorgente.nome+"\nautoma destinazione: "+self.automa_destinazione.nome+"\nevento: "+self.evento.nome
         else:
-            return "Nome link: "+self.nome + "\nautoma sorgente: "+self.automa_sorgente.nome+"\nautoma destinazione: "+self.automa_destinazione.nome+"\nevento: None"
+            return "Nome link: "+self.nome + "\nautoma sorgente: "+self.automa_sorgente.nome+"\nautoma destinazione: "+self.automa_destinazione.nome+"\nevento: Vuoto"
 
     def stampa(self):
         print(self.to_string())
@@ -49,13 +49,13 @@ class Rete:
                 stringa += a.nome + ","
                 stringa += t.nome + ","
 
-                if t.input is None:
-                    stringa += " /"
-                else:
-                    for e in t.input:
-                        stringa += e.nome+"("+e.link.nome+")/"
+                for e in t.input:
+                    if (e.nome=="" and e.link==None):
+                        stringa += " /"
+                    else:
+                        stringa += e.nome + "(" + e.link.nome + ")/"
 
-                if t.output is None:
+                if t.output[0].nome=="":
                     stringa += "{ },"
                 else:
                     stringa += "{"
@@ -74,9 +74,33 @@ class Rete:
                     stringa += t.rilevanza+"\n"
         return stringa
 
+    def get_stati(self):
+        stati = []
+        for a in self.automi:
+            stati += a.stati
+        return stati
+
+    def get_transizioni(self):
+        transizioni=[]
+        for a in self.automi:
+            for s in a.stati:
+                transizioni += s.transizioni
+        return transizioni
+
+    def get_stati_correnti(self):
+        stati = []
+        for a in self.automi:
+            stati += a.stato_corrente
+        return stati
+
+
+
+
 
 def links_to_string(links):
     stringa = ""
     for x in range(len(links)):
         stringa = stringa + links[x].to_string() + "\n"
     return stringa
+
+
