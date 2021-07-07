@@ -115,11 +115,11 @@ def stampa_spazio_su_file(spazio, cartella):
         gra.node(s.output, shape='circle')
 
     gra.node("start", shape="point", label="")
-
-    if spazio.nodi_finali[0] is not None or spazio.nodi_finali[0]!="":
-        for s in spazio.nodi_finali:
-            if s.output!="":
-                gra.node(s.output, shape='doublecircle')
+    if len(spazio.nodi_finali)>0:
+        if spazio.nodi_finali[0] is not None or spazio.nodi_finali[0]!="":
+            for s in spazio.nodi_finali:
+                if s.output!="":
+                    gra.node(s.output, shape='doublecircle')
 
     for t in spazio.transizioni:
         nome = t.nome+" ["+t.osservazione+", "+t.rilevanza+"]"
@@ -143,7 +143,7 @@ def stampa_spazio_ridenominato_su_file(spazio, cartella):
     Output: viene generato un file .png nella cartella selezionata
     viene anche creato un file nome automa_riassunto.txt contenente le informazioni sull'automa in questione'''
 
-    gra = Digraph(spazio.nome, filename=spazio.nome+"potatura e ridenominazione_grafico", format='png')
+    gra = Digraph(spazio.nome, filename=spazio.nome+"_potatura e ridenominazione_grafico", format='png')
 
     for s in spazio.nodi:
         if s.potato == False:

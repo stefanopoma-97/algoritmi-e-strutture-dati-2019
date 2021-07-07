@@ -1,0 +1,2 @@
+Numero di nodi:7
+Numero di transizioni:7

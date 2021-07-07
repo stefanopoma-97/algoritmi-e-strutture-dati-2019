@@ -1,0 +1,2 @@
+Numero di nodi:8
+Numero di transizioni:8

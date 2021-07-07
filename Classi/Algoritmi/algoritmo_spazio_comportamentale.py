@@ -3,6 +3,150 @@ from Classi.Automa.rete import *
 from Classi.Spazio.spazio_comportamentale import *
 from copy import deepcopy
 
+def crea_spazio_comportamentale_manuale(rete, *args):
+
+    print("\n\n\n---------------------------------\nCREO SPAZIO COMPORTAMENTALE MANUALMENTE")
+    rete = rete
+
+    if len(args)==0:
+        #Salvo l'array degli automi presenti nella rete #rete.automi
+        #Salvo l'array dei links presenti nella rete #rete.links
+        #Salvo l'array delle transizioni presenti nella rete #rete.transizioni
+        automi = rete.automi
+        links = rete.links
+        transizioni = rete.get_transizioni()
+
+        #creo un array vuoto di nodi dello spazio comportamentale
+        nodi = []
+        nodi_da_scorrete = []
+
+        #Istanzio il nodo iniziale partendo dagli stati iniziali dei vari automi e dal contenuto dei link
+        nodo_attuale = istanzio_nodo_iniziale(rete)
+        print("Creo nodo iniziale:")
+        print("\t"+nodo_attuale.to_string()+"\n")
+
+        #Inserisco il nodo iniziale nell'array
+        nodi.append(nodo_attuale)
+        #nodi_da_scorrete.append(nodo_attuale)
+
+        transizioni=[]
+    else:
+        print("RIPRENDO DA SITUAZIONE PRECEDENTE")
+
+        nodi = args[0]
+        nodo_attuale = args[1]
+        transizioni = args[2]
+        print("numero nodi: " + str(len(nodi)))
+        print("Nodo Attuale: " + nodo_attuale.to_string())
+        fine = False
+        if nodo_attuale.check==True:
+            fine = True
+            for n in nodi:
+                if n.check == False:
+                    nodo_attuale=n
+                    fine = False
+
+        if fine:
+            print("FINE, non ci sono altri nodi da controllare FINE")
+            return nodi, nodo_attuale, transizioni, True, "Non ci sono altri nodi da analizzare"
+
+
+
+    out= controllo_transizioni_manualmente(nodi, nodo_attuale, transizioni)
+
+    # nodi_finali=[]
+    # nodi_iniziali=[]
+    # for n in nodi:
+    #     if n.finale:
+    #         nodi_finali.append(n)
+    #     if n.iniziale:
+    #         nodi_iniziali.append(n)
+    # spazio = Spazio_comportamentale("spazio1", nodi_finali, nodi_iniziali, nodi, transizioni)
+    # sistema_transizioni(spazio)
+    nodi = out[0]
+    nodo_attuale = out[1]
+    transizioni = out[2]
+    commento = out[3]
+
+    return nodi, nodo_attuale, transizioni, False, commento
+
+def controllo_transizioni_manualmente(nodi, nodo_attuale, transizioni_spazio):
+    '''Partendo dal nodo attuale controllo tutte le transizioni che possono scattare e le faccio scattare'''
+    print("Controllo transizioni in nodo numero: "+str(nodi.index(nodo_attuale)))
+    print("\t"+nodo_attuale.to_string()+"\n")
+
+    #ricavo gli stati correnti del nodo analizzato, una transizione scatta solo se parte da uno di questi stati
+    stati_correnti = nodo_attuale.stati
+
+    #scorro gli stati
+    for s in stati_correnti:
+        print("Scorro stati, in nodo numero: "+str(nodi.index(nodo_attuale)))
+        print("il nodo ha transizioni: "+str(len(nodo_attuale.transizioni)))
+        print("stato: "+s.nome+"\n")
+
+        #scorro transizioni dello stato
+        for t in s.transizioni:
+            print("Scorro transizioni, in nodo numero: " +str(nodi.index(nodo_attuale)))
+            print("stato: " + t.nome+"\n")
+
+            salto = False
+            for t_spazio in transizioni_spazio:
+                if t.nome == t_spazio.nome and t_spazio.nodo_sorgente==nodo_attuale:
+                    salto = True
+                    print("Transizione già inserita la salto")
+
+            if salto:
+                print("la salto")
+            else:
+                # controllo se la transizione può scattare
+                scatta = scatto_transizione(t, nodo_attuale)
+
+                if (scatta):
+                    # creo il nuovo nodo generato dallo scatto della transizione
+                    print("inizio a creare il nuovo nodo")
+                    nuovo_nodo = deepcopy(nodo_attuale)
+                    nuovo_nodo.iniziale = False
+                    nuovo_nodo = aggiorna_nodo(nuovo_nodo, t)
+                    nuovo_nodo.finale = nuovo_nodo.is_finale()
+                    nuovo_nodo.output = nuovo_nodo.get_output()
+
+                    print("Nuovo nodo creato")
+                    print("\t" + nuovo_nodo.to_string() + "\n")
+                    # controllo che il nodo sia nuovo
+                    contiene = contiene_nodo(nuovo_nodo, nodi)
+                    if (isinstance(contiene, Nodo)):
+                        print("Il nuovo nodo è già presente nella lista")
+                        if contiene.iniziale:
+                            contiene.finale = True
+                        tra = crea_nuova_transizione(nodo_attuale, contiene, t)
+                        transizioni_spazio.append(tra)
+                        # nodo_attuale.transizioni.append(tra)
+                        print("Creata la nuova transizione: ")
+                        print("\t" + tra.to_string())
+                        print("numero totale di transizioni: " + str(len(transizioni_spazio)))
+                    else:
+                        print("Inserisco il nuovo nodo")
+                        nodi.append(nuovo_nodo)
+                        print("Il suo indice è " + str(nodi.index(nuovo_nodo)))
+                        tra = crea_nuova_transizione(nodo_attuale, nuovo_nodo, t)
+                        transizioni_spazio.append(tra)
+                        # nodo_attuale.transizioni.append(tra)
+                        print("numero totale di transizioni: " + str(len(transizioni_spazio)))
+                        print("Creata la nuova transizione: ")
+                        print("\t" + tra.to_string())
+                        print("numero totale di transizioni: " + str(len(transizioni_spazio)))
+                        commento="creo transizione: "+tra.nome+", che si collega al nuovo nodo: "+nuovo_nodo.to_string()
+                        return [nodi, nuovo_nodo, transizioni_spazio, commento]
+
+                else:
+                    print("La transizione non scatta, esco dal ciclo")
+
+
+    print("CHECKED ho concluso tutte gli stati di nodo: " + str(nodi.index(nodo_attuale)))
+    nodo_attuale.check = True
+    commento="analizzate tutte le possibili transizioni del nodo: "+nodo_attuale.to_string()+"\n necessario passare al prossimo nodo"
+    return [nodi, nodo_attuale, transizioni_spazio, commento]
+
 
 
 

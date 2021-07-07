@@ -1,0 +1,2 @@
+Numero di nodi:2
+Numero di transizioni:1

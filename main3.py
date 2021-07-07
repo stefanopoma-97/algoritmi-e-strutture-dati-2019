@@ -40,8 +40,13 @@ else:
 #   print("YES! We have a match rete!")
 # else:
 #   print("No match")
-file="Input/test/rete 1 new"
-rete = carica_rete_da_file(file)
+a1 = carica_automa_da_file_txt("Input/RETE1/C2.txt")
+a2 = carica_automa_da_file_txt("Input/RETE1/C3.txt")
+automi = [a1, a2]
+
+links = carica_links_da_file_txt(automi, "Input/RETE1/links.txt")
+
+rete = carica_rete_da_file_txt(automi, links, "Input/RETE1/rete 1.txt")
 #print(rete.to_string())
 
 # automi = rete.automi
@@ -79,20 +84,44 @@ rete = carica_rete_da_file(file)
 # print(tran.to_string())
 
 
-spazio = crea_spazio_comportamentale(rete)
-print("\n\n\n----------------")
-print(spazio.to_string())
+# spazio = crea_spazio_comportamentale(rete)
+# print("\n\n\n----------------")
+# print(spazio.to_string())
+#
+#
+# spazio_ridenominato = potatura_e_ridenominazione(spazio)
+#
+# stampa_spazio_su_file(spazio, "SPAZIO")
+# stampa_spazio_ridenominato_su_file(spazio_ridenominato, "SPAZIO")
+#
+#
+# print("NUMERO DI TRANSIZIONI: "+str(len(spazio.transizioni)))
+# print("NUMERO DI TRANSIZIONI metodo: "+str(len(get_transizioni_spazio(spazio))))
 
+nodi, nodo_attuale, transizioni, fine = crea_spazio_comportamentale_manuale(rete)
+print("NODI")
+for n in nodi:
+  print(n.to_string())
+print("NODO ATTUALE: "+nodo_attuale.to_string())
 
+while (True):
+  nodi, nodo_attuale, transizioni, fine = crea_spazio_comportamentale_manuale(rete, nodi, nodo_attuale, transizioni)
+  if (fine):
+    print("FFFFFIIIIINNEEEE")
+    break
+  else:
+    print("NODI")
+    for n in nodi:
+      print(n.to_string())
+    print("NODO ATTUALE: " + nodo_attuale.to_string())
 
-spazio_ridenominato = potatura_e_ridenominazione(spazio)
-
-
-stampa_spazio_su_file(spazio, "SPAZIO")
-stampa_spazio_ridenominato_su_file(spazio_ridenominato, "SPAZIO")
-
-
-
-print("NUMERO DI TRANSIZIONI: "+str(len(spazio.transizioni)))
-print("NUMERO DI TRANSIZIONI metodo: "+str(len(get_transizioni_spazio(spazio))))
-
+nodi_finali=[]
+nodi_iniziali=[]
+for n in nodi:
+    if n.finale:
+        nodi_finali.append(n)
+    if n.iniziale:
+        nodi_iniziali.append(n)
+spazio = Spazio_comportamentale("spazio1", nodi_finali, nodi_iniziali, nodi, transizioni)
+sistema_transizioni(spazio)
+stampa_spazio_su_file(spazio, "SPAZIO MANUALE")
