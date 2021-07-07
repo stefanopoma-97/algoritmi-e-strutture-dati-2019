@@ -2,6 +2,7 @@ from graphviz import Digraph
 from Classi.Automa.automa import *
 from Classi.Automa.rete import *
 from  Classi.Spazio.spazio_comportamentale import *
+import os
 
 
 def stampa_automa(automa):
@@ -102,10 +103,17 @@ def stampa_spazio_su_file(spazio, cartella):
     Input: automa, nome cartella di output
     Output: viene generato un file .png nella cartella selezionata
     viene anche creato un file nome automa_riassunto.txt contenente le informazioni sull'automa in questione'''
+
+    # filePath="Output/"+cartella+"/"+spazio.nome+"_grafico"
+    # if os.path.exists(filePath):
+    #     os.remove(filePath)
+    #     os.remove("Output/"+cartella+"/"+spazio.nome+"_riassunto.txt")
+
     gra = Digraph(spazio.nome, filename=spazio.nome+"_grafico", format='png')
 
     for s in spazio.nodi:
         gra.node(s.output, shape='circle')
+
     gra.node("start", shape="point", label="")
 
     if spazio.nodi_finali[0] is not None or spazio.nodi_finali[0]!="":
@@ -114,7 +122,8 @@ def stampa_spazio_su_file(spazio, cartella):
                 gra.node(s.output, shape='doublecircle')
 
     for t in spazio.transizioni:
-        gra.edge(t.nodo_sorgente.output, t.nodo_destinazione.output, label=t.nome)
+        nome = t.nome+" ["+t.osservazione+", "+t.rilevanza+"]"
+        gra.edge(t.nodo_sorgente.output, t.nodo_destinazione.output, label=nome)
 
     gra.edge("start", spazio.nodi_iniziali[0].output, label="")
 
@@ -127,6 +136,43 @@ def stampa_spazio_su_file(spazio, cartella):
 
     riassunto.write("Numero di transizioni:" + str(len(spazio.transizioni)) + "\n")
     riassunto.close()
+
+def stampa_spazio_ridenominato_su_file(spazio, cartella):
+    '''Stampa l'automa su un file PNG
+    Input: automa, nome cartella di output
+    Output: viene generato un file .png nella cartella selezionata
+    viene anche creato un file nome automa_riassunto.txt contenente le informazioni sull'automa in questione'''
+
+    gra = Digraph(spazio.nome, filename=spazio.nome+"potatura e ridenominazione_grafico", format='png')
+
+    for s in spazio.nodi:
+        if s.potato == False:
+            gra.node(s.id, shape='circle')
+
+    gra.node("start", shape="point", label="")
+
+    if spazio.nodi_finali[0] is not None or spazio.nodi_finali[0]!="":
+        for s in spazio.nodi_finali:
+            if s.id!="":
+                gra.node(s.id, shape='doublecircle')
+
+    for t in spazio.transizioni:
+        if t.nodo_sorgente.potato == False and t.nodo_destinazione.potato == False:
+            nome = t.nome+" ["+t.osservazione+", "+t.rilevanza+"]"
+            gra.edge(t.nodo_sorgente.id, t.nodo_destinazione.id, label=nome)
+
+    gra.edge("start", spazio.nodi_iniziali[0].id, label="")
+
+    print(gra.source)
+
+    gra.render(directory="Output/"+cartella)
+
+    riassunto = open("Output/"+cartella+"/"+spazio.nome+"_riassunto.txt", "w")
+    riassunto.write("Numero di nodi:"+str(len(spazio.nodi))+"\n")
+
+    riassunto.write("Numero di transizioni:" + str(len(spazio.transizioni)) + "\n")
+    riassunto.close()
+
 
 def stampa_rete_su_file(rete, cartella):
     '''Stampa la rete su un file PNG

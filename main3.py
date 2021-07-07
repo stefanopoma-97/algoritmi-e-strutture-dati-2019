@@ -83,7 +83,14 @@ spazio = crea_spazio_comportamentale(rete)
 print("\n\n\n----------------")
 print(spazio.to_string())
 
+
+
+spazio_ridenominato = potatura_e_ridenominazione(spazio)
+
+
 stampa_spazio_su_file(spazio, "SPAZIO")
+stampa_spazio_ridenominato_su_file(spazio_ridenominato, "SPAZIO")
+
 
 
 print("NUMERO DI TRANSIZIONI: "+str(len(spazio.transizioni)))

@@ -4,12 +4,29 @@ from Classi.Automa.automa import *
 from Classi.Automa.rete import *
 import re
 from tkinter import filedialog
+from Classi.Spazio.spazio_comportamentale import *
+import os
 
 REGEX_AUTOMA="^[a-zA-Z0-9]+\\n[0-9]+(\,[0-9]+)*\\n([0-9]+(\,[0-9]+)*)?\\n[0-9]+\>[a-zA-Z0-9]+\>[0-9]+(\,[0-9]+\>[a-zA-Z0-9]+\>[0-9]+)*\\n"
 REGEX_LINK="^[a-zA-Z0-9]+\>[a-zA-Z0-9]+\>[a-zA-Z0-9]+\\n([a-zA-Z0-9]+\>[a-zA-Z0-9]+\>[a-zA-Z0-9]+\\n)*"
 REGEX_RETE="^[a-zA-Z0-9 ]+\\n([a-zA-Z0-9]+\,[a-zA-Z0-9]+\,(([a-zA-Z0-9]+\([a-zA-Z0-9]+\))| )\/\{((([a-zA-Z0-9]+\([a-zA-Z0-9]+\))(\;[a-zA-Z0-9]+\([a-zA-Z0-9]+\))*)| )\}\,([a-zA-Z0-9]+| )\,([a-zA-Z0-9]+| )\\n)*"
 
 
+
+def salva_spazio_su_file(spazio, cartella):
+    filePath = 'Output/'+cartella+'/'+spazio.nome
+    if os.path.exists(filePath):
+        os.remove(filePath)
+
+    with open('Output/'+cartella+'/'+spazio.nome, 'wb') as config_dictionary_file:
+        # Step 3
+        pickle.dump(spazio, config_dictionary_file)
+
+def carica_spazio_da_file(cartella, filename):
+    '''Carica un automa da un file generato in precedenza'''
+    with open('Output/'+cartella+'/'+filename, 'rb') as config_dictionary_file:
+        spazio_load = pickle.load(config_dictionary_file)
+        return spazio_load
 
 
 def salva_automa_su_file(automa, cartella, filename):

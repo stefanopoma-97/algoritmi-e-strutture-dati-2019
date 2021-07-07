@@ -49,6 +49,7 @@ def crea_spazio_comportamentale(rete):
 def sistema_transizioni(spazio):
     for t in spazio.transizioni:
         t.nodo_sorgente.transizioni.append(t)
+        t.nodo_destinazione.transizioni_sorgente.append(t)
 
 
 
@@ -200,3 +201,26 @@ def istanzio_nodo_iniziale(rete):
         links[l.nome] = [l, l.evento.nome]
     nodo_iniziale = Nodo(stati=stati_correnti, check=False, links=links, iniziale=True)
     return nodo_iniziale
+
+
+
+def potatura_e_ridenominazione(spazio):
+    for i in range(len(spazio.nodi)):
+        spazio.nodi[i].id = str(i)
+
+
+    nodi_finali = spazio.nodi_finali
+    potatura(nodi_finali)
+    return spazio
+
+def potatura(nodi):
+    for n in nodi:
+        salva_nodo_da_potatura(n)
+        for t in n.transizioni_sorgente:
+            if t.nodo_sorgente.potato == True:
+                potatura([t.nodo_sorgente])
+
+def salva_nodo_da_potatura(nodo):
+    nodo.potato=False
+    for t in nodo.transizioni_sorgente:
+        t.potato=False

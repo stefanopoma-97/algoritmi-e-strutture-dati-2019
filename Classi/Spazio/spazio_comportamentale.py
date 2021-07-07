@@ -71,12 +71,14 @@ class Nodo:
     def __init__(self, stati, check, links, iniziale, transizioni=[]):
         self.id = ""
         self.transizioni = transizioni
+        self.transizioni_sorgente = []
         self.check = check
         self.stati = stati
         self.links = links
         self.iniziale = iniziale
         self.output = self.get_output()
         self.finale = self.is_finale()
+        self.potato = True
 
 
     def is_finale(self):
@@ -138,6 +140,7 @@ class Transizione_spazio:
         self.nodo_destinazione = nodo_destinazione
         self.osservazione = osservazione
         self.rilevanza = rilevanza
+        self.potato = True
 
 
     def oss_ril_to_string(self):
