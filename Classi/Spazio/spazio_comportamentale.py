@@ -41,6 +41,21 @@ class Spazio_comportamentale:
 
         return stringa
 
+    def riassunto(self):
+        stringa=""
+        stringa += "Numero di nodi: "+str(len(self.nodi)+1)+"\n"
+        i=1
+        for n in self.nodi:
+            stringa += "\t"+str(i)+") ["+n.output+"]\n"
+            i=i+1
+        stringa += "\n Numero transizioni: "+str(len(self.transizioni)+1)+"\n"
+        i=1
+        for t in self.transizioni:
+            stringa += "\t"+str(i)+") ("+t.nodo_sorgente.output+") > "+t.nome+" > ("+t.nodo_destinazione.output+")\n"
+            i=i+1
+        return stringa
+
+
 def get_transizioni_spazio(spazio):
     transizioni = []
     for s in spazio.nodi:

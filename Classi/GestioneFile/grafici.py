@@ -132,9 +132,7 @@ def stampa_spazio_su_file(spazio, cartella):
     gra.render(directory="Output/"+cartella)
 
     riassunto = open("Output/"+cartella+"/"+spazio.nome+"_riassunto.txt", "w")
-    riassunto.write("Numero di nodi:"+str(len(spazio.nodi))+"\n")
-
-    riassunto.write("Numero di transizioni:" + str(len(spazio.transizioni)) + "\n")
+    riassunto.write(spazio.riassunto())
     riassunto.close()
 
 def stampa_spazio_ridenominato_su_file(spazio, cartella):
@@ -167,10 +165,8 @@ def stampa_spazio_ridenominato_su_file(spazio, cartella):
 
     gra.render(directory="Output/"+cartella)
 
-    riassunto = open("Output/"+cartella+"/"+spazio.nome+"_riassunto.txt", "w")
-    riassunto.write("Numero di nodi:"+str(len(spazio.nodi))+"\n")
-
-    riassunto.write("Numero di transizioni:" + str(len(spazio.transizioni)) + "\n")
+    riassunto = open("Output/"+cartella+"/"+spazio.nome+"_potatura e ridenominazione_riassunto.txt", "w")
+    riassunto.write(spazio.riassunto())
     riassunto.close()
 
 
