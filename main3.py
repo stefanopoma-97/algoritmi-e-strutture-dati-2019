@@ -46,7 +46,15 @@ automi = [a1, a2]
 
 links = carica_links_da_file_txt(automi, "Input/RETE1/links.txt")
 
-rete = carica_rete_da_file_txt(automi, links, "Input/RETE1/rete 1.txt")
+rete1 = carica_rete_da_file_txt(automi, links, "Input/RETE1/rete 1.txt")
+
+a1 = carica_automa_da_file_txt("Input/RETE2/S.txt")
+a2 = carica_automa_da_file_txt("Input/RETE2/B.txt")
+automi = [a1, a2]
+
+links = carica_links_da_file_txt(automi, "Input/RETE2/links.txt")
+
+rete2 = carica_rete_da_file_txt(automi, links, "Input/RETE2/rete 2.txt")
 #print(rete.to_string())
 
 # automi = rete.automi
@@ -98,30 +106,16 @@ rete = carica_rete_da_file_txt(automi, links, "Input/RETE1/rete 1.txt")
 # print("NUMERO DI TRANSIZIONI: "+str(len(spazio.transizioni)))
 # print("NUMERO DI TRANSIZIONI metodo: "+str(len(get_transizioni_spazio(spazio))))
 
-nodi, nodo_attuale, transizioni, fine = crea_spazio_comportamentale_manuale(rete)
-print("NODI")
-for n in nodi:
-  print(n.to_string())
-print("NODO ATTUALE: "+nodo_attuale.to_string())
+transizioni = rete2.get_transizioni()
+print("TRANSIZIONI")
+for t in transizioni:
+  print(t.to_string()+"\n")
 
-while (True):
-  nodi, nodo_attuale, transizioni, fine = crea_spazio_comportamentale_manuale(rete, nodi, nodo_attuale, transizioni)
-  if (fine):
-    print("FFFFFIIIIINNEEEE")
-    break
-  else:
-    print("NODI")
-    for n in nodi:
-      print(n.to_string())
-    print("NODO ATTUALE: " + nodo_attuale.to_string())
+stati = rete2.get_stati_correnti()
+print("STATI:")
+for s in stati:
+  print(s.to_string() + "\n")
 
-nodi_finali=[]
-nodi_iniziali=[]
-for n in nodi:
-    if n.finale:
-        nodi_finali.append(n)
-    if n.iniziale:
-        nodi_iniziali.append(n)
-spazio = Spazio_comportamentale("spazio1", nodi_finali, nodi_iniziali, nodi, transizioni)
-sistema_transizioni(spazio)
-stampa_spazio_su_file(spazio, "SPAZIO MANUALE")
+
+spazio = crea_spazio_comportamentale(rete2)
+stampa_spazio_su_file(spazio, "SPAZIO2")

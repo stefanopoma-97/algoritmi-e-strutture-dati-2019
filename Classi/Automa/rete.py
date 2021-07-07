@@ -90,7 +90,7 @@ class Rete:
     def get_stati_correnti(self):
         stati = []
         for a in self.automi:
-            stati += a.stato_corrente
+            stati.append(a.stato_corrente[0])
         return stati
 
 

@@ -40,7 +40,8 @@ def gui_crea_rete():
                 sg.Button("Reset", key="reset", disabled=False),
                 sg.Button("Salva su file", key="salva", disabled=True),
                 sg.Button("Mostra grafici", key="stampa", disabled=True),
-                sg.Button("Carica rete 1", key="rete1", disabled=False)
+                sg.Button("Carica rete 1", key="rete1", disabled=False),
+                sg.Button("Carica rete 2", key="rete2", disabled=False)
             ],
             [
                 sg.Button("Spazio comportamentale", key="spazio_comportamentale", disabled=True),
@@ -339,6 +340,66 @@ def gui_crea_rete():
 
         window_crea_rete['informazioni'].update("Caricata rete 1")
 
+    def carica_rete2():
+        listOfGlobals = globals()
+
+        a1 = carica_automa_da_file_txt("Input/RETE2/B.txt")
+        a2 = carica_automa_da_file_txt("Input/RETE2/S.txt")
+        automi = [a1, a2]
+
+        links = carica_links_da_file_txt(automi, "Input/RETE2/links.txt")
+
+        rete = carica_rete_da_file_txt(automi, links, "Input/RETE2/rete 2.txt")
+
+        listOfGlobals['automi'] = automi
+        listOfGlobals['links'] = links
+        listOfGlobals['rete'] = rete
+
+        aggiorna_elenco_automi()
+        aggiorna_elenco_links()
+        aggiorna_rete()
+
+        window_crea_rete['conferma_cartella'].update(disabled=True)
+        window_crea_rete['input_cartella'].update(disabled=True)
+        window_crea_rete['carica_automa'].update(disabled=True)
+        window_crea_rete['carica_link'].update(disabled=True)
+        window_crea_rete['carica_transizioni'].update(disabled=True)
+        window_crea_rete['salva'].update(disabled=False)
+        window_crea_rete['stampa'].update(disabled=True)
+        window_crea_rete['spazio_comportamentale'].update(disabled=False)
+
+        window_crea_rete['informazioni'].update("Caricata rete 2")
+
+    def carica_rete3():
+            listOfGlobals = globals()
+
+            a1 = carica_automa_da_file_txt("Input/RETE1/C2.txt")
+            a2 = carica_automa_da_file_txt("Input/RETE1/C3.txt")
+            automi = [a1, a2]
+
+            links = carica_links_da_file_txt(automi, "Input/RETE1/links.txt")
+
+            rete = carica_rete_da_file_txt(automi, links, "Input/RETE1/rete 1.txt")
+
+            listOfGlobals['automi'] = automi
+            listOfGlobals['links'] = links
+            listOfGlobals['rete'] = rete
+
+            aggiorna_elenco_automi()
+            aggiorna_elenco_links()
+            aggiorna_rete()
+
+            window_crea_rete['conferma_cartella'].update(disabled=True)
+            window_crea_rete['input_cartella'].update(disabled=True)
+            window_crea_rete['carica_automa'].update(disabled=True)
+            window_crea_rete['carica_link'].update(disabled=True)
+            window_crea_rete['carica_transizioni'].update(disabled=True)
+            window_crea_rete['salva'].update(disabled=False)
+            window_crea_rete['stampa'].update(disabled=True)
+            window_crea_rete['spazio_comportamentale'].update(disabled=False)
+
+            window_crea_rete['informazioni'].update("Caricata rete 1")
+
     def spazio_comportamentale():
         listOfGlobals = globals()
         automi = listOfGlobals['automi']
@@ -407,6 +468,8 @@ def gui_crea_rete():
             stampa_grafici()
         elif event == "rete1":
             carica_rete1()
+        elif event == "rete2":
+            carica_rete2()
         elif event == "spazio_comportamentale":
             out = spazio_comportamentale()
 

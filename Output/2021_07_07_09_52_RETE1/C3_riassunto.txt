@@ -1,4 +1,0 @@
-Numero di stati:2
-30; 31; 
-Numero di transizioni:3
-30>t3a>31[Oss: o3; ril:  ] { : } {L2:e2;}31>t3c>31[Oss:  ; ril: f] {L3:e3;} { : }31>t3b>30[Oss:  ; ril:  ] {L3:e3;} { : }

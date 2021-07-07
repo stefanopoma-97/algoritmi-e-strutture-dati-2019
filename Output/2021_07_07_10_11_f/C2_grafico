@@ -1,9 +1,0 @@
-digraph C2 {
-	20 [shape=circle]
-	21 [shape=circle]
-	start [label="" shape=point]
-	20 [color=red shape=circle]
-	20 -> 21 [label=t2a]
-	21 -> 20 [label=t2b]
-	start -> 20 [label=""]
-}

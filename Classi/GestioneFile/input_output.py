@@ -134,7 +134,7 @@ def carica_automa_da_file_txt(*args):
         stati.append(Stato(s))
 
     automa.stati=stati
-    automa.stato_corrente=[automa.stati[0]]
+    automa.stato_corrente = [automa.stati[0]]
     automa.stati_iniziali = [automa.stati[0]]
 
 

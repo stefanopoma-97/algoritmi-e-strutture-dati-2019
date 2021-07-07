@@ -208,13 +208,13 @@ def controllo_transizioni(nodi, nodo_attuale, transizioni_spazio):
     #scorro gli stati
     for s in stati_correnti:
         print("Scorro stati, in nodo numero: "+str(nodi.index(nodo_attuale)))
-        print("il nodo ha transizioni: "+str(len(nodo_attuale.transizioni)))
-        print("stato: "+s.nome+"\n")
+        print("il nodo ha transizioni (nodo attuale.transizioni): "+str(len(nodo_attuale.transizioni)))
+        print("FOR LOOP. stato: "+s.nome+"\n")
 
         #scorro transizioni dello stato
         for t in s.transizioni:
-            print("Scorro transizioni, in nodo numero: " +str(nodi.index(nodo_attuale)))
-            print("stato: " + t.nome+"\n")
+            print("Scorro transizioni, in nodo numero (id): " +str(nodi.index(nodo_attuale)))
+            print("transizione: "+t.nome+"\n")
 
             #controllo se la transizione può scattare
             scatta = scatto_transizione(t, nodo_attuale)
@@ -290,7 +290,9 @@ def aggiorna_nodo(nodo, transizione):
 
     #ricavo la posizione dello stato sorgente
     for index, s in enumerate(nodo.stati):
-        if s.nome == transizione.stato_sorgente.nome:
+        print("Scorro stato: "+s.to_string()+" = "+str(s))
+        print("devo confrontarlo con: "+transizione.stato_sorgente.to_string()+" = "+str(transizione.stato_sorgente))
+        if s.id == transizione.stato_sorgente.id:
             print("ho aggiornato lo stato "+nodo.stati[index].nome)
             nodo.stati[index] = transizione.stato_destinazione
             print(" mettendolo a " +nodo.stati[index].nome)

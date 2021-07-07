@@ -1,2 +1,0 @@
-Numero di nodi:15
-Numero di transizioni:17

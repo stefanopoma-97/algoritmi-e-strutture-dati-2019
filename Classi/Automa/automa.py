@@ -76,6 +76,7 @@ class Automa:
     def stampa(self):
         '''Stampa automa'''
         print(self.to_string())
+import uuid
 
 class Stato:
     '''Stato di un automa
@@ -85,6 +86,7 @@ class Stato:
     def __init__(self, nome, transizioni=[]):
         self.nome = nome
         self.transizioni = transizioni
+        self.id = str(uuid.uuid4())
 
     def add_transizione(self, transizione):
         '''Aggiunge una transizione allo stato'''
@@ -97,7 +99,7 @@ class Stato:
 
     def to_string(self):
         stringa = ""
-        return stringa + self.nome
+        return stringa + "Stato: "+self.nome+" (id: "+str(self.id)+")"
 
 
 class Transizione:

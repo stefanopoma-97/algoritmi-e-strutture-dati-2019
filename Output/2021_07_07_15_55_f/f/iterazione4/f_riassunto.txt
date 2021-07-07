@@ -1,2 +1,0 @@
-Numero di nodi:5
-Numero di transizioni:4

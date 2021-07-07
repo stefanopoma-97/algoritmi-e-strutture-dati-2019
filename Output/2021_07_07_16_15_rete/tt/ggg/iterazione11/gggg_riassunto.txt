@@ -1,2 +1,0 @@
-Numero di nodi:9
-Numero di transizioni:9
