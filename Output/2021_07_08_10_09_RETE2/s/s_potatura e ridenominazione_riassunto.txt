@@ -1,0 +1,31 @@
+Numero di nodi: 8
+Numero di nodi potati: 0
+Numero di nodi rimasti: 8
+	1) [0, 0, ]
+	2) [0, 1, op]
+	3) [1, 1, ]
+	4) [1, 0, cl]
+	5) [1, 0, ]
+	6) [1, 1, op]
+	7) [0, 1, ]
+	8) [0, 0, cl]
+
+Numero transizioni: 16
+Numero di transizioni potate: 0
+Numero di transizioni rimaste: 16
+	1) (0) > s1 > (1)
+	2) (1) > b1 > (2)
+	3) (2) > s2 > (3)
+	4) (3) > b2 > (0)
+	5) (3) > b4 > (4)
+	6) (4) > s1 > (5)
+	7) (5) > b6 > (2)
+	8) (5) > b8 > (6)
+	9) (6) > s2 > (7)
+	10) (7) > b5 > (0)
+	11) (7) > b7 > (4)
+	12) (6) > s4 > (1)
+	13) (4) > s3 > (3)
+	14) (2) > s4 > (5)
+	15) (1) > b3 > (6)
+	16) (0) > s3 > (7)

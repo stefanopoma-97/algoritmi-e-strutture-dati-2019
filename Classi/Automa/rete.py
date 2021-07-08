@@ -28,7 +28,7 @@ class Rete:
 
     def to_string(self):
         '''Converte la rete in una stringa facilmente leggibile'''
-        return "Rete: "+self.nome + "\nautomi: \n"+automi_to_string(self.automi)+"\nlinks: \n"+links_to_string(self.links)
+        return "Rete: "+self.nome + "\n\nautomi: \n"+automi_to_string(self.automi)+"\nlinks: \n"+links_to_string(self.links)
 
     def stampa(self):
         print(self.to_string())
@@ -100,7 +100,7 @@ class Rete:
 def links_to_string(links):
     stringa = ""
     for x in range(len(links)):
-        stringa = stringa + links[x].to_string() + "\n"
+        stringa = stringa + links[x].to_string() + "\n\n"
     return stringa
 
 

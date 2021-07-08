@@ -1,0 +1,2 @@
+Numero di automi:2
+Numero di link:2

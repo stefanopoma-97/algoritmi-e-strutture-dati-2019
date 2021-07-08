@@ -32,10 +32,12 @@ class Automa:
         else:
             stringa = stringa + "Stato iniziale: " + stati_to_string(self.stati_iniziali) + "\n"
 
-        if (len(self.stati_finali) == 1) and (self.stati_finali[0] is None):
+        if (self.stati_finali is None):
             stringa = stringa + "Stati finali: None\n"
-        else:
-            stringa = stringa + "Stati finali: " + stati_to_string(self.stati_finali) + "\n"
+            if (len(self.stati_finali)==0):
+                stringa = stringa + "Stati finali: None\n"
+            else:
+                stringa = stringa + "Stati finali: " + stati_to_string(self.stati_finali) + "\n"
 
         if (len(self.stati) == 1) and (self.stati[0] is None):
             stringa = stringa + "Stati: None\n"
@@ -99,7 +101,7 @@ class Stato:
 
     def to_string(self):
         stringa = ""
-        return stringa + "Stato: "+self.nome+" (id: "+str(self.id)+")"
+        return stringa + "Stato: "+self.nome
 
 
 class Transizione:
@@ -215,6 +217,7 @@ def stati_to_string(stati):
     stringa = ""
     for x in range(len(stati)):
         stringa = stringa + stati[x].to_string() + "; "
+    stringa = stringa[:-1]
     return stringa
 
 
@@ -228,6 +231,7 @@ def transizioni_to_string(transizioni):
     stringa = ""
     for x in range(len(transizioni)):
         stringa = stringa + transizioni[x].to_string() + "\n"
+    stringa = stringa[:-1]
     return stringa
 
 
@@ -239,7 +243,7 @@ def automi_to_string(automi):
     '''data una lista di automi li converte in stringhe facilmente leggibili'''
     stringa = ""
     for x in range(len(automi)):
-        stringa = stringa + automi[x].to_string() + "\n"
+        stringa = stringa + automi[x].to_string() + "\n\n"
     return stringa
 
 def controlla_inserimento_automa(automi, automa):

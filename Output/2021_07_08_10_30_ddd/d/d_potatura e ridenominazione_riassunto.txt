@@ -1,0 +1,21 @@
+Numero di nodi: 9
+Numero di nodi potati: 2
+Numero di nodi rimasti: 7
+	1) [20, 30, , ]
+	2) [20, 31, e2, ]
+	3) [21, 31, , e3]
+	4) [21, 31, , ]
+	5) [20, 31, , e3]
+	6) [20, 31, , ]
+	7) [21, 30, , ]
+
+Numero transizioni: 9
+Numero di transizioni potate: 2
+Numero di transizioni rimaste: 7
+	1) (0) > t3a > (1)
+	2) (1) > t2a > (2)
+	3) (2) > t3c > (3)
+	4) (3) > t2b > (4)
+	5) (4) > t3c > (5)
+	6) (4) > t3b > (0)
+	7) (2) > t3b > (6)

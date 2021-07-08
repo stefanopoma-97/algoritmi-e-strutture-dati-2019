@@ -22,11 +22,28 @@ def salva_spazio_su_file(spazio, cartella):
         # Step 3
         pickle.dump(spazio, config_dictionary_file)
 
-def carica_spazio_da_file(cartella, filename):
+def carica_spazio_da_file(*args):
     '''Carica un automa da un file generato in precedenza'''
-    with open('Output/'+cartella+'/'+filename, 'rb') as config_dictionary_file:
-        spazio_load = pickle.load(config_dictionary_file)
-        return spazio_load
+
+    if len(args)==1:
+        with open(args[0], 'rb') as config_dictionary_file:
+            spazio_load = pickle.load(config_dictionary_file)
+            return spazio_load
+    else:
+        file = filedialog.askopenfilename()
+        estensione = file.split(".")
+        if len(estensione) != 1:
+            return "Estensione del file errata. Seleziona il file corretto"
+        with open(file, 'rb') as config_dictionary_file:
+            try:
+                spazio_load = pickle.load(config_dictionary_file)
+                if (isinstance(spazio_load, Spazio_comportamentale)):
+                    return spazio_load
+                else:
+                    return "Il file selezionato non contine una rete"
+
+            except pickle.UnpicklingError as e:
+                return "Il file selezionato non contine una rete"
 
 
 def salva_automa_su_file(automa, cartella, filename):
@@ -70,6 +87,7 @@ def salva_links_su_file_txt(rete, cartella, filename):
 
 def carica_rete_da_file(*args):
     '''Carica la rete da un file generato in precedenza'''
+
     if len(args)==1:
         with open(args[0], 'rb') as config_dictionary_file:
             rete_load = pickle.load(config_dictionary_file)
@@ -80,11 +98,16 @@ def carica_rete_da_file(*args):
         if len(estensione) != 1:
             return "Estensione del file errata. Seleziona il file corretto"
         with open(file, 'rb') as config_dictionary_file:
-            rete_load = pickle.load(config_dictionary_file)
-            if (isinstance(rete_load, Rete)):
-                return rete_load
-            else:
+            try:
+                rete_load = pickle.load(config_dictionary_file)
+                if (isinstance(rete_load, Rete)):
+                    return rete_load
+                else:
+                    return "Il file selezionato non contine una rete"
+
+            except pickle.UnpicklingError as e:
                 return "Il file selezionato non contine una rete"
+
 
 
 
@@ -147,6 +170,8 @@ def carica_automa_da_file_txt(*args):
         for s in nomi_stato:
             stati.append(Stato(s))
         automa.stati_finali=stati
+    else:
+        automa.stati_finali=[]
 
     # Riga 4: "stato1">"etichetta">"stato2","stato1">"stato2">"etichetta"\n
 

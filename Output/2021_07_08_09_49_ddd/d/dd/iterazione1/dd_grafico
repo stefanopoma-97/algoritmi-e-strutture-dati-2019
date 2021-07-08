@@ -1,0 +1,7 @@
+digraph dd {
+	"20, 30, , " [shape=circle]
+	"20, 31, e2, " [shape=circle]
+	start [label="" shape=point]
+	"20, 30, , " -> "20, 31, e2, " [label="t3a [o3,  ]"]
+	start -> "20, 30, , " [label=""]
+}

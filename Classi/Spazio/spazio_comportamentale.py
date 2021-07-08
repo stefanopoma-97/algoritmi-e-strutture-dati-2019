@@ -43,15 +43,37 @@ class Spazio_comportamentale:
 
     def riassunto(self):
         stringa=""
-        stringa += "Numero di nodi: "+str(len(self.nodi)+1)+"\n"
+        stringa += "Numero di nodi: "+str(len(self.nodi))+"\n"
         i=1
         for n in self.nodi:
-            stringa += "\t"+str(i)+") ["+n.output+"]\n"
+            stringa += "\t"+str(i)+") [ ID = "+n.id+"; "+n.output+"]\n"
             i=i+1
-        stringa += "\n Numero transizioni: "+str(len(self.transizioni)+1)+"\n"
+
+        stringa += "\n Numero transizioni: "+str(len(self.transizioni))+"\n"
         i=1
         for t in self.transizioni:
             stringa += "\t"+str(i)+") ("+t.nodo_sorgente.output+") > "+t.nome+" > ("+t.nodo_destinazione.output+")\n"
+            i=i+1
+        return stringa
+
+    def riassunto_potatura(self):
+        stringa=""
+        stringa += "Numero di nodi: "+str(len(self.nodi))+"\n"
+        stringa += "Numero di nodi potati: " + str(len([x for x in self.nodi if x.potato == True])) + "\n"
+        nodi_rimasti=[x for x in self.nodi if x.potato == False]
+        stringa += "Numero di nodi rimasti: " + str(len(nodi_rimasti)) + "\n"
+
+        i=1
+        for n in nodi_rimasti:
+            stringa += "\t"+str(i)+") ["+n.output+"]\n"
+            i=i+1
+        stringa += "\nNumero transizioni: "+str(len(self.transizioni))+"\n"
+        stringa += "Numero di transizioni potate: " + str(len([x for x in self.transizioni if x.potato == True])) + "\n"
+        transizioni_rimaste = [x for x in self.transizioni if x.potato == False]
+        stringa += "Numero di transizioni rimaste: " + str(len(transizioni_rimaste)) + "\n"
+        i=1
+        for t in transizioni_rimaste:
+            stringa += "\t"+str(i)+") ("+t.nodo_sorgente.id+") > "+t.nome+" > ("+t.nodo_destinazione.id+")\n"
             i=i+1
         return stringa
 

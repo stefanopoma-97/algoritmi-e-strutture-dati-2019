@@ -1,0 +1,15 @@
+digraph B {
+	0 [shape=circle]
+	1 [shape=circle]
+	start [label="" shape=point]
+	0 [color=red shape=circle]
+	0 -> 1 [label=b1]
+	0 -> 0 [label=b3]
+	0 -> 0 [label=b5]
+	0 -> 1 [label=b7]
+	1 -> 0 [label=b2]
+	1 -> 1 [label=b4]
+	1 -> 1 [label=b6]
+	1 -> 0 [label=b8]
+	start -> 0 [label=""]
+}

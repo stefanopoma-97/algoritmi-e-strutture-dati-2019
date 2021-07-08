@@ -166,7 +166,7 @@ def stampa_spazio_ridenominato_su_file(spazio, cartella):
     gra.render(directory="Output/"+cartella)
 
     riassunto = open("Output/"+cartella+"/"+spazio.nome+"_potatura e ridenominazione_riassunto.txt", "w")
-    riassunto.write(spazio.riassunto())
+    riassunto.write(spazio.riassunto_potatura())
     riassunto.close()
 
 

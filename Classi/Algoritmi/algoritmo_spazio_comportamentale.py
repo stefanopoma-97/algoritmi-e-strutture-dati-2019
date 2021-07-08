@@ -135,7 +135,7 @@ def controllo_transizioni_manualmente(nodi, nodo_attuale, transizioni_spazio):
                         print("Creata la nuova transizione: ")
                         print("\t" + tra.to_string())
                         print("numero totale di transizioni: " + str(len(transizioni_spazio)))
-                        commento="creo transizione: "+tra.nome+", che si collega al nuovo nodo: "+nuovo_nodo.to_string()
+                        commento="creo transizione: "+tra.nome+", che si collega al nuovo nodo: ["+nuovo_nodo.output+"]"
                         return [nodi, nuovo_nodo, transizioni_spazio, commento]
 
                 else:
@@ -144,7 +144,7 @@ def controllo_transizioni_manualmente(nodi, nodo_attuale, transizioni_spazio):
 
     print("CHECKED ho concluso tutte gli stati di nodo: " + str(nodi.index(nodo_attuale)))
     nodo_attuale.check = True
-    commento="analizzate tutte le possibili transizioni del nodo: "+nodo_attuale.to_string()+"\n necessario passare al prossimo nodo"
+    commento="analizzate tutte le possibili transizioni del nodo: ["+nodo_attuale.output+"]\n necessario passare al prossimo nodo"
     return [nodi, nodo_attuale, transizioni_spazio, commento]
 
 

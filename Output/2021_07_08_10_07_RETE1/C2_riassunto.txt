@@ -1,0 +1,4 @@
+Numero di stati:2
+Stato: 20 (id: 4e9dc551-22ad-4e04-a410-ae457c382bb0); Stato: 21 (id: 89fd70db-23f8-4dd4-acc7-a795f9fcbc9a); 
+Numero di transizioni:2
+Stato: 20 (id: 4e9dc551-22ad-4e04-a410-ae457c382bb0)>t2a>Stato: 21 (id: 89fd70db-23f8-4dd4-acc7-a795f9fcbc9a)[Oss: o2; ril:  ] {L2:e2;} {L3:e3;}Stato: 21 (id: 89fd70db-23f8-4dd4-acc7-a795f9fcbc9a)>t2b>Stato: 20 (id: 4e9dc551-22ad-4e04-a410-ae457c382bb0)[Oss:  ; ril: r] { : } {L3:e3;}

@@ -387,6 +387,7 @@ def crea_rete():
 layout = [[sg.Text("Home\nQuesta è la home, seleziona cosa vuoi fare")],
           [sg.Button("Crea una rete", key='crea_rete', size=(35, 2))],
             [sg.Button("Importa rete da file", key='importa_rete', size=(35, 2))],
+            [sg.Button("Importa Spazio comportamentale da file", key='importa_spazio', size=(35, 2))],
           [sg.Button("ESCI", key="esci")]]
 
 # Crea la finestra
@@ -404,7 +405,16 @@ while True:
     elif event == "importa_rete":
         print("Avvio importa rete")
         gui_importa_rete()
+    elif event == "importa_spazio":
+        print("Avvio importa spazio")
+        spazio = carica_spazio_da_file()
+        if (isinstance(spazio, str)):
+            sg.Popup('Attenzione!',
+                     'Errore: '+spazio)
+        else:
+            gui_crea_spazio_comportamentale([], [], None, "", "", None, spazio, spazio.nome)
 
 window.close()
+
 
 
