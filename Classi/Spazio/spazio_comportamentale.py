@@ -65,7 +65,7 @@ class Spazio_comportamentale:
 
         i=1
         for n in nodi_rimasti:
-            stringa += "\t"+str(i)+") ["+n.output+"]\n"
+            stringa += "\t"+str(i)+") [ ID = "+n.id+"; "+n.output+"]\n"
             i=i+1
         stringa += "\nNumero transizioni: "+str(len(self.transizioni))+"\n"
         stringa += "Numero di transizioni potate: " + str(len([x for x in self.transizioni if x.potato == True])) + "\n"
@@ -116,6 +116,7 @@ class Nodo:
         self.output = self.get_output()
         self.finale = self.is_finale()
         self.potato = True
+        self.old_id = ""
 
 
     def is_finale(self):

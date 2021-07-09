@@ -1,0 +1,9 @@
+digraph "spazio 3" {
+	"20, 30, , " [shape=circle]
+	"20, 31, e2, " [shape=circle]
+	"21, 31, , e3" [shape=circle]
+	start [label="" shape=point]
+	"20, 30, , " -> "20, 31, e2, " [label="t3a [o3,  ]"]
+	"20, 31, e2, " -> "21, 31, , e3" [label="t2a [o2,  ]"]
+	start -> "20, 30, , " [label=""]
+}

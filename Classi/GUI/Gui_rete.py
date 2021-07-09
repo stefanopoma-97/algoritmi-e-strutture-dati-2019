@@ -1,3 +1,5 @@
+import copy
+
 import PySimpleGUI as sg
 from tkinter.filedialog import askopenfilename
 from Classi.GestioneFile.input_output import *
@@ -53,7 +55,7 @@ def gui_crea_rete():
             ],
             [
                 sg.Multiline(
-                    "", enable_events=True, size=(40, 10), key="automi"
+                    "", enable_events=True, size=(40, 10), key="automi", autoscroll=True
                 )
             ],
             [
@@ -62,7 +64,7 @@ def gui_crea_rete():
             ],
             [
                 sg.Multiline(
-                    "", enable_events=True, size=(40, 5), key="link"
+                    "", enable_events=True, size=(40, 5), key="link", autoscroll=True
                 )
             ],
             [
@@ -71,7 +73,7 @@ def gui_crea_rete():
             ],
             [
                 sg.Multiline(
-                    "", enable_events=True, size=(40, 10), key="rete"
+                    "", enable_events=True, size=(40, 10), key="rete", autoscroll=True
                 )
             ],
         ]
@@ -83,7 +85,7 @@ def gui_crea_rete():
             ],
             [
                 sg.Multiline(
-                    "", enable_events=True, size=(40, 20), key="informazioni"
+                    "", enable_events=True, size=(40, 20), key="informazioni", autoscroll=True
                 )
             ],
         ]
@@ -287,6 +289,7 @@ def gui_crea_rete():
 
 
         grafici_automi = [
+            titoli,
             immagini
         ]
 
@@ -479,7 +482,7 @@ def gui_crea_rete():
 
 
 def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
-    global stato, cartella, automi, links, rete, cartella_save, spazio_comportamentale, nome_spazio, elenco_cartelle
+    global stato, cartella, automi, links, rete, cartella_save, spazio_comportamentale, nome_spazio, elenco_cartelle, spazio_importato
     stato = s
     cartella = c2
     cartella_save = c
@@ -488,6 +491,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
     rete = r
     elenco_cartelle = []
     spazio_comportamentale=spazio
+    spazio_importato = copy.deepcopy(spazio)
     nome_spazio = nome_S
 
     print("Pagina creazione spazio comportamentale")
@@ -509,10 +513,13 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                 sg.Button('Conferma', key='conferma_nome_spazio', disabled=True)
             ],
             [
-                sg.Text("Inserisci un tempo massimo per l'esecuzione del programma"),
-                sg.Input(key='tempo', size=(20, 1), disabled=True),
+                sg.HSeparator(),
             ],
             [
+                sg.Text("Algoritmo 1"),
+            ],
+            [
+
                 sg.Button("Crea spazio comportamentale", key="avvio_algoritmo1", disabled=True),
                 sg.Button("Crea spazio comportamentale (passaggi)", key="avvio_algoritmo1_manuale", disabled=True),
                 sg.Button("avvio 3", key="avvio3", disabled=True)
@@ -523,9 +530,32 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                 sg.Button("Mostra grafico spazio", key="stampa", disabled=True)
             ],
             [
-                sg.Button("Potatura e ridenominazione", key="potatura", disabled=True),
+                sg.Button("Potatura", key="potatura", disabled=True),
                 sg.Button("Mostra grafico spazio potato", key="stampa_potatura", disabled=True)
             ],
+            [
+                sg.HSeparator(),
+            ],
+            [
+                sg.Text("Algoritmo 2"),
+            ],
+            [
+
+                sg.Text("Inserisci un osservazione lineare"),
+                sg.Input(key='input_osservazione_lineare', size=(20, 1), disabled=True),
+
+            ],
+            [
+                sg.Button("Crea spazio comportamentale relativo all'osservazione", key="avvio_algoritmo2",
+                          disabled=True),
+                sg.Button("Crea spazio comportamentale relativo all'osservazione (passaggi)",
+                          key="avvio_algoritmo2_manuale", disabled=True),
+                sg.Button("avvio 3", key="avvio3", disabled=True)
+            ],
+            [
+                sg.HSeparator(),
+            ],
+
         ]
 
         colonna2 = [
@@ -535,7 +565,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             ],
             [
                 sg.Multiline(
-                    "", enable_events=True, size=(40, 20), key="informazioni"
+                    "", enable_events=True, size=(40, 20), key="informazioni", autoscroll=True
                 )
             ],
         ]
@@ -561,14 +591,25 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                          'Cartella già usata')
             else:
                 if cartella_save!="":
+                    elenco = cartella_save.split("/")
+                    print("Cartella save: "+cartella_save)
+                    print("ultimo elemento: "+elenco[len(elenco)-1])
+                    if elenco[len(elenco)-1] in elenco_cartelle:
+                        nuova=""
+                        for e in elenco[:-1]:
+                            nuova += e
+                        print("nuova: "+nuova)
+                        cartella_save = nuova
                     cartella_save = cartella_save+"/"+values['input_cartella']
                     elenco_cartelle.append(values['input_cartella'])
                 else:
                     x = datetime.datetime.now()
-                    data_attuale = str(x.strftime("%Y_%m_%d_%H_%M"))
-                    cartella_save = data_attuale + "_" + values['input_cartella']
+                    data_attuale = str(x.strftime("%Y_%m_%d_%H_%M_%S"))
+                    cartella_save = data_attuale
+                    elenco_cartelle.append(values['input_cartella'])
+                    cartella_save = cartella_save + "/" + values['input_cartella']
 
-                if listOfGlobals['spazio_comportamentale']==None:
+                if listOfGlobals['spazio_importato']==None:
                     window_spazio_comportamentale['conferma_cartella'].update(disabled=True)
                     window_spazio_comportamentale['input_cartella'].update(disabled=True)
                     window_spazio_comportamentale['conferma_nome_spazio'].update(disabled=False)
@@ -580,6 +621,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                     listOfGlobals['cartella_save'] = cartella_save
                     listOfGlobals['elenco_cartelle'] = elenco_cartelle
                 else:
+
                     window_spazio_comportamentale['conferma_cartella'].update(disabled=True)
                     window_spazio_comportamentale['input_cartella'].update(disabled=True)
                     window_spazio_comportamentale['conferma_nome_spazio'].update(disabled=True)
@@ -587,16 +629,16 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                     window_spazio_comportamentale['avvio_algoritmo1'].update(disabled=True)
                     window_spazio_comportamentale['avvio_algoritmo1'].update(disabled=True)
                     window_spazio_comportamentale['avvio_algoritmo1_manuale'].update(disabled=True)
-                    window_spazio_comportamentale['tempo'].update(disabled=True)
                     window_spazio_comportamentale['salva'].update(disabled=False)
                     window_spazio_comportamentale['potatura'].update(disabled=False)
-                    window_spazio_comportamentale['reset'].update(disabled=True)
+                    window_spazio_comportamentale['reset'].update(disabled=False)
                     window_spazio_comportamentale['informazioni'].update(
                         window_spazio_comportamentale[
                             'informazioni'].get() + "\nCartella selezionata: " + cartella_save)
                     listOfGlobals['cartella_save'] = cartella_save
                     listOfGlobals['elenco_cartelle'] = elenco_cartelle
-                    spazio = listOfGlobals['spazio_comportamentale']
+                    importato = listOfGlobals['spazio_importato']
+                    listOfGlobals['spazio_comportamentale'] = copy.deepcopy(importato)
                     window_spazio_comportamentale['informazioni'].update(
                         window_spazio_comportamentale[
                             'informazioni'].get() + "\nSpazio già presente, con nome: " + spazio.nome)
@@ -621,7 +663,6 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                 window_spazio_comportamentale['input_nome_spazio'].update(disabled=True)
                 window_spazio_comportamentale['avvio_algoritmo1'].update(disabled=False)
                 window_spazio_comportamentale['avvio_algoritmo1_manuale'].update(disabled=False)
-                window_spazio_comportamentale['tempo'].update(disabled=False)
                 window_spazio_comportamentale['informazioni'].update(
                     window_spazio_comportamentale['informazioni'].get() + "\nNome spazio impostato: " + nome_spazio)
                 listOfGlobals['nome_spazio'] = nome_spazio
@@ -635,7 +676,6 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         window_spazio_comportamentale['conferma_nome_spazio'].update(disabled=True)
         window_spazio_comportamentale['input_nome_spazio'].update("", disabled=True)
         window_spazio_comportamentale['avvio_algoritmo1'].update(disabled=True)
-        window_spazio_comportamentale['tempo'].update("", disabled=True)
         window_spazio_comportamentale['avvio_algoritmo1_manuale'].update(disabled=True)
         window_spazio_comportamentale['salva'].update(disabled=True)
         window_spazio_comportamentale['stampa'].update(disabled=True)
@@ -656,15 +696,14 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
 
 
         window_spazio_comportamentale['informazioni'].update(
-            window_spazio_comportamentale['informazioni'].get() + "\nCreato lo spazio comportamentale: \n" + spazio_comportamentale.to_string())
+            window_spazio_comportamentale['informazioni'].get() + "\nCreato lo spazio comportamentale: \n" + spazio_comportamentale.riassunto())
         listOfGlobals['spazio_comportamentale'] = spazio_comportamentale
         window_spazio_comportamentale['avvio_algoritmo1'].update(disabled=True)
         window_spazio_comportamentale['avvio_algoritmo1_manuale'].update(disabled=True)
-        window_spazio_comportamentale['tempo'].update(disabled=True)
         window_spazio_comportamentale['salva'].update(disabled=False)
         window_spazio_comportamentale['potatura'].update(disabled=False)
 
-    def algoritmo_crea_spazio_comportamentale_manuale():
+    def algoritmo_crea_spazio_comportamentale_manuale(nome):
         listOfGlobals = globals()
         rete = listOfGlobals['rete']
         spazio_comportamentale = listOfGlobals['spazio_comportamentale']
@@ -687,8 +726,9 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         print("lunghezza nodi iniziali: " + str(len(nodi_iniziali_a)))
         spazio = Spazio_comportamentale(nome_spazio, nodi_finali_a, nodi_iniziali_a, nodi_a, transizioni_a)
         sistema_transizioni(spazio)
+        ridenominazione_spazio_appena_creato(spazio)
         listOfGlobals['spazio_comportamentale'] = spazio
-        stampa_spazio_su_file(spazio, cartella_save+"/iterazione1")
+        stampa_spazio_su_file(spazio, cartella_save + nome +"/iterazione1")
         i=2
 
         colonna1 = [
@@ -698,14 +738,14 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             ],
             [
                 sg.Multiline(
-                    "", enable_events=True, size=(40, 20), key="informazioni_algoritmo"
+                    "", enable_events=True, size=(40, 20), key="informazioni_algoritmo", autoscroll=True
                 )
             ],
         ]
 
         colonna2 = [
             [
-                sg.Image('Output/' + cartella_save +'/iterazione1/' + spazio.nome + '_grafico.png', key="immagine", size=(1000, 2000))
+                sg.Image('Output/' + cartella_save+ nome +'/iterazione1/' + spazio.nome + '_grafico.png', key="immagine", size=(1000, 2000))
             ]
         ]
 
@@ -729,14 +769,13 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                 window_spazio_comportamentale['avvio_algoritmo1_manuale'].update(disabled=True)
                 window_spazio_comportamentale['salva'].update(disabled=False)
                 window_spazio_comportamentale['potatura'].update(disabled=False)
-                window_spazio_comportamentale['tempo'].update(disabled=True)
                 if fine_a==False:
                     window_spazio_comportamentale['informazioni'].update(
                         window_spazio_comportamentale[
                             'informazioni'].get() + "\nConcludo l'esecuzione senza aver generato tutto lo spazio comportamentale \n")
 
                 window_spazio_comportamentale['informazioni'].update(
-                    window_spazio_comportamentale['informazioni'].get() + "\nCreato lo spazio comportamentale: \n" + spazio.to_string())
+                    window_spazio_comportamentale['informazioni'].get() + "\nCreato lo spazio comportamentale: \n" + spazio.riassunto())
                 break
             elif event == "passaggio_successivo":
                 nodi_a, nodo_attuale_a, transizioni_a, fine_a, commento = crea_spazio_comportamentale_manuale(rete, nodi_a, nodo_attuale_a,
@@ -753,11 +792,12 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                     if n.iniziale:
                         nodi_iniziali_a.append(n)
                 spazio = Spazio_comportamentale(nome_spazio, nodi_finali_a, nodi_iniziali_a, nodi_a, transizioni_a)
-                stampa_spazio_su_file(spazio, cartella_save)
+                #stampa_spazio_su_file(spazio, cartella_save + nome)
                 sistema_transizioni(spazio)
+                ridenominazione_spazio_appena_creato(spazio)
                 listOfGlobals['spazio_comportamentale'] = spazio
-                stampa_spazio_su_file(spazio, cartella_save + "/iterazione"+str(i))
-                window_crea_spazio_comportamentale_manuale["immagine"].update('Output/' + cartella_save +'/iterazione'+str(i)+"/" + spazio.nome + '_grafico.png')
+                stampa_spazio_su_file(spazio, cartella_save +nome + "/iterazione"+str(i))
+                window_crea_spazio_comportamentale_manuale["immagine"].update('Output/' + cartella_save +nome +'/iterazione'+str(i)+"/" + spazio.nome + '_grafico.png')
                 i = i+1
 
         window_crea_spazio_comportamentale_manuale.close()
@@ -772,7 +812,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         # window_spazio_comportamentale['potatura'].update(disabled=False)
 
 
-    def salva_su_file():
+    def salva_su_file(nome):
         listOfGlobals = globals()
         cartella_save = listOfGlobals['cartella_save']
         spazio_comportamentale = listOfGlobals['spazio_comportamentale']
@@ -780,25 +820,25 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         window_spazio_comportamentale['informazioni'].update(
             window_spazio_comportamentale['informazioni'].get() + "\n" + "Salvo file nella cartella: " + cartella_save)
 
-        stampa_spazio_su_file(spazio_comportamentale, cartella_save)
+        stampa_spazio_su_file(spazio_comportamentale, cartella_save+nome)
 
-        salva_spazio_su_file(spazio_comportamentale, cartella_save)
+        salva_spazio_su_file(spazio_comportamentale, cartella_save+nome)
 
         window_spazio_comportamentale['salva'].update(disabled=True)
         window_spazio_comportamentale['stampa'].update(disabled=False)
 
-    def stampa_grafici():
+    def stampa_grafici(nome):
         listOfGlobals = globals()
         spazio_comportamentale = listOfGlobals['spazio_comportamentale']
         cartella_save = listOfGlobals['cartella_save']
 
         window_spazio_comportamentale['informazioni'].update(
-            window_spazio_comportamentale['informazioni'].get() + "\n" + "Leggo file PNG: " + 'Output/' + cartella_save + '/' + spazio_comportamentale.nome + '_grafico.png')
+            window_spazio_comportamentale['informazioni'].get() + "\n" + "Leggo file PNG: " + 'Output/' + cartella_save +nome + spazio_comportamentale.nome + '_grafico.png')
 
         colonna1 = [
             [
                 sg.Text("Grafico spazio comportamentale"),
-                sg.Image(filename='Output/' + cartella_save + '/' + spazio_comportamentale.nome + '_grafico.png')
+                sg.Image(filename='Output/' + cartella_save + nome + '/' + spazio_comportamentale.nome + '_grafico.png')
             ]
         ]
 
@@ -817,18 +857,18 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                 break
         window_mostra_grafici.close()
 
-    def stampa_grafici_potatura():
+    def stampa_grafici_potatura(nome):
         listOfGlobals = globals()
         spazio_comportamentale = listOfGlobals['spazio_comportamentale']
         cartella_save = listOfGlobals['cartella_save']
 
         window_spazio_comportamentale['informazioni'].update(
-            window_spazio_comportamentale['informazioni'].get() + "\n" + "Leggo file PNG: " + 'Output/' + cartella_save + '/' + spazio_comportamentale.nome + '_potatura e ridenominazione_grafico.png')
+            window_spazio_comportamentale['informazioni'].get() + "\n" + "Leggo file PNG: " + 'Output/' + cartella_save + nome + spazio_comportamentale.nome + '_potatura_grafico.png')
 
         colonna1 = [
             [
                 sg.Text("Grafico spazio comportamentale potato"),
-                sg.Image(filename='Output/' + cartella_save + '/' + spazio_comportamentale.nome + '_potatura e ridenominazione_grafico.png')
+                sg.Image(filename='Output/' + cartella_save + nome + spazio_comportamentale.nome + '_potatura_grafico.png')
             ]
         ]
 
@@ -848,7 +888,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         window_mostra_grafici.close()
 
 
-    def potatura_e_rid():
+    def potatura(nome):
         listOfGlobals = globals()
         spazio_comportamentale = listOfGlobals['spazio_comportamentale']
         cartella_save = listOfGlobals['cartella_save']
@@ -866,11 +906,14 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                      'Lo spazio comportamentale non ha nodi finali. Dopo la potatura è risultato vuoto')
             return
 
-        stampa_spazio_ridenominato_su_file(spazio_comportamentale, cartella_save)
+        stampa_spazio_potato_su_file(spazio_comportamentale, cartella_save + nome)
 
         window_spazio_comportamentale['informazioni'].update(
             window_spazio_comportamentale[
                 'informazioni'].get() + "\n" + "Spazio correttamente creato e salvato")
+        window_spazio_comportamentale['informazioni'].update(
+            window_spazio_comportamentale[
+                'informazioni'].get() + "\n" + spazio_comportamentale.riassunto_potatura())
 
         window_spazio_comportamentale['stampa_potatura'].update(disabled=False)
         window_spazio_comportamentale['potatura'].update(disabled=True)
@@ -891,17 +934,17 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         elif event == "avvio_algoritmo1":
             algoritmo_crea_spazio_comportamentale()
         elif event == "avvio_algoritmo1_manuale":
-            algoritmo_crea_spazio_comportamentale_manuale()
+            algoritmo_crea_spazio_comportamentale_manuale("/algoritmo1/")
         elif event == "conferma_nome_spazio":
             conferma_nome_spazio()
         elif event == "salva":
-            salva_su_file()
+            salva_su_file("/algoritmo1/")
         elif event == "stampa":
-            stampa_grafici()
+            stampa_grafici("/algoritmo1/")
         elif event == "potatura":
-            potatura_e_rid()
+            potatura("/algoritmo1/")
         elif event == "stampa_potatura":
-            stampa_grafici_potatura()
+            stampa_grafici_potatura("/algoritmo1/")
 
 
 
@@ -940,7 +983,7 @@ def gui_importa_rete():
             ],
             [
                 sg.Multiline(
-                    "", enable_events=True, size=(40, 10), key="automi"
+                    "", enable_events=True, size=(40, 10), key="automi", autoscroll=True
                 )
             ],
             [
@@ -949,7 +992,7 @@ def gui_importa_rete():
             ],
             [
                 sg.Multiline(
-                    "", enable_events=True, size=(40, 5), key="link"
+                    "", enable_events=True, size=(40, 5), key="link", autoscroll=True
                 )
             ],
             [
@@ -958,7 +1001,7 @@ def gui_importa_rete():
             ],
             [
                 sg.Multiline(
-                    "", enable_events=True, size=(40, 10), key="rete"
+                    "", enable_events=True, size=(40, 10), key="rete", autoscroll=True
                 )
             ],
         ]
@@ -970,7 +1013,7 @@ def gui_importa_rete():
             ],
             [
                 sg.Multiline(
-                    "", enable_events=True, size=(40, 20), key="informazioni"
+                    "", enable_events=True, size=(40, 20), key="informazioni", autoscroll=True
                 )
             ],
         ]
@@ -1103,6 +1146,7 @@ def gui_importa_rete():
 
 
         grafici_automi = [
+            titoli,
             immagini
         ]
 

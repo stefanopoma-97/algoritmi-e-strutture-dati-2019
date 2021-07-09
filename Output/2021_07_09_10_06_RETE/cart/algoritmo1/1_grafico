@@ -1,0 +1,14 @@
+digraph 1 {
+	"20, 30, , " [shape=circle]
+	"20, 31, e2, " [shape=circle]
+	"21, 31, , e3" [shape=circle]
+	"21, 31, , " [shape=circle]
+	"20, 31, , e3" [shape=circle]
+	start [label="" shape=point]
+	"21, 31, , " [shape=doublecircle]
+	"20, 30, , " -> "20, 31, e2, " [label="t3a [o3,  ]"]
+	"20, 31, e2, " -> "21, 31, , e3" [label="t2a [o2,  ]"]
+	"21, 31, , e3" -> "21, 31, , " [label="t3c [ , f]"]
+	"21, 31, , " -> "20, 31, , e3" [label="t2b [ , r]"]
+	start -> "20, 30, , " [label=""]
+}

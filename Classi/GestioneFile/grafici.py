@@ -141,7 +141,7 @@ def stampa_spazio_ridenominato_su_file(spazio, cartella):
     Output: viene generato un file .png nella cartella selezionata
     viene anche creato un file nome automa_riassunto.txt contenente le informazioni sull'automa in questione'''
 
-    gra = Digraph(spazio.nome, filename=spazio.nome+"_potatura e ridenominazione_grafico", format='png')
+    gra = Digraph(spazio.nome, filename=spazio.nome+"_ridenominazione_grafico", format='png')
 
     for s in spazio.nodi:
         if s.potato == False:
@@ -165,7 +165,38 @@ def stampa_spazio_ridenominato_su_file(spazio, cartella):
 
     gra.render(directory="Output/"+cartella)
 
-    riassunto = open("Output/"+cartella+"/"+spazio.nome+"_potatura e ridenominazione_riassunto.txt", "w")
+
+def stampa_spazio_potato_su_file(spazio, cartella):
+    '''Stampa l'automa su un file PNG
+    Input: automa, nome cartella di output
+    Output: viene generato un file .png nella cartella selezionata
+    viene anche creato un file nome automa_riassunto.txt contenente le informazioni sull'automa in questione'''
+
+    gra = Digraph(spazio.nome, filename=spazio.nome+"_potatura_grafico", format='png')
+
+    for s in spazio.nodi:
+        if s.potato == False:
+            gra.node(s.id, shape='circle')
+
+    gra.node("start", shape="point", label="")
+
+    if spazio.nodi_finali[0] is not None or spazio.nodi_finali[0]!="":
+        for s in spazio.nodi_finali:
+            if s.id!="":
+                gra.node(s.id, shape='doublecircle')
+
+    for t in spazio.transizioni:
+        if t.nodo_sorgente.potato == False and t.nodo_destinazione.potato == False:
+            nome = t.nome+" ["+t.osservazione+", "+t.rilevanza+"]"
+            gra.edge(t.nodo_sorgente.id, t.nodo_destinazione.id, label=nome)
+
+    gra.edge("start", spazio.nodi_iniziali[0].id, label="")
+
+    print(gra.source)
+
+    gra.render(directory="Output/"+cartella)
+
+    riassunto = open("Output/"+cartella+"/"+spazio.nome+"_potatura_riassunto.txt", "w")
     riassunto.write(spazio.riassunto_potatura())
     riassunto.close()
 
