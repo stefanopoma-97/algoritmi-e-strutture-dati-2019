@@ -821,8 +821,10 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             window_spazio_comportamentale['informazioni'].get() + "\n" + "Salvo file nella cartella: " + cartella_save)
 
         stampa_spazio_su_file(spazio_comportamentale, cartella_save+nome)
+        stampa_spazio_ridenominato_su_file(spazio_comportamentale, cartella_save + nome)
 
         salva_spazio_su_file(spazio_comportamentale, cartella_save+nome)
+
 
         window_spazio_comportamentale['salva'].update(disabled=True)
         window_spazio_comportamentale['stampa'].update(disabled=False)

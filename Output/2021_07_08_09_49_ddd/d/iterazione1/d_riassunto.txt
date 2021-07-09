@@ -1,6 +1,0 @@
-Numero di nodi: 3
-	1) [20, 30, , ]
-	2) [20, 31, e2, ]
-
- Numero transizioni: 2
-	1) (20, 30, , ) > t3a > (20, 31, e2, )

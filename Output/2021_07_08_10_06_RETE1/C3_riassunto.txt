@@ -1,4 +1,0 @@
-Numero di stati:2
-Stato: 30 (id: 83bad8c4-069b-4f86-82f5-efc08236105b); Stato: 31 (id: 303ff25d-c08d-4a26-a665-0a4d46edbbce); 
-Numero di transizioni:3
-Stato: 30 (id: 83bad8c4-069b-4f86-82f5-efc08236105b)>t3a>Stato: 31 (id: 303ff25d-c08d-4a26-a665-0a4d46edbbce)[Oss: o3; ril:  ] { : } {L2:e2;}Stato: 31 (id: 303ff25d-c08d-4a26-a665-0a4d46edbbce)>t3c>Stato: 31 (id: 303ff25d-c08d-4a26-a665-0a4d46edbbce)[Oss:  ; ril: f] {L3:e3;} { : }Stato: 31 (id: 303ff25d-c08d-4a26-a665-0a4d46edbbce)>t3b>Stato: 30 (id: 83bad8c4-069b-4f86-82f5-efc08236105b)[Oss:  ; ril:  ] {L3:e3;} { : }
