@@ -4,6 +4,18 @@ from Classi.Automa.rete import *
 from  Classi.Spazio.spazio_comportamentale import *
 import os
 
+class Colour:
+   PURPLE = '\033[95m'
+   CYAN = '\033[96m'
+   DARKCYAN = '\033[36m'
+   BLUE = '\033[94m'
+   GREEN = '\033[92m'
+   YELLOW = '\033[93m'
+   RED = '\033[91m'
+   BOLD = '\033[1m'
+   UNDERLINE = '\033[4m'
+   END = '\033[0m'
+
 
 def stampa_automa(automa):
     '''stampa l'automa con graphviz
@@ -183,7 +195,8 @@ def stampa_spazio_potato_su_file(spazio, cartella):
 
     for t in spazio.transizioni:
         if t.nodo_sorgente.potato == False and t.nodo_destinazione.potato == False:
-            nome = t.nome+" ["+t.osservazione+", "+t.rilevanza+"]"
+            #nome = t.nome+" ["+ Colour.RED + t.osservazione +  Colour.END+", "+Colour.RED + t.rilevanza +  Colour.END"]"
+            nome = t.nome+" ["+ t.osservazione+", "+t.rilevanza+"]"
             gra.edge(t.nodo_sorgente.id, t.nodo_destinazione.id, label=nome)
 
     gra.edge("start", spazio.nodi_iniziali[0].id, label="")

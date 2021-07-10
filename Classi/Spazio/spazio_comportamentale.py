@@ -16,6 +16,7 @@ class Spazio_comportamentale:
         self.nodi_iniziali = nodi_iniziali
         self.nodi = nodi
         self.transizioni = transizioni
+        self.spazio_potato=False
 
     def to_string(self):
         '''Converte spazio comportamentale in una Stringa'''
@@ -54,6 +55,10 @@ class Spazio_comportamentale:
         for t in self.transizioni:
             stringa += "\t"+str(i)+") ("+t.nodo_sorgente.output+") > "+t.nome+" > ("+t.nodo_destinazione.output+")\n"
             i=i+1
+        if self.spazio_potato:
+            stringa += "Lo spazio è stato potato"
+        else:
+            stringa += "Lo spazio NON è stato potato"
         return stringa
 
     def riassunto_potatura(self):
@@ -75,6 +80,10 @@ class Spazio_comportamentale:
         for t in transizioni_rimaste:
             stringa += "\t"+str(i)+") ("+t.nodo_sorgente.id+") > "+t.nome+" > ("+t.nodo_destinazione.id+")\n"
             i=i+1
+        if self.spazio_potato:
+            stringa += "Lo spazio è stato potato"
+        else:
+            stringa += "Lo spazio NON è stato potato"
         return stringa
 
 
@@ -105,7 +114,7 @@ class Nodo:
     finale: Bool
     transizioni: [Transizione_spazio]'''
 
-    def __init__(self, stati, check, links, iniziale, transizioni=[]):
+    def __init__(self, stati, check, links, iniziale, transizioni=[], *args):
         self.id = ""
         self.transizioni = transizioni
         self.transizioni_sorgente = []
@@ -113,10 +122,14 @@ class Nodo:
         self.stati = stati
         self.links = links
         self.iniziale = iniziale
-        self.output = self.get_output()
         self.finale = self.is_finale()
         self.potato = True
         self.old_id = ""
+        self.lunghezza_osservazione = ""
+        if (len(args)) == 1:
+            self.lunghezza_osservazione=args[0]
+        self.output = self.get_output()
+
 
 
     def is_finale(self):
@@ -137,6 +150,9 @@ class Nodo:
             stringa += value[1] + ", "
         stringa = stringa[:-2]
 
+        if self.lunghezza_osservazione != "":
+            stringa += ", "+str(self.lunghezza_osservazione)
+
         return stringa
 
 
@@ -151,13 +167,25 @@ class Nodo:
 
     def to_string(self):
         self.output = self.get_output()
-        stringa = "ID: "+self.id+", output: ["+self.output+"], check: "+str(self.check)+", finale: "+str(self.finale)+", iniziale: "+str(self.iniziale)
+        if self.transizioni=="":
+            stringa = "ID: "+self.id+", output: ["+self.output+"], check: "+str(self.check)+", finale: "+str(self.finale)+", iniziale: "+str(self.iniziale)
+        else:
+            stringa = "ID: "+self.id+", output: ["+self.output+"], check: "+str(self.check)+", finale: "+str(self.finale)+", iniziale: "+str(self.iniziale)+", lunghezza oss: "+str(self.lunghezza_osservazione)
+
         return stringa
 
 def contiene_nodo(nodo, nodi):
     out = nodo.get_output()
     for n in nodi:
         if (n.get_output() == out):
+            return n
+    return False
+
+def contiene_nodo_con_osservazione(nodo, nodi):
+    out = nodo.get_output()
+    l_osservazione = nodo.lunghezza_osservazione
+    for n in nodi:
+        if n.get_output() == out and n.lunghezza_osservazione == l_osservazione:
             return n
     return False
 

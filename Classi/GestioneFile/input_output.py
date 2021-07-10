@@ -14,11 +14,20 @@ REGEX_RETE="^[a-zA-Z0-9 ]+\\n([a-zA-Z0-9]+\,[a-zA-Z0-9]+\,(([a-zA-Z0-9]+\([a-zA-
 
 
 def salva_spazio_su_file(spazio, cartella):
-    filePath = 'Output/'+cartella+'/'+spazio.nome
+    filePath = 'Output/'+cartella+'/'+spazio.nome+"_salvataggio"
     if os.path.exists(filePath):
         os.remove(filePath)
 
-    with open('Output/'+cartella+'/'+spazio.nome, 'wb') as config_dictionary_file:
+    with open('Output/'+cartella+'/'+spazio.nome+"_salvataggio", 'wb') as config_dictionary_file:
+        # Step 3
+        pickle.dump(spazio, config_dictionary_file)
+
+def salva_spazio_potato_su_file(spazio, cartella):
+    filePath = 'Output/'+cartella+'/'+spazio.nome+"_potato_salvataggio"
+    if os.path.exists(filePath):
+        os.remove(filePath)
+
+    with open('Output/'+cartella+'/'+spazio.nome+"_potato_salvataggio", 'wb') as config_dictionary_file:
         # Step 3
         pickle.dump(spazio, config_dictionary_file)
 

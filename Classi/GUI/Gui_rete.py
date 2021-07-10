@@ -482,7 +482,7 @@ def gui_crea_rete():
 
 
 def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
-    global stato, cartella, automi, links, rete, cartella_save, spazio_comportamentale, nome_spazio, elenco_cartelle, spazio_importato
+    global stato, cartella, automi, links, rete, cartella_save, spazio_comportamentale, nome_spazio, elenco_cartelle, spazio_importato, spazio_comportamentale_potato
     stato = s
     cartella = c2
     cartella_save = c
@@ -490,9 +490,10 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
     links = l
     rete = r
     elenco_cartelle = []
-    spazio_comportamentale=spazio
+    spazio_comportamentale = spazio
     spazio_importato = copy.deepcopy(spazio)
     nome_spazio = nome_S
+    spazio_comportamentale_potato = None
 
     print("Pagina creazione spazio comportamentale")
     print("cartella_save: "+cartella_save)
@@ -525,13 +526,15 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                 sg.Button("avvio 3", key="avvio3", disabled=True)
             ],
             [
-                sg.Button("Reset", key="reset", disabled=True),
-                sg.Button("Salva informazioni su file", key="salva", disabled=True),
-                sg.Button("Mostra grafico spazio", key="stampa", disabled=True)
+                sg.Button("Salva informazioni spazio su file", key="salva", disabled=True),
+                sg.Button("Mostra grafico spazio compotamentale", key="stampa", disabled=True)
             ],
             [
-                sg.Button("Potatura", key="potatura", disabled=True),
+                sg.Button("Potatura dello spazio comportamentale", key="potatura", disabled=True),
                 sg.Button("Mostra grafico spazio potato", key="stampa_potatura", disabled=True)
+            ],
+            [
+                sg.Button("Reset", key="reset", disabled=True),
             ],
             [
                 sg.HSeparator(),
@@ -543,6 +546,11 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
 
                 sg.Text("Inserisci un osservazione lineare"),
                 sg.Input(key='input_osservazione_lineare', size=(20, 1), disabled=True),
+                sg.Button('Conferma', key='conferma_osservazione_lineare')
+
+            ],
+            [
+                sg.Text("Creazione di uno spazio comportamentale relativo ad un'osservazione lineare, partendo da una rete"),
 
             ],
             [
@@ -861,16 +869,16 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
 
     def stampa_grafici_potatura(nome):
         listOfGlobals = globals()
-        spazio_comportamentale = listOfGlobals['spazio_comportamentale']
+        spazio_comportamentale_potato = listOfGlobals['spazio_comportamentale_potato']
         cartella_save = listOfGlobals['cartella_save']
 
         window_spazio_comportamentale['informazioni'].update(
-            window_spazio_comportamentale['informazioni'].get() + "\n" + "Leggo file PNG: " + 'Output/' + cartella_save + nome + spazio_comportamentale.nome + '_potatura_grafico.png')
+            window_spazio_comportamentale['informazioni'].get() + "\n" + "Leggo file PNG: " + 'Output/' + cartella_save + nome + spazio_comportamentale_potato.nome + '_potatura_grafico.png')
 
         colonna1 = [
             [
                 sg.Text("Grafico spazio comportamentale potato"),
-                sg.Image(filename='Output/' + cartella_save + nome + spazio_comportamentale.nome + '_potatura_grafico.png')
+                sg.Image(filename='Output/' + cartella_save + nome + spazio_comportamentale_potato.nome + '_potatura_grafico.png')
             ]
         ]
 
@@ -893,33 +901,38 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
     def potatura(nome):
         listOfGlobals = globals()
         spazio_comportamentale = listOfGlobals['spazio_comportamentale']
+        spazio_comportamentale_potato = listOfGlobals['spazio_comportamentale_potato']
+        spazio_comportamentale_potato = deepcopy(spazio_comportamentale)
         cartella_save = listOfGlobals['cartella_save']
         window_spazio_comportamentale['informazioni'].update(
             window_spazio_comportamentale[
                 'informazioni'].get() + "\n" + "Inizio processo di potatura e ridenominazione")
 
-        spazio_comportamentale = potatura_e_ridenominazione(spazio_comportamentale)
-        if spazio_comportamentale.nodi_finali is None:
+        spazio_comportamentale_potato = potatura_e_ridenominazione(spazio_comportamentale_potato)
+        if spazio_comportamentale_potato.nodi_finali is None:
             sg.Popup('Attenzione!',
                      'Lo spazio comportamentale non ha nodi finali. Dopo la potatura è risultato vuoto')
             return
-        if len(spazio_comportamentale.nodi_finali)==0:
+        if len(spazio_comportamentale_potato.nodi_finali)==0:
             sg.Popup('Attenzione!',
                      'Lo spazio comportamentale non ha nodi finali. Dopo la potatura è risultato vuoto')
             return
 
-        stampa_spazio_potato_su_file(spazio_comportamentale, cartella_save + nome)
+        stampa_spazio_potato_su_file(spazio_comportamentale_potato, cartella_save + nome)
+        spazio_salvataggio = crea_spazio_da_spazio_potato(spazio_comportamentale_potato)
+        spazio_salvataggio.spazio_potato=True
+        salva_spazio_potato_su_file(spazio_salvataggio, cartella_save + nome)
 
         window_spazio_comportamentale['informazioni'].update(
             window_spazio_comportamentale[
                 'informazioni'].get() + "\n" + "Spazio correttamente creato e salvato")
         window_spazio_comportamentale['informazioni'].update(
             window_spazio_comportamentale[
-                'informazioni'].get() + "\n" + spazio_comportamentale.riassunto_potatura())
+                'informazioni'].get() + "\n" + spazio_comportamentale_potato.riassunto_potatura())
 
         window_spazio_comportamentale['stampa_potatura'].update(disabled=False)
         window_spazio_comportamentale['potatura'].update(disabled=True)
-        listOfGlobals['spazio_comportamentale'] = spazio_comportamentale
+        listOfGlobals['spazio_comportamentale_potato'] = spazio_comportamentale_potato
 
 
 
