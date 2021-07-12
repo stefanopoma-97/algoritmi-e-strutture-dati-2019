@@ -338,6 +338,8 @@ def istanzio_nodo_iniziale(rete):
     nodo_iniziale = Nodo(stati=stati_correnti, check=False, links=links, iniziale=True)
     return nodo_iniziale
 
+
+
 #ALGORITMO 2
 def crea_spazio_comportamentale2(rete, osservazione):
 

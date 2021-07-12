@@ -93,6 +93,18 @@ class Rete:
             stati.append(a.stato_corrente[0])
         return stati
 
+    def controlla_osservazione(self, osservazioni):
+        out = False
+        tra = []
+        for a in self.automi:
+            for s in a.stati:
+                tra += s.transizioni
+        for t in tra:
+            if t.osservazione in osservazioni:
+                out = True
+        return out
+
+
 
 
 

@@ -115,18 +115,12 @@ rete3 = carica_rete_da_file_txt(automi, links, "Input/RETE3/rete 3.txt")
 #
 # print("NUMERO DI TRANSIZIONI: "+str(len(spazio.transizioni)))
 # print("NUMERO DI TRANSIZIONI metodo: "+str(len(get_transizioni_spazio(spazio))))
-# osservazione1=["o3","o2"]
-# osservazione2=["act", "sby", "nop"]
-# spazio = crea_spazio_comportamentale2(rete1, osservazione1)
-# stampa_spazio_su_file(spazio, "SPAZIO")
-#
-# spazio_potato = potatura_e_ridenominazione(spazio)
-# stampa_spazio_potato_su_file(spazio_potato, "SPAZIO")
+osservazione1=["o3","o2"]
+osservazione2=["act", "sby", "nop"]
+spazio = crea_spazio_comportamentale2(rete1, osservazione1)
+stampa_spazio_su_file(spazio, "SPAZIO")
+print(spazio.riassunto())
 
-REGEX_OSSERVAZIONE = "[a-zA-Z0-9]+(,([a-zA-Z0-9]+,)*[a-zA-Z0-9]+)?"
-stringa_regex = ""
-x = re.fullmatch(REGEX_OSSERVAZIONE, stringa_regex)
-if x:
-    print("OK")
-else:
-  print("ERRORE")
+spazio_potato = potatura_e_ridenominazione(spazio)
+stampa_spazio_potato_su_file(spazio_potato, "SPAZIO")
+
