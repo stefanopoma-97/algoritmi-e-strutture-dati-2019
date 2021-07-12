@@ -1,0 +1,7 @@
+digraph d {
+	0 [shape=circle]
+	1 [shape=circle]
+	start [label="" shape=point]
+	0 -> 1 [label="t3a [o3,  ]"]
+	start -> 0 [label=""]
+}
