@@ -118,31 +118,54 @@ rete3 = carica_rete_da_file_txt(automi, links, "Input/RETE3/rete 3.txt")
 spazio1 = carica_spazio_da_file("Input/RETE1/spazio1_salvataggio")
 spazio2 = carica_spazio_da_file("Input/RETE2/spazio2_salvataggio")
 spazio3 = carica_spazio_da_file("Input/RETE3/spazio3_salvataggio")
+spazio2_salvataggio= carica_spazio_da_file("Input/spazio2_salvataggio")
+spazio2_potato_salvataggio= carica_spazio_da_file("Input/spazio2_potato_salvataggio")
 osservazione1=["o3","o2"]
 osservazione2=["act", "sby", "nop"]
 osservazione3=["o1", "o2"]
+#TODO gli spazi relativi ad un'osservazione vengono salvati con troppe transizioni (duplicate)
+#si nota con questo ciclo
+# print("SPAZIO 2 salvataggio: "+spazio2_oss.riassunto())
+# for n in spazio2_oss.nodi:
+#   print("NODO: "+n.to_string())
+#   for t in n.transizioni:
+#     print("\t"+t.to_string())
 
-#print("SPAZIO PRIMA: "+spazio3.riassunto())
-spazio_out = crea_spazio_comportamentale2_da_spazio(spazio3, osservazione3)
-#stampa_spazio_su_file(spazio_out, "SPAZIO")
-#print(spazio_out.riassunto())
+#TODO spazio potato salvato sembra avere info dello spazio complessivo
 
-spazio_potato = deepcopy(spazio_out)
+#TODO crea spazio da spazio sembra togliere moltissime transizioni, salvandolo deve essere ripristinato
+#probabilmente deriva dal settare all'inizio tutte le l_oss a 0
+#sembra che non scorra nessuna transizione for t in nodo.traniszioni
 
-# print("SPAZIO PRIMA POTATURA")
-# i = 0
-# for n in spazio_potato.nodi:
-#   for t in n.transizioni_sorgente:
-#     print(str(i) + ") " + "ID: " + str(t.nodo_sorgente.id) + " - " + t.nome + " potata: " + str(t.potato) + ", " + str(
-#       n.id))
-#     i = i + 1
+# spazio_out = crea_spazio_comportamentale2_da_spazio(spazio3, osservazione3)
+# spazio_potato = deepcopy(spazio_out)
+# spazio_potato = potatura_e_ridenominazione(spazio_potato)
+#stampa_spazio_potato_su_file(spazio_potato, "SPAZIO")
 
-spazio_potato = potatura_e_ridenominazione(spazio_potato)
+#
+# print("SPAZIO 2 salvataggio: "+spazio2_oss.riassunto())
+# for n in spazio2_oss.nodi:
+#   print("NODO: "+n.to_string())
+#   for t in n.transizioni:
+#     print("\t"+t.to_string())
+# stampa_spazio_su_file(spazio2_oss,"SPAZIO")
 
+# spazio2_oss = crea_spazio_comportamentale2_da_spazio(spazio2, osservazione2)
+# spazio2_oss_potato= potatura_e_ridenominazione(spazio2_oss)
+# stampa_spazio_su_file(spazio2_oss,"SPAZIO")
+# stampa_spazio_potato_su_file(spazio2_oss_potato,"SPAZIO/potato")
+#
+#salva_spazio_potato_su_file(spazio2_potato_salvataggio,"SPAZIO")
 
+stampa_spazio_su_file(spazio2_potato_salvataggio,"SPAZIO")
+print("SPAZIO 2 salvataggio: "+spazio2_potato_salvataggio.riassunto())
+for n in spazio2_potato_salvataggio.nodi:
+  print("NODO: "+n.to_string())
+  for t in n.transizioni:
+    print("\t"+t.to_string())
 
-
-stampa_spazio_potato_su_file(spazio_potato, "SPAZIO")
+# spazio_out = crea_spazio_comportamentale2_da_spazio(spazio2_potato_salvataggio, osservazione2)
+# stampa_spazio_su_file(spazio_out, "SPAZIO/oss/")
 
 
 

@@ -1,0 +1,5 @@
+digraph z {
+	0 [shape=circle]
+	start [label="" shape=point]
+	start -> 0 [label=""]
+}

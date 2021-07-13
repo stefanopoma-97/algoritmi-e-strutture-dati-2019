@@ -116,8 +116,9 @@ def ripristina_nodo(nodo):
     nodo.id=""
     nodo.check=False
     nodo.potato=True
-    nodo.lunghezza_osservazione=""
+
     nodo.passata_osservazione=False
+    nodo.transizioni=[]
 
 class Nodo:
     '''Nodo di un spazio comportamentale

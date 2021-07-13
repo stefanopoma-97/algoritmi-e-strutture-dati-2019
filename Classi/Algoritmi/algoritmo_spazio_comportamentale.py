@@ -208,6 +208,9 @@ def sistema_transizioni(spazio):
         else:
             print("NON TROVATA T1C")
 
+
+
+
 def controllo_transizioni(nodi, nodo_attuale, transizioni_spazio):
     '''Partendo dal nodo attuale controllo tutte le transizioni che possono scattare e le faccio scattare'''
     print("Controllo transizioni in nodo numero: "+str(nodi.index(nodo_attuale)))
@@ -585,6 +588,28 @@ def controllo_transizioni_manualmente2_modificato(nodi, nodo_attuale, transizion
     return [nodi, nodo_attuale, transizioni_spazio, commento]
 
 #ALGORITMO 2
+def sistema_transizioni2(spazio):
+    print("SISTEMA TRANSIZIONI SPAZIO")
+
+    # prima svuoto transizioni dai nodi però
+    for n in spazio.nodi:
+        n.transizioni = []
+        n.transizioni_sorgente = []
+
+    for t in spazio.transizioni:
+        t.nodo_sorgente.transizioni.append(t)
+        t.nodo_destinazione.transizioni_sorgente.append(t)
+        if (t.nome == "t1c"):
+            print("TRANSIZIONE T1C")
+            print("Sorgente: " + t.nodo_sorgente.output)
+            print("destinazione: " + t.nodo_destinazione.output)
+
+            print("DA DESTINAZIONE scorro transizioni")
+            for u in t.nodo_destinazione.transizioni_sorgente:
+                print("\t" + u.nome)
+        else:
+            print("NON TROVATA T1C")
+
 def crea_spazio_comportamentale2_da_spazio(spazio, osservazione):
 
     print("\n\n\n---------------------------------\nCREO SPAZIO COMPORTAMENTALE CON OSSERVAZIONE DA SPAZIO")
@@ -596,7 +621,10 @@ def crea_spazio_comportamentale2_da_spazio(spazio, osservazione):
 
     #Istanzio il nodo iniziale partendo dagli stati iniziali dei vari automi e dal contenuto dei link
     nodo_attuale = spazio.nodi[0]
+    for n in spazio.nodi:
+        n.lunghezza_osservazione=0
     nodo_attuale.lunghezza_osservazione=0
+
     nodo_attuale.finale=False
     print("Creo nodo iniziale:")
     print("\t"+nodo_attuale.to_string()+"\n")
@@ -619,7 +647,7 @@ def crea_spazio_comportamentale2_da_spazio(spazio, osservazione):
             nodi_iniziali.append(n)
     spazio_out = Spazio_comportamentale(spazio.nome, nodi_finali, nodi_iniziali, nodi, transizioni)
     print("Sistema transizioni")
-    sistema_transizioni(spazio_out)
+    sistema_transizioni2(spazio_out)
     print("ridenominazione")
     ridenominazione_spazio_appena_creato(spazio_out)
     print("FINE CREAZIONE SPAZIO COMPORTAMENTALE")
@@ -636,6 +664,7 @@ def controllo_transizioni2_da_spazio(nodi, transizioni_spazio, osservazione, spa
     #scorro transizioni dello stato
     for t in nodo.transizioni:
         print("FOR transizioni")
+        print("nodo: "+nodo.to_string())
         print("transizione: "+t.nome)
 
         #controllo se la transizione può scattare
@@ -661,38 +690,46 @@ def controllo_transizioni2_da_spazio(nodi, transizioni_spazio, osservazione, spa
                 print("il nodo destinazione esiste già")
                 if contiene.lunghezza_osservazione==indice:
                     print("effettivamente è lo stesso nodo")
+                    if contiene.iniziale and contiene.lunghezza_osservazione == len(osservazione):
+                        contiene.finale = True
+                    tra = Transizione_spazio(t.nome, nodo, contiene, t.osservazione, t.rilevanza)
+                    transizioni_spazio.append(tra)
+                    # nodo_attuale.transizioni.append(tra)
+                    print("Inserita la nuova transizione: ")
+                    print("\t" + t.to_string())
+                    print("numero totale di transizioni: " + str(len(transizioni_spazio)))
                 else:
                     print("l'indice è diverso, verrà creato un nodo separato")
                     nuovo_nodo = deepcopy(t.nodo_destinazione)
                     nuovo_nodo.iniziale=False
                     nuovo_nodo.check = False
                     nuovo_nodo.finale=False
+                    nuovo_nodo.lunghezza_osservazione=indice
+                    nuovo_nodo.passata_osservazione=False
 
-            nuovo_nodo.lunghezza_osservazione=indice
-            nuovo_nodo.passata_osservazione=False
+                    #nuovo
+                    nuovo_nodo.finale = nuovo_nodo.is_finale_oss(len(osservazione))
+                    nuovo_nodo.output = nuovo_nodo.get_output()
+                    nodi.append(nuovo_nodo)
+                    tra = Transizione_spazio(t.nome, nodo, nuovo_nodo, t.osservazione, t.rilevanza)
+                    transizioni_spazio.append(tra)
 
-            #nuovo
-            nuovo_nodo.finale = nuovo_nodo.is_finale_oss(len(osservazione))
-            nuovo_nodo.output = nuovo_nodo.get_output()
+                    print("Nuovo nodo (aggiornato) creato ")
+                    print("\t" + nuovo_nodo.to_string() + "\n")
+                    controllo_transizioni2_da_spazio(nodi, transizioni_spazio, osservazione, spazio, nuovo_nodo)
 
-            print("Nuovo nodo creato")
-            print("\t" + nuovo_nodo.to_string() + "\n")
-            #controllo che il nodo sia nuovo
-            contiene = contiene_nodo_con_osservazione(nuovo_nodo, nodi)
-            if (isinstance(contiene, Nodo)):
-                print("Il nuovo nodo è già presente nella lista")
-                if contiene.iniziale and contiene.lunghezza_osservazione==len(osservazione):
-                    contiene.finale = True
-                print("aggionro l_osservazione del vecchio nodo")
-                contiene.lunghezza_osservazione=nuovo_nodo.lunghezza_osservazione
-                tra = Transizione_spazio(t.nome, nodo, nuovo_nodo, t.osservazione, t.rilevanza)
-                transizioni_spazio.append(tra)
-                #nodo_attuale.transizioni.append(tra)
-                print("Inserita la nuova transizione: ")
-                print("\t"+t.to_string())
-                print("numero totale di transizioni: "+str(len(transizioni_spazio)))
+
             else:
                 print("Inserisco il nuovo nodo")
+
+                nuovo_nodo.iniziale = False
+                nuovo_nodo.check = False
+                nuovo_nodo.finale = False
+                nuovo_nodo.lunghezza_osservazione = indice
+                nuovo_nodo.passata_osservazione = False
+                nuovo_nodo.finale = nuovo_nodo.is_finale_oss(len(osservazione))
+                nuovo_nodo.output = nuovo_nodo.get_output()
+
                 nodi.append(nuovo_nodo)
                 print("Il suo indice è " + str(nodi.index(nuovo_nodo)))
                 tra = Transizione_spazio(t.nome, nodo, nuovo_nodo, t.osservazione, t.rilevanza)
@@ -1222,6 +1259,18 @@ def crea_spazio_da_spazio_potato(spazio):
     nuovo_spazio.transizioni=nuove_transizioni
     for t in nuovo_spazio.transizioni:
         ripristina_transizione(t)
+
+    for t in nuovo_spazio.transizioni:
+        t.nodo_sorgente.transizioni.append(t)
+        t.nodo_destinazione.transizioni_sorgente.append(t)
+
+
+    print("SALVATAGGIO")
+    for n in nuovo_spazio.nodi:
+        print("NODO: " + n.to_string())
+        for t in n.transizioni:
+            print("\t" + t.to_string() + "transizione potata= " + str(t.potato))
+
     return  nuovo_spazio
 
 
@@ -1233,4 +1282,9 @@ def crea_spazio_da_spazio(spazio):
 
     for t in nuovo_spazio.transizioni:
         ripristina_transizione(t)
+
+    for t in nuovo_spazio.transizioni:
+        t.nodo_sorgente.transizioni.append(t)
+        t.nodo_destinazione.transizioni_sorgente.append(t)
+
     return nuovo_spazio

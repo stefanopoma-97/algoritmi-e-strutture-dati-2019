@@ -953,6 +953,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         '''Invoca l'algoritmo per creare uno spazio comportamentale data un'osservazione lineare'''
         listOfGlobals = globals()
         if listOfGlobals['spazio_importato'] == None:
+            print("LAVORO SU RETE")
             rete = listOfGlobals['rete']
             if rete != None:
                 spazio_comportamentale_oss = listOfGlobals['spazio_comportamentale_oss']
@@ -975,6 +976,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                     sg.Popup('Attenzione!',
                              'Le etichette dell\'osservazione lineare inserita non sono presenti nella rete. Cambiare l\'osservazione lineare per proseguire')
         else:
+            print("LAVORO SU SPAZIO")
             spazio = listOfGlobals['spazio_importato']
             spazio_comportamentale_oss = listOfGlobals['spazio_comportamentale_oss']
             osservazione_lineare = listOfGlobals['osservazione_lineare']
@@ -1456,6 +1458,10 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         spazio_salvataggio = crea_spazio_da_spazio_potato(spazio_comportamentale_potato_oss)
         spazio_salvataggio.spazio_potato=True
         salva_spazio_potato_su_file(spazio_salvataggio, cartella_save + nome)
+
+
+
+
 
         window_spazio_comportamentale['informazioni'].update(
             window_spazio_comportamentale[
