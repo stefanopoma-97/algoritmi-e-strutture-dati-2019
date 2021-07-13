@@ -105,6 +105,20 @@ def transizioni_to_string(transizioni):
         stringa += t.to_string()
     return stringa
 
+def check_a_false(spazio):
+    for n in spazio.nodi:
+        n.check=False
+
+def ripristina_transizione(transizione):
+    transizione.potato=True
+
+def ripristina_nodo(nodo):
+    nodo.id=""
+    nodo.check=False
+    nodo.potato=True
+    nodo.lunghezza_osservazione=""
+    nodo.passata_osservazione=False
+
 class Nodo:
     '''Nodo di un spazio comportamentale
     stati: [Stato]
@@ -126,6 +140,7 @@ class Nodo:
         self.potato = True
         self.old_id = ""
         self.lunghezza_osservazione = ""
+        self.passata_osservazione = False
         if (len(args)) == 1:
             self.lunghezza_osservazione=args[0]
         self.output = self.get_output()
@@ -139,6 +154,17 @@ class Nodo:
         for key, l in self.links.items():
             if l[1]!="":
                 r = False
+        return r
+
+    def is_finale_oss(self, lunghezza):
+        r = True
+        if self.iniziale:
+            return False
+        for key, l in self.links.items():
+            if l[1]!="":
+                r = False
+        if lunghezza!=self.lunghezza_osservazione:
+            r=False
         return r
 
     def get_output(self):

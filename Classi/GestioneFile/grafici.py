@@ -134,7 +134,7 @@ def stampa_spazio_su_file(spazio, cartella):
                     gra.node(s.output, shape='doublecircle')
 
     for t in spazio.transizioni:
-        nome = t.nome+" ["+t.osservazione+", "+t.rilevanza+"]"
+        nome = "<"+t.nome+" ["+'<FONT COLOR="green">' + t.osservazione + '</FONT>'+", "+'<FONT COLOR="red">' + t.rilevanza + '</FONT>'+"]>"
         gra.edge(t.nodo_sorgente.output, t.nodo_destinazione.output, label=nome)
 
     gra.edge("start", spazio.nodi_iniziali[0].output, label="")
@@ -166,7 +166,7 @@ def stampa_spazio_ridenominato_su_file(spazio, cartella):
                     gra.node(s.id, shape='doublecircle')
 
     for t in spazio.transizioni:
-        nome = t.nome + " [" + t.osservazione + ", " + t.rilevanza + "]"
+        nome = "<" + t.nome + " [" + '<FONT COLOR="green">' + t.osservazione + '</FONT>' + ", " + '<FONT COLOR="red">' + t.rilevanza + '</FONT>' + "]>"
         gra.edge(t.nodo_sorgente.id, t.nodo_destinazione.id, label=nome)
 
     gra.edge("start", spazio.nodi_iniziali[0].id, label="")
@@ -188,16 +188,26 @@ def stampa_spazio_potato_su_file(spazio, cartella):
 
     gra.node("start", shape="point", label="")
 
-    if spazio.nodi_finali[0] is not None or spazio.nodi_finali[0]!="":
-        for s in spazio.nodi_finali:
-            if s.id!="":
-                gra.node(s.id, shape='doublecircle')
-
+    if (len(spazio.nodi_finali)>0):
+        if spazio.nodi_finali[0] is not None or spazio.nodi_finali[0]!="":
+            for s in spazio.nodi_finali:
+                if s.id!="":
+                    gra.node(s.id, shape='doublecircle')
+    i = 0
     for t in spazio.transizioni:
+        print(str(i)+") "+"ID: "+t.nodo_sorgente.id+"("+str(t.nodo_sorgente.potato)+") - "+t.nome+" potata: "+str(t.potato)+", "+str(t.nodo_destinazione.id)+"("+str(t.nodo_destinazione.potato)+")")
+        i=i+1
         if t.nodo_sorgente.potato == False and t.nodo_destinazione.potato == False:
-            #nome = t.nome+" ["+ Colour.RED + t.osservazione +  Colour.END+", "+Colour.RED + t.rilevanza +  Colour.END"]"
-            nome = t.nome+" ["+ t.osservazione+", "+t.rilevanza+"]"
+            nome = "<" + t.nome + " [" + '<FONT COLOR="green">' + t.osservazione + '</FONT>' + ", " + '<FONT COLOR="red">' + t.rilevanza + '</FONT>' + "]>"
             gra.edge(t.nodo_sorgente.id, t.nodo_destinazione.id, label=nome)
+
+    # for t in spazio.transizioni:
+    #     print(str(i)+") "+"ID: "+t.nodo_sorgente.id+" - "+t.nome+" potata: "+str(t.potato)+", "+str(t.nodo_destinazione.id))
+    #     i=i+1
+    #     if t.potato==False:
+    #         #nome = t.nome+" ["+ Colour.RED + t.osservazione +  Colour.END+", "+Colour.RED + t.rilevanza +  Colour.END"]"
+    #         nome = "<" + t.nome + " [" + '<FONT COLOR="green">' + t.osservazione + '</FONT>' + ", " + '<FONT COLOR="red">' + t.rilevanza + '</FONT>' + "]>"
+    #         gra.edge(t.nodo_sorgente.id, t.nodo_destinazione.id, label=nome)
 
     gra.edge("start", spazio.nodi_iniziali[0].id, label="")
 

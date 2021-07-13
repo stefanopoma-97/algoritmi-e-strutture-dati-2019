@@ -47,6 +47,7 @@ def carica_spazio_da_file(*args):
             try:
                 spazio_load = pickle.load(config_dictionary_file)
                 if (isinstance(spazio_load, Spazio_comportamentale)):
+                    check_a_false(spazio_load)
                     return spazio_load
                 else:
                     return "Il file selezionato non contine una rete"

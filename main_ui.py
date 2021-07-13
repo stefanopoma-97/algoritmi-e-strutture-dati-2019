@@ -13,6 +13,7 @@ from Classi.GUI.Gui_rete import *
 
 #FUNZIONI
 def crea_rete():
+
     # Variabili
     global stato, cartella, automi, links, rete, cartella_save
     stato = "1"
@@ -383,7 +384,7 @@ def crea_rete():
             carica_rete1()
 
 
-
+#Main e finestra principale
 layout = [[sg.Text("Home\nQuesta è la home, seleziona cosa vuoi fare")],
           [sg.Button("Crea una rete", key='crea_rete', size=(35, 2))],
             [sg.Button("Importa rete da file", key='importa_rete', size=(35, 2))],

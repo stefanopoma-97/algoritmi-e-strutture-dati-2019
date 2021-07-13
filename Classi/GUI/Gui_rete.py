@@ -16,6 +16,7 @@ import os
 
 
 def gui_crea_rete():
+    '''Gui per gestire la creazione di una Rete'''
     # Variabili
     global stato, cartella, automi, links, rete, cartella_save, elenco_cartelle
     stato = "1"
@@ -101,6 +102,7 @@ def gui_crea_rete():
         return layout_crea_rete
 
     def aggiorna_elenco_automi():
+        '''Aggiorna l'elenco degli automi inseriti'''
         listOfGlobals = globals()
         automi = listOfGlobals['automi']
 
@@ -112,6 +114,7 @@ def gui_crea_rete():
 
 
     def aggiorna_elenco_links():
+        '''Aggiorna l'elenco dei link inseriti'''
         listOfGlobals = globals()
         links = listOfGlobals['links']
 
@@ -122,6 +125,7 @@ def gui_crea_rete():
                     window_crea_rete['link'].get() + "\n"+l.to_string())
 
     def aggiorna_rete():
+        '''Aggiorna l'elenco delle transizioni inserite'''
         listOfGlobals = globals()
         rete = listOfGlobals['rete']
 
@@ -131,6 +135,9 @@ def gui_crea_rete():
                 window_crea_rete['rete'].get() + "\n"+rete.to_string())
 
     def conferma_cartella():
+        '''Metodo per selezionare la cartella di salvataggio
+        non si possono inserire due nomi identici
+        il nome della cartella verrà preceduto dalla data attuale: %Y_%m_%d_%H_%M'''
         listOfGlobals = globals()
         cartella = listOfGlobals['cartella']
         stato = listOfGlobals['stato']
@@ -162,6 +169,7 @@ def gui_crea_rete():
                      'Inserire un nome non vuoto')
 
     def carica_automa():
+        '''Metodo per permettere il caricamento di un automa'''
         listOfGlobals = globals()
         stato = listOfGlobals['stato']
         automi = listOfGlobals['automi']
@@ -186,6 +194,7 @@ def gui_crea_rete():
         aggiorna_elenco_automi()
 
     def carica_rete():
+        '''Metodo per permettere il caricamento delle transizioni'''
         listOfGlobals = globals()
         stato = listOfGlobals['stato']
         automi = listOfGlobals['automi']
@@ -215,6 +224,7 @@ def gui_crea_rete():
         aggiorna_rete()
 
     def carica_link():
+        '''Metodo per permettere il caricamento dei link'''
         listOfGlobals = globals()
         stato = listOfGlobals['stato']
         links = listOfGlobals['links']
@@ -237,6 +247,12 @@ def gui_crea_rete():
         aggiorna_elenco_automi()
 
     def salva_su_file():
+        '''Salva la rete, gli automi e i links su file
+        ogni componente verrà salvato nel seguente modo:
+        nome componente (file per salvare la classe)
+        nome componente.txt (file contenente il formato utilizzato per importare il componente)
+        nome componente_grafico.png (file contenente il grafico del componente)
+        nome componente_riassunto.txt (riassunto delle informazioni contenute nel componente)'''
         listOfGlobals = globals()
         cartella = listOfGlobals['cartella']
         cartella_save = listOfGlobals['cartella_save']
@@ -272,6 +288,7 @@ def gui_crea_rete():
         listOfGlobals['cartella_save'] = cartella_save
 
     def stampa_grafici():
+        '''Metodo per permettere di visualizzare i grafici degli automi, link e transizioni'''
         listOfGlobals = globals()
         automi = listOfGlobals['automi']
         links = listOfGlobals['links']
@@ -315,6 +332,7 @@ def gui_crea_rete():
         window_mostra_grafici.close()
 
     def carica_rete1():
+        '''Metodo per caricare rapidamente la prima rete'''
         listOfGlobals = globals()
 
         a1 = carica_automa_da_file_txt("Input/RETE1/C2.txt")
@@ -345,6 +363,8 @@ def gui_crea_rete():
         window_crea_rete['informazioni'].update("Caricata rete 1")
 
     def carica_rete2():
+        '''Metodo per caricare rapidamente la seconda rete'''
+
         listOfGlobals = globals()
 
         a1 = carica_automa_da_file_txt("Input/RETE2/B.txt")
@@ -375,6 +395,8 @@ def gui_crea_rete():
         window_crea_rete['informazioni'].update("Caricata rete 2")
 
     def carica_rete3():
+        '''Metodo per caricare rapidamente la terza rete'''
+
         listOfGlobals = globals()
 
         a1 = carica_automa_da_file_txt("Input/RETE3/C1.txt")
@@ -406,6 +428,8 @@ def gui_crea_rete():
         window_crea_rete['informazioni'].update("Caricata rete 3")
 
     def spazio_comportamentale():
+        '''Metodo per aprire la finestra che permetterà di eseguire i vari algoritmi'''
+
         listOfGlobals = globals()
         automi = listOfGlobals['automi']
         links = listOfGlobals['links']
@@ -418,6 +442,8 @@ def gui_crea_rete():
 
 
     def reset():
+        '''Cancella tutte le informazioni presenti nella finestra e la porta nella situazione iniziale'''
+
         listOfGlobals = globals()
         listOfGlobals['cartella'] = ""
         listOfGlobals['cartella_save'] = ""
@@ -482,6 +508,14 @@ def gui_crea_rete():
 
 
 def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
+    '''Metodo per gestire la finestra che permette di eseguire i 3 algoritmi
+    questo metodo viene richiamato in 2 modalità dal programma:
+    1)passando tutte le variabile e lasciando a None le ultime 2. Il metodo viene invocato in questo modo quando si ha a disposizione una rete e si vuole generare lo spazio comportamentale da quest'ultima
+    2)passando solo lo spaio e lasciando le altre variabili vuote. Il metodo viene invocato in questo modo se si ha importato uno spazio comportamentale e su quest'ultimo si vogliono eseguire gli algoritmi (senza passare prima dalla rete)
+
+    il metodo in base alle variabili di input si comporta in modo diverso, permettendo alcune specifiche operazioni'''
+
+    #variabili globali
     global stato, cartella, automi, links, rete, cartella_save, spazio_comportamentale, nome_spazio, \
         elenco_cartelle, spazio_importato, spazio_comportamentale_potato, \
         osservazione_lineare, spazio_comportamentale_oss, spazio_comportamentale_potato_oss
@@ -631,7 +665,6 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         window_spazio_comportamentale['potatura_spazio2'].update(disabled=bool)
         window_spazio_comportamentale['stampa_potatura_spazio2'].update(disabled=bool)
 
-
     def abilita_algoritmo1(bool):
         '''abilita o disabilita tutta la sezione dell'algoritmo 2'''
         if bool == False:
@@ -751,10 +784,24 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                     'informazioni'].get() + "\nL'algoritmo 2 verrà eseguito sulla rete inserita")
 
 
-    ####################
+
 #METODI
 
     def conferma_cartella():
+        '''Permette di selezionare la cartella di salvataggio
+
+        in caso questa sia già stata selezionata in precedenza si utilizzerà:
+        cartella già selezionata/nome cartella specificato/algoritmo*/vari file
+
+        Se invece non è stata selezinata in precedenza alcuna cartella (in caso in cui si giunga a questa finestra importando direttamente uno spazio comportamentale)
+        i file verranno salvati nella seguente cartella:
+        data attuale / nome cartella / algoritmo* / vari file
+
+        il metodo gestisce anche la possibilità di compire molteplici operazioni sulla stessa rete/spazio
+        in questo caso i file verranno salvati sfruttando variando il nome della cartalla
+        cartella già selezionata / nome cartalla 1 / ecc
+        cartella già selezionata / nome cartalla 2 / ecc
+        '''
         listOfGlobals = globals()
         cartella_save = listOfGlobals['cartella_save']
         elenco_cartelle = listOfGlobals['elenco_cartelle']
@@ -819,6 +866,8 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                      'Inserire un nome non vuoto')
 
     def conferma_nome_spazio():
+        '''Permette di selezionare il nome da attribuire allo spazio comportamentale
+        il metodo non potrà essere attivato nel caso si giunga a questa finestra importando uno spazio'''
         listOfGlobals = globals()
         nome_spazio = listOfGlobals['nome_spazio']
 
@@ -843,6 +892,10 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                      'Inserire un nome non vuoto')
 
     def conferma_osservazione_lineare():
+        '''Permette di impostare un'osservazione lineare. Sfruttando la seguente espressione regolare:
+        ^[a-zA-Z0-9]+(,([a-zA-Z0-9]+,)*[a-zA-Z0-9]+)?
+
+        l'osservazione lineare sarà quindi del tipo: o2,o3,o4'''
         REGEX_OSSERVAZIONE = "^[a-zA-Z0-9]+(,([a-zA-Z0-9]+,)*[a-zA-Z0-9]+)?"
         listOfGlobals = globals()
         osservazione_lineare = listOfGlobals['osservazione_lineare']
@@ -867,6 +920,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                      'Inserire un nome non vuoto')
 
     def reset():
+        '''Imposta la rete allo stato iniziale'''
         window_spazio_comportamentale['conferma_cartella'].update(disabled=False)
         window_spazio_comportamentale['input_cartella'].update("", disabled=False)
         window_spazio_comportamentale['conferma_nome_spazio'].update(disabled=True)
@@ -878,6 +932,8 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         listOfGlobals['spazio_comportamentale']=None
 
     def algoritmo_crea_spazio_comportamentale():
+        '''Invoca lalgoritmo per creare lo spazio comportamentale data una rete
+        lo spazio è automaticamente ridenominato sfruttando degli id univoci'''
         listOfGlobals = globals()
         rete = listOfGlobals['rete']
         spazio_comportamentale = listOfGlobals['spazio_comportamentale']
@@ -894,16 +950,39 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         abilita_algoritmo1_creato_spazio()
 
     def algoritmo_crea_spazio_comportamentale2():
+        '''Invoca l'algoritmo per creare uno spazio comportamentale data un'osservazione lineare'''
         listOfGlobals = globals()
-        rete = listOfGlobals['rete']
-        if rete != None:
+        if listOfGlobals['spazio_importato'] == None:
+            rete = listOfGlobals['rete']
+            if rete != None:
+                spazio_comportamentale_oss = listOfGlobals['spazio_comportamentale_oss']
+                osservazione_lineare = listOfGlobals['osservazione_lineare']
+                nome_spazio = listOfGlobals['nome_spazio']
+                print("OSS: "+str(osservazione_lineare))
+
+                if osservazione_lineare==None or (rete.controlla_osservazione(osservazione_lineare)):
+                    spazio_comportamentale_oss = crea_spazio_comportamentale2(rete, osservazione_lineare)
+                    spazio_comportamentale_oss.nome = nome_spazio
+
+                    window_spazio_comportamentale['informazioni'].update(
+                        window_spazio_comportamentale[
+                            'informazioni'].get() + "\nCreato lo spazio comportamentale: \n" + spazio_comportamentale_oss.riassunto() + "\npartendo dall\'osservazione lineare: " + str(
+                            osservazione_lineare))
+                    listOfGlobals['spazio_comportamentale_oss'] = spazio_comportamentale_oss
+
+                    abilita_algoritmo2_creato_spazio()
+                else:
+                    sg.Popup('Attenzione!',
+                             'Le etichette dell\'osservazione lineare inserita non sono presenti nella rete. Cambiare l\'osservazione lineare per proseguire')
+        else:
+            spazio = listOfGlobals['spazio_importato']
             spazio_comportamentale_oss = listOfGlobals['spazio_comportamentale_oss']
             osservazione_lineare = listOfGlobals['osservazione_lineare']
             nome_spazio = listOfGlobals['nome_spazio']
-            print("OSS: "+str(osservazione_lineare))
+            print("OSS: " + str(osservazione_lineare))
 
-            if osservazione_lineare==None or (rete.controlla_osservazione(osservazione_lineare)):
-                spazio_comportamentale_oss = crea_spazio_comportamentale2(rete, osservazione_lineare)
+            if (osservazione_lineare != None):
+                spazio_comportamentale_oss = crea_spazio_comportamentale2_da_spazio(spazio, osservazione_lineare)
                 spazio_comportamentale_oss.nome = nome_spazio
 
                 window_spazio_comportamentale['informazioni'].update(
@@ -919,7 +998,10 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
 
 
     def algoritmo_crea_spazio_comportamentale_manuale(nome):
+        '''Permette di creare uno spazio comportamentale data una rete svolgendo manualmente tutti i vari passaggi
+        l'algoritmo non termina fino a che l'utente non chiude la nuova finestra'''
         listOfGlobals = globals()
+
         rete = listOfGlobals['rete']
         spazio_comportamentale = listOfGlobals['spazio_comportamentale']
         cartella_save = listOfGlobals['cartella_save']
@@ -1026,8 +1108,125 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         # window_spazio_comportamentale['salva'].update(disabled=False)
         # window_spazio_comportamentale['potatura'].update(disabled=False)
 
+    def algoritmo_crea_spazio_comportamentale_manuale2(nome):
+        '''Permette di creare uno spazio comportamentale data un'osservazione lineare svolgendo manualmente tutti i vari passaggi
+                l'algoritmo non termina fino a che l'utente non chiude la nuova finestra'''
+        listOfGlobals = globals()
+
+        rete = listOfGlobals['rete']
+        spazio_comportamentale_oss = listOfGlobals['spazio_comportamentale_oss']
+        osservazione_lineare = listOfGlobals['osservazione_lineare']
+        cartella_save = listOfGlobals['cartella_save']
+        nome_spazio = listOfGlobals['nome_spazio']
+        spazio_comportamentale_oss = Spazio_comportamentale("")
+
+
+        #prima iterazione creo spazio
+        nodi_a, nodo_attuale_a, transizioni_a, fine_a, commento = crea_spazio_comportamentale_manuale2(rete, osservazione_lineare)
+        print("Nodo attuale: "+nodo_attuale_a.to_string())
+        nodi_finali_a = []
+        nodi_iniziali_a = []
+        for n in nodi_a:
+            if n.finale:
+                nodi_finali_a.append(n)
+            if n.iniziale:
+                nodi_iniziali_a.append(n)
+        print("lunghezza nodi finali: "+str(len(nodi_finali_a)))
+        print("lunghezza nodi iniziali: " + str(len(nodi_iniziali_a)))
+        spazio = Spazio_comportamentale(nome_spazio, nodi_finali_a, nodi_iniziali_a, nodi_a, transizioni_a)
+        sistema_transizioni(spazio)
+        ridenominazione_spazio_appena_creato(spazio)
+        listOfGlobals['spazio_comportamentale'] = spazio
+        stampa_spazio_su_file(spazio, cartella_save + nome +"/iterazione1")
+        i=2
+
+        colonna1 = [
+            [
+                sg.Button('Passaggio successivo', key='passaggio_successivo', disabled=False),
+                sg.Button('Concludi', key='concludi', disabled=False),
+            ],
+            [
+                sg.Multiline(
+                    "", enable_events=True, size=(40, 20), key="informazioni_algoritmo", autoscroll=True
+                )
+            ],
+        ]
+
+        colonna2 = [
+            [
+                sg.Image('Output/' + cartella_save+ nome +'/iterazione1/' + spazio.nome + '_grafico.png', key="immagine", size=(1000, 2000))
+            ]
+        ]
+
+        layout_grafici = [
+            [
+                sg.Column(colonna1),
+                sg.VSeperator(),
+                sg.Column(colonna2, scrollable=True),
+            ]
+        ]
+
+        window_crea_spazio_comportamentale_manuale = sg.Window('Creazione manuale spazio comportamentale', layout_grafici, location=(0, 0),
+                                          size=(800, 600), keep_on_top=True)
+
+        #window_crea_spazio_comportamentale_manuale['informazioni_algoritmo'].update(window_crea_spazio_comportamentale_manuale['informazioni_algoritmo'].get()+"\niniziato analizzando stato inziiale\n"+commento)
+
+        while True:
+            event, values = window_crea_spazio_comportamentale_manuale.read()
+            if event == sg.WINDOW_CLOSED or event == "concludi":
+                abilita_algoritmo2_creato_spazio()
+                if fine_a==False:
+                    window_spazio_comportamentale['informazioni'].update(
+                        window_spazio_comportamentale[
+                            'informazioni'].get() + "\nConcludo l'esecuzione senza aver generato tutto lo spazio comportamentale \n")
+
+                window_spazio_comportamentale['informazioni'].update(
+                    window_spazio_comportamentale['informazioni'].get() + "\nCreato lo spazio comportamentale: \n" + spazio.riassunto())
+                window_spazio_comportamentale['informazioni'].update(
+                    window_spazio_comportamentale[
+                        'informazioni'].get() + "\nLo spazio è stato ridenominato e salvato su file correttamente")
+                break
+            elif event == "passaggio_successivo":
+                nodi_a, nodo_attuale_a, transizioni_a, fine_a, commento = crea_spazio_comportamentale_manuale2(rete, osservazione_lineare, nodi_a, nodo_attuale_a,
+                                                                                            transizioni_a)
+                window_crea_spazio_comportamentale_manuale['informazioni_algoritmo'].update(
+                    window_crea_spazio_comportamentale_manuale[
+                        'informazioni_algoritmo'].get() + "\n" + commento)
+
+                nodi_finali_a = []
+                nodi_iniziali_a = []
+                for n in nodi_a:
+                    if n.finale:
+                        nodi_finali_a.append(n)
+                    if n.iniziale:
+                        nodi_iniziali_a.append(n)
+                spazio = Spazio_comportamentale(nome_spazio, nodi_finali_a, nodi_iniziali_a, nodi_a, transizioni_a)
+                #stampa_spazio_su_file(spazio, cartella_save + nome)
+                sistema_transizioni(spazio)
+                ridenominazione_spazio_appena_creato(spazio)
+                listOfGlobals['spazio_comportamentale_oss'] = spazio
+                stampa_spazio_su_file(spazio, cartella_save +nome + "/iterazione"+str(i))
+                window_crea_spazio_comportamentale_manuale["immagine"].update('Output/' + cartella_save +nome +'/iterazione'+str(i)+"/" + spazio.nome + '_grafico.png')
+                i = i+1
+
+        window_crea_spazio_comportamentale_manuale.close()
+
+
+
+        # window_spazio_comportamentale['informazioni'].update(
+        #     window_spazio_comportamentale['informazioni'].get() + "\nCreato lo spazio comportamentale: \n" + spazio_comportamentale.to_string())
+        # listOfGlobals['spazio_comportamentale'] = spazio_comportamentale
+        # window_spazio_comportamentale['avvio_algoritmo1'].update(disabled=True)
+        # window_spazio_comportamentale['salva'].update(disabled=False)
+        # window_spazio_comportamentale['potatura'].update(disabled=False)
+
 
     def salva_su_file(nome):
+        '''Salva lo spazio comportamentale creato su file
+        nome spazio_grafico.png
+        nome spazio_riassunto.txt
+        nome spazio_salvataggio
+        nome spazio_ridenominazione_grafico.png'''
         listOfGlobals = globals()
         cartella_save = listOfGlobals['cartella_save']
         spazio_comportamentale = listOfGlobals['spazio_comportamentale']
@@ -1038,13 +1237,22 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         stampa_spazio_su_file(spazio_comportamentale, cartella_save+nome)
         stampa_spazio_ridenominato_su_file(spazio_comportamentale, cartella_save + nome)
 
-        salva_spazio_su_file(spazio_comportamentale, cartella_save+nome)
+
+        # salvo spazio potato su file
+        spazio_salvataggio = crea_spazio_da_spazio(spazio_comportamentale)
+        spazio_salvataggio.spazio_potato = False
+        salva_spazio_su_file(spazio_salvataggio, cartella_save + nome)
 
 
         window_spazio_comportamentale['salva'].update(disabled=True)
         window_spazio_comportamentale['stampa'].update(disabled=False)
 
     def salva_su_file2(nome):
+        '''Salva lo spazio comportamentale creato su file
+        nome spazio_grafico.png
+        nome spazio_riassunto.txt
+        nome spazio_salvataggio
+        nome spazio_ridenominazione_grafico.png'''
         listOfGlobals = globals()
         cartella_save = listOfGlobals['cartella_save']
         spazio_comportamentale_oss = listOfGlobals['spazio_comportamentale_oss']
@@ -1054,6 +1262,11 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
 
         stampa_spazio_su_file(spazio_comportamentale_oss, cartella_save+nome)
         stampa_spazio_ridenominato_su_file(spazio_comportamentale_oss, cartella_save + nome)
+
+        #salva spazio su file
+        spazio_salvataggio = crea_spazio_da_spazio(spazio_comportamentale_oss)
+        spazio_salvataggio.spazio_potato = False
+        salva_spazio_su_file(spazio_salvataggio, cartella_save + nome)
 
         abilita_algoritmo2_salva()
 
@@ -1200,6 +1413,8 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             return
 
         stampa_spazio_potato_su_file(spazio_comportamentale_potato, cartella_save + nome)
+
+        #salvo spazio potato su file
         spazio_salvataggio = crea_spazio_da_spazio_potato(spazio_comportamentale_potato)
         spazio_salvataggio.spazio_potato=True
         salva_spazio_potato_su_file(spazio_salvataggio, cartella_save + nome)
@@ -1236,6 +1451,8 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             return
 
         stampa_spazio_potato_su_file(spazio_comportamentale_potato_oss, cartella_save + nome)
+
+        #salvo spazio su file
         spazio_salvataggio = crea_spazio_da_spazio_potato(spazio_comportamentale_potato_oss)
         spazio_salvataggio.spazio_potato=True
         salva_spazio_potato_su_file(spazio_salvataggio, cartella_save + nome)
@@ -1288,9 +1505,13 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             potatura2("/algoritmo2/")
         elif event == "stampa_potatura_spazio2":
             stampa_grafici_potatura2("/algoritmo2/")
+        elif event == "avvio_algoritmo2_manuale":
+            algoritmo_crea_spazio_comportamentale_manuale2("/algoritmo2/")
 
 
 def gui_importa_rete():
+    '''Metodo per gestire la finestra finalizzata ad importare una rete'''
+
     # Variabili
     global stato, cartella, automi, links, rete, cartella_save
     stato = "1"
@@ -1370,6 +1591,8 @@ def gui_importa_rete():
         return layout_importa_rete
 
     def aggiorna_elenco_automi():
+        '''aggiorna l'elenco degli automi importati con la rete'''
+
         listOfGlobals = globals()
         automi = listOfGlobals['automi']
 
@@ -1380,6 +1603,8 @@ def gui_importa_rete():
                     window_importa_rete['automi'].get() + "\n"+a.to_string())
 
     def aggiorna_elenco_links():
+        '''Aggiorna l'elenco di link importati con la rete'''
+
         listOfGlobals = globals()
         links = listOfGlobals['links']
 
@@ -1390,6 +1615,8 @@ def gui_importa_rete():
                     window_importa_rete['link'].get() + "\n"+l.to_string())
 
     def aggiorna_rete():
+        '''Aggiorna l'elenco delle transizioni'''
+
         listOfGlobals = globals()
         rete = listOfGlobals['rete']
 
@@ -1399,6 +1626,8 @@ def gui_importa_rete():
                 window_importa_rete['rete'].get() + "\n"+rete.to_string())
 
     def conferma_cartella():
+        '''permette di selezionare la cartella di salvataggio'''
+
         listOfGlobals = globals()
         cartella = listOfGlobals['cartella']
         stato = listOfGlobals['stato']
@@ -1424,6 +1653,8 @@ def gui_importa_rete():
                      'Inserire un nome non vuoto')
 
     def spazio_comportamentale():
+        '''Apre una nuova finestra per poter eseguire i 3 algoritmi'''
+
         listOfGlobals = globals()
         automi = listOfGlobals['automi']
         links = listOfGlobals['links']
@@ -1435,6 +1666,8 @@ def gui_importa_rete():
         gui_crea_spazio_comportamentale(automi, links, rete, cartella_save, cartella, stato, None, "")
 
     def salva_su_file():
+        '''Salva le informazioni della rete su file'''
+
         listOfGlobals = globals()
         cartella = listOfGlobals['cartella']
         cartella_save = listOfGlobals['cartella_save']
@@ -1470,6 +1703,8 @@ def gui_importa_rete():
         listOfGlobals['cartella_save'] = cartella_save
 
     def stampa_grafici():
+        '''Mostra i grafici degli automi, links e transizioni'''
+
         listOfGlobals = globals()
         automi = listOfGlobals['automi']
         links = listOfGlobals['links']
@@ -1513,6 +1748,10 @@ def gui_importa_rete():
         window_mostra_grafici.close()
 
     def importa_rete():
+        '''Gestisce l'importazione della rete
+        il file deve contenere una classe di tipo Rete
+        è possibile trovare un file di questo tipo nella cartella dei salvataggi di una precedente esecuzione del programma'''
+
         listOfGlobals = globals()
 
         rete = carica_rete_da_file()
@@ -1541,6 +1780,8 @@ def gui_importa_rete():
 
 
     def reset():
+        '''Riporta la finestra nello stato iniziale'''
+
         listOfGlobals = globals()
         listOfGlobals['cartella'] = ""
         listOfGlobals['cartella_save'] = ""

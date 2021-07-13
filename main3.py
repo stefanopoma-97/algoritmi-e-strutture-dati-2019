@@ -115,12 +115,34 @@ rete3 = carica_rete_da_file_txt(automi, links, "Input/RETE3/rete 3.txt")
 #
 # print("NUMERO DI TRANSIZIONI: "+str(len(spazio.transizioni)))
 # print("NUMERO DI TRANSIZIONI metodo: "+str(len(get_transizioni_spazio(spazio))))
+spazio1 = carica_spazio_da_file("Input/RETE1/spazio1_salvataggio")
+spazio2 = carica_spazio_da_file("Input/RETE2/spazio2_salvataggio")
+spazio3 = carica_spazio_da_file("Input/RETE3/spazio3_salvataggio")
 osservazione1=["o3","o2"]
 osservazione2=["act", "sby", "nop"]
-spazio = crea_spazio_comportamentale2(rete1, osservazione1)
-stampa_spazio_su_file(spazio, "SPAZIO")
-print(spazio.riassunto())
+osservazione3=["o1", "o2"]
 
-spazio_potato = potatura_e_ridenominazione(spazio)
+#print("SPAZIO PRIMA: "+spazio3.riassunto())
+spazio_out = crea_spazio_comportamentale2_da_spazio(spazio3, osservazione3)
+#stampa_spazio_su_file(spazio_out, "SPAZIO")
+#print(spazio_out.riassunto())
+
+spazio_potato = deepcopy(spazio_out)
+
+# print("SPAZIO PRIMA POTATURA")
+# i = 0
+# for n in spazio_potato.nodi:
+#   for t in n.transizioni_sorgente:
+#     print(str(i) + ") " + "ID: " + str(t.nodo_sorgente.id) + " - " + t.nome + " potata: " + str(t.potato) + ", " + str(
+#       n.id))
+#     i = i + 1
+
+spazio_potato = potatura_e_ridenominazione(spazio_potato)
+
+
+
+
 stampa_spazio_potato_su_file(spazio_potato, "SPAZIO")
+
+
 
