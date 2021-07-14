@@ -1,7 +1,0 @@
-digraph s {
-	0 [shape=circle]
-	1 [shape=circle]
-	start [label="" shape=point]
-	0 -> 1 [label=<s3 [<FONT COLOR="green"> </FONT>, <FONT COLOR="red">f1</FONT>]>]
-	start -> 0 [label=""]
-}

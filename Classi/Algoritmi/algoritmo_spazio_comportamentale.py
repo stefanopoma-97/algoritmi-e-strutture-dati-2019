@@ -638,6 +638,10 @@ def crea_spazio_comportamentale2_da_spazio(spazio, osservazione):
 
     controllo_transizioni2_da_spazio(nodi, transizioni, osservazione, spazio, nodo_attuale)
 
+    print("VEDO TRANSIZIONI CREATE")
+    for t in transizioni:
+        print(t.to_string())
+
     nodi_finali=[]
     nodi_iniziali=[]
     for n in nodi:
@@ -684,23 +688,27 @@ def controllo_transizioni2_da_spazio(nodi, transizioni_spazio, osservazione, spa
             else:
                 indice = nodo.lunghezza_osservazione
 
-            nuovo_nodo = t.nodo_destinazione
+            nuovo_nodo = deepcopy(t.nodo_destinazione)
+            nuovo_nodo.lunghezza_osservazione=indice
             contiene = contiene_nodo(nuovo_nodo, nodi)
             if (isinstance(contiene, Nodo)):
+                print("Voglio creare nuovo nodo: "+nuovo_nodo.to_string())
                 print("il nodo destinazione esiste già")
+                print("Eccolo: "+contiene.to_string())
                 if contiene.lunghezza_osservazione==indice:
                     print("effettivamente è lo stesso nodo")
                     if contiene.iniziale and contiene.lunghezza_osservazione == len(osservazione):
                         contiene.finale = True
                     tra = Transizione_spazio(t.nome, nodo, contiene, t.osservazione, t.rilevanza)
                     transizioni_spazio.append(tra)
-                    # nodo_attuale.transizioni.append(tra)
+
                     print("Inserita la nuova transizione: ")
                     print("\t" + t.to_string())
                     print("numero totale di transizioni: " + str(len(transizioni_spazio)))
                 else:
                     print("l'indice è diverso, verrà creato un nodo separato")
-                    nuovo_nodo = deepcopy(t.nodo_destinazione)
+                    #nuovo_nodo = deepcopy(t.nodo_destinazione)
+                    nuovo_nodo = Nodo(t.nodo_destinazione.stati, False, t.nodo_destinazione.links, False, [])
                     nuovo_nodo.iniziale=False
                     nuovo_nodo.check = False
                     nuovo_nodo.finale=False

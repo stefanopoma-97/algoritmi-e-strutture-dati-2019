@@ -1,5 +1,0 @@
-digraph spazio2 {
-	"0, 0, , 0" [shape=circle]
-	start [label="" shape=point]
-	start -> "0, 0, , 0" [label=""]
-}
