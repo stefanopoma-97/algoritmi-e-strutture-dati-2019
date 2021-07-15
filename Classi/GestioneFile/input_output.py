@@ -13,21 +13,30 @@ REGEX_RETE="^[a-zA-Z0-9 ]+\\n([a-zA-Z0-9]+\,[a-zA-Z0-9]+\,(([a-zA-Z0-9]+\([a-zA-
 
 
 
-def salva_spazio_su_file(spazio, cartella):
-    filePath = 'Output/'+cartella+'/'+spazio.nome+"_salvataggio"
+def salva_spazio_su_file(spazio, cartella, *args):
+    if len(args)==1:
+        aggiunta=args[0]
+    else:
+        aggiunta=""
+
+    filePath = 'Output/'+cartella+'/'+spazio.nome+"_salvataggio"+aggiunta
     if os.path.exists(filePath):
         os.remove(filePath)
 
-    with open('Output/'+cartella+'/'+spazio.nome+"_salvataggio", 'wb') as config_dictionary_file:
+    with open('Output/'+cartella+'/'+spazio.nome+"_salvataggio"+aggiunta, 'wb') as config_dictionary_file:
         # Step 3
         pickle.dump(spazio, config_dictionary_file)
 
-def salva_spazio_potato_su_file(spazio, cartella):
-    filePath = 'Output/'+cartella+'/'+spazio.nome+"_potato_salvataggio"
+def salva_spazio_potato_su_file(spazio, cartella, *args):
+    if len(args)==1:
+        aggiunta=args[0]
+    else:
+        aggiunta=""
+    filePath = 'Output/'+cartella+'/'+spazio.nome+"_potato_salvataggio"+aggiunta
     if os.path.exists(filePath):
         os.remove(filePath)
 
-    with open('Output/'+cartella+'/'+spazio.nome+"_potato_salvataggio", 'wb') as config_dictionary_file:
+    with open('Output/'+cartella+'/'+spazio.nome+"_potato_salvataggio"+aggiunta, 'wb') as config_dictionary_file:
         # Step 3
         pickle.dump(spazio, config_dictionary_file)
 

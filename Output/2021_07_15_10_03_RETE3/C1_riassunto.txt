@@ -1,0 +1,4 @@
+Numero di stati:2
+Stato: 10; Stato: 11;
+Numero di transizioni:3
+Stato: 10>t1a>Stato: 11[Oss:  ; ril:  ] {L1:e1;} { : }Stato: 10>t1c>Stato: 11[Oss:  ; ril: f1] { : } { : }Stato: 11>t1b>Stato: 10[Oss:  ; ril:  ] {L3:e2;} { : }

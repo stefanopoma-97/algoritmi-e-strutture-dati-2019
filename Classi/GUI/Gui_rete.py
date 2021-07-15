@@ -1262,13 +1262,13 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         window_spazio_comportamentale['informazioni'].update(
             window_spazio_comportamentale['informazioni'].get() + "\n" + "Salvo file nella cartella: " + cartella_save)
 
-        stampa_spazio_su_file(spazio_comportamentale_oss, cartella_save+nome)
-        stampa_spazio_ridenominato_su_file(spazio_comportamentale_oss, cartella_save + nome)
+        stampa_spazio_su_file(spazio_comportamentale_oss, cartella_save+nome, "_oss")
+        stampa_spazio_ridenominato_su_file(spazio_comportamentale_oss, cartella_save + nome, "_oss")
 
         #salva spazio su file
         spazio_salvataggio = crea_spazio_da_spazio(spazio_comportamentale_oss)
         spazio_salvataggio.spazio_potato = False
-        salva_spazio_su_file(spazio_salvataggio, cartella_save + nome)
+        salva_spazio_su_file(spazio_salvataggio, cartella_save + nome, "_oss")
 
         abilita_algoritmo2_salva()
 
@@ -1310,12 +1310,12 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         cartella_save = listOfGlobals['cartella_save']
 
         window_spazio_comportamentale['informazioni'].update(
-            window_spazio_comportamentale['informazioni'].get() + "\n" + "Leggo file PNG: " + 'Output/' + cartella_save +nome + spazio_comportamentale_oss.nome + '_grafico.png')
+            window_spazio_comportamentale['informazioni'].get() + "\n" + "Leggo file PNG: " + 'Output/' + cartella_save +nome + spazio_comportamentale_oss.nome + '_grafico_oss.png')
 
         colonna1 = [
             [
                 sg.Text("Grafico spazio comportamentale"),
-                sg.Image(filename='Output/' + cartella_save + nome + '/' + spazio_comportamentale_oss.nome + '_grafico.png')
+                sg.Image(filename='Output/' + cartella_save + nome + '/' + spazio_comportamentale_oss.nome + '_grafico_oss.png')
             ]
         ]
 
@@ -1370,12 +1370,12 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         cartella_save = listOfGlobals['cartella_save']
 
         window_spazio_comportamentale['informazioni'].update(
-            window_spazio_comportamentale['informazioni'].get() + "\n" + "Leggo file PNG: " + 'Output/' + cartella_save + nome + spazio_comportamentale_potato_oss.nome + '_potatura_grafico.png')
+            window_spazio_comportamentale['informazioni'].get() + "\n" + "Leggo file PNG: " + 'Output/' + cartella_save + nome + spazio_comportamentale_potato_oss.nome + '_potatura_grafico_oss.png')
 
         colonna1 = [
             [
                 sg.Text("Grafico spazio comportamentale potato"),
-                sg.Image(filename='Output/' + cartella_save + nome + spazio_comportamentale_potato_oss.nome + '_potatura_grafico.png')
+                sg.Image(filename='Output/' + cartella_save + nome + spazio_comportamentale_potato_oss.nome + '_potatura_grafico_oss.png')
             ]
         ]
 
@@ -1452,12 +1452,14 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                      'Lo spazio comportamentale non ha nodi finali. Dopo la potatura è risultato vuoto')
             return
 
-        stampa_spazio_potato_su_file(spazio_comportamentale_potato_oss, cartella_save + nome)
-
+        stampa_spazio_potato_su_file(spazio_comportamentale_potato_oss, cartella_save + nome, "_oss")
+        print("SPAZIO POTATO")
+        for n in spazio_comportamentale_potato_oss.nodi:
+            print(n.to_string()+" potato: "+str(n.potato))
         #salvo spazio su file
         spazio_salvataggio = crea_spazio_da_spazio_potato(spazio_comportamentale_potato_oss)
         spazio_salvataggio.spazio_potato=True
-        salva_spazio_potato_su_file(spazio_salvataggio, cartella_save + nome)
+        salva_spazio_potato_su_file(spazio_salvataggio, cartella_save + nome, "_oss" )
 
 
 

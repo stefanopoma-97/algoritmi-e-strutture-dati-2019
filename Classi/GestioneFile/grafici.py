@@ -110,7 +110,7 @@ def stampa_automa_su_file(automa, cartella):
     riassunto.close()
 
 
-def stampa_spazio_su_file(spazio, cartella):
+def stampa_spazio_su_file(spazio, cartella, *args):
     '''Stampa l'automa su un file PNG
     Input: automa, nome cartella di output
     Output: viene generato un file .png nella cartella selezionata
@@ -120,8 +120,12 @@ def stampa_spazio_su_file(spazio, cartella):
     # if os.path.exists(filePath):
     #     os.remove(filePath)
     #     os.remove("Output/"+cartella+"/"+spazio.nome+"_riassunto.txt")
+    if len(args)==1:
+        aggiunta=args[0]
+    else:
+        aggiunta=""
 
-    gra = Digraph(spazio.nome, filename=spazio.nome+"_grafico", format='png')
+    gra = Digraph(spazio.nome, filename=spazio.nome+"_grafico"+aggiunta, format='png')
 
     for s in spazio.nodi:
         gra.node(s.output, shape='circle')
@@ -143,17 +147,22 @@ def stampa_spazio_su_file(spazio, cartella):
 
     gra.render(directory="Output/"+cartella)
 
-    riassunto = open("Output/"+cartella+"/"+spazio.nome+"_riassunto.txt", "w")
+    riassunto = open("Output/"+cartella+"/"+spazio.nome+"_riassunto"+aggiunta+".txt", "w")
     riassunto.write(spazio.riassunto())
     riassunto.close()
 
-def stampa_spazio_ridenominato_su_file(spazio, cartella):
+def stampa_spazio_ridenominato_su_file(spazio, cartella, *args):
     '''Stampa l'automa su un file PNG
     Input: automa, nome cartella di output
     Output: viene generato un file .png nella cartella selezionata
     viene anche creato un file nome automa_riassunto.txt contenente le informazioni sull'automa in questione'''
 
-    gra = Digraph(spazio.nome, filename=spazio.nome + "_ridenominazione_grafico", format='png')
+    if len(args)==1:
+        aggiunta=args[0]
+    else:
+        aggiunta=""
+
+    gra = Digraph(spazio.nome, filename=spazio.nome + "_ridenominazione_grafico"+aggiunta, format='png')
 
     for s in spazio.nodi:
         gra.node(s.id, shape='circle')
@@ -174,16 +183,22 @@ def stampa_spazio_ridenominato_su_file(spazio, cartella):
     gra.render(directory="Output/"+cartella)
 
 
-def stampa_spazio_potato_su_file(spazio, cartella):
+def stampa_spazio_potato_su_file(spazio, cartella, *args):
     '''Stampa l'automa su un file PNG
     Input: automa, nome cartella di output
     Output: viene generato un file .png nella cartella selezionata
     viene anche creato un file nome automa_riassunto.txt contenente le informazioni sull'automa in questione'''
+    if (len(args)==1):
+        aggiunta=args[0]
+    else:
+        aggiunta=""
 
-    gra = Digraph(spazio.nome, filename=spazio.nome+"_potatura_grafico", format='png')
+    gra = Digraph(spazio.nome, filename=spazio.nome+"_potatura_grafico"+aggiunta, format='png')
 
+    print("INSERISCO NODI")
     for s in spazio.nodi:
         if s.potato == False:
+            print(s.to_string())
             gra.node(s.id, shape='circle')
 
     gra.node("start", shape="point", label="")
@@ -195,19 +210,15 @@ def stampa_spazio_potato_su_file(spazio, cartella):
                     gra.node(s.id, shape='doublecircle')
     i = 0
     for t in spazio.transizioni:
+        print("\n\n\n")
         print(str(i)+") "+"ID: "+t.nodo_sorgente.id+"("+str(t.nodo_sorgente.potato)+") - "+t.nome+" potata: "+str(t.potato)+", "+str(t.nodo_destinazione.id)+"("+str(t.nodo_destinazione.potato)+")")
         i=i+1
         if t.nodo_sorgente.potato == False and t.nodo_destinazione.potato == False:
             nome = "<" + t.nome + " [" + '<FONT COLOR="green">' + t.osservazione + '</FONT>' + ", " + '<FONT COLOR="red">' + t.rilevanza + '</FONT>' + "]>"
             gra.edge(t.nodo_sorgente.id, t.nodo_destinazione.id, label=nome)
+            print("La stampo")
 
-    # for t in spazio.transizioni:
-    #     print(str(i)+") "+"ID: "+t.nodo_sorgente.id+" - "+t.nome+" potata: "+str(t.potato)+", "+str(t.nodo_destinazione.id))
-    #     i=i+1
-    #     if t.potato==False:
-    #         #nome = t.nome+" ["+ Colour.RED + t.osservazione +  Colour.END+", "+Colour.RED + t.rilevanza +  Colour.END"]"
-    #         nome = "<" + t.nome + " [" + '<FONT COLOR="green">' + t.osservazione + '</FONT>' + ", " + '<FONT COLOR="red">' + t.rilevanza + '</FONT>' + "]>"
-    #         gra.edge(t.nodo_sorgente.id, t.nodo_destinazione.id, label=nome)
+    #gra.edge(t.nodo_sorgente.id, t.nodo_destinazione.id, label=nome)
 
     gra.edge("start", spazio.nodi_iniziali[0].id, label="")
 
@@ -215,7 +226,7 @@ def stampa_spazio_potato_su_file(spazio, cartella):
 
     gra.render(directory="Output/"+cartella)
 
-    riassunto = open("Output/"+cartella+"/"+spazio.nome+"_potatura_riassunto.txt", "w")
+    riassunto = open("Output/"+cartella+"/"+spazio.nome+"_potatura_riassunto"+aggiunta+".txt", "w")
     riassunto.write(spazio.riassunto_potatura())
     riassunto.close()
 
