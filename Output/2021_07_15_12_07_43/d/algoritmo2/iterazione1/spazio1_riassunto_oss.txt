@@ -1,0 +1,7 @@
+Numero di nodi: 2
+	1) [ ID = 0; 20, 30, , , 0]
+	2) [ ID = 1; 20, 31, e2, , 1]
+
+ Numero transizioni: 1
+	1) (20, 30, , , 0) > t2a > (20, 31, e2, , 1)
+Lo spazio NON è stato potato

@@ -1,0 +1,5 @@
+Numero di nodi: 1
+	1) [ ID = 0; 20, 30, , , 0]
+
+ Numero transizioni: 0
+Lo spazio NON è stato potato

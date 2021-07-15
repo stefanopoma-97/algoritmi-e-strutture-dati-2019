@@ -1114,86 +1114,21 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         '''Permette di creare uno spazio comportamentale data un'osservazione lineare svolgendo manualmente tutti i vari passaggi
                 l'algoritmo non termina fino a che l'utente non chiude la nuova finestra'''
         listOfGlobals = globals()
+        if listOfGlobals['spazio_importato'] == None:
 
-        rete = listOfGlobals['rete']
-        spazio_comportamentale_oss = listOfGlobals['spazio_comportamentale_oss']
-        osservazione_lineare = listOfGlobals['osservazione_lineare']
-        cartella_save = listOfGlobals['cartella_save']
-        nome_spazio = listOfGlobals['nome_spazio']
-        spazio_comportamentale_oss = Spazio_comportamentale("")
+            print("LAVORO SU RETE")
 
+            rete = listOfGlobals['rete']
+            spazio_comportamentale_oss = listOfGlobals['spazio_comportamentale_oss']
+            osservazione_lineare = listOfGlobals['osservazione_lineare']
+            cartella_save = listOfGlobals['cartella_save']
+            nome_spazio = listOfGlobals['nome_spazio']
+            spazio_comportamentale_oss = Spazio_comportamentale("")
 
-        #prima iterazione creo spazio
-        nodi_a, nodo_attuale_a, transizioni_a, fine_a, commento = crea_spazio_comportamentale_manuale2(rete, osservazione_lineare)
-        print("Nodo attuale: "+nodo_attuale_a.to_string())
-        nodi_finali_a = []
-        nodi_iniziali_a = []
-        for n in nodi_a:
-            if n.finale:
-                nodi_finali_a.append(n)
-            if n.iniziale:
-                nodi_iniziali_a.append(n)
-        print("lunghezza nodi finali: "+str(len(nodi_finali_a)))
-        print("lunghezza nodi iniziali: " + str(len(nodi_iniziali_a)))
-        spazio = Spazio_comportamentale(nome_spazio, nodi_finali_a, nodi_iniziali_a, nodi_a, transizioni_a)
-        sistema_transizioni(spazio)
-        ridenominazione_spazio_appena_creato(spazio)
-        listOfGlobals['spazio_comportamentale'] = spazio
-        stampa_spazio_su_file(spazio, cartella_save + nome +"/iterazione1")
-        i=2
-
-        colonna1 = [
-            [
-                sg.Button('Passaggio successivo', key='passaggio_successivo', disabled=False),
-                sg.Button('Concludi', key='concludi', disabled=False),
-            ],
-            [
-                sg.Multiline(
-                    "", enable_events=True, size=(40, 20), key="informazioni_algoritmo", autoscroll=True
-                )
-            ],
-        ]
-
-        colonna2 = [
-            [
-                sg.Image('Output/' + cartella_save+ nome +'/iterazione1/' + spazio.nome + '_grafico.png', key="immagine", size=(1000, 2000))
-            ]
-        ]
-
-        layout_grafici = [
-            [
-                sg.Column(colonna1),
-                sg.VSeperator(),
-                sg.Column(colonna2, scrollable=True),
-            ]
-        ]
-
-        window_crea_spazio_comportamentale_manuale = sg.Window('Creazione manuale spazio comportamentale', layout_grafici, location=(0, 0),
-                                          size=(800, 600), keep_on_top=True)
-
-        #window_crea_spazio_comportamentale_manuale['informazioni_algoritmo'].update(window_crea_spazio_comportamentale_manuale['informazioni_algoritmo'].get()+"\niniziato analizzando stato inziiale\n"+commento)
-
-        while True:
-            event, values = window_crea_spazio_comportamentale_manuale.read()
-            if event == sg.WINDOW_CLOSED or event == "concludi":
-                abilita_algoritmo2_creato_spazio()
-                if fine_a==False:
-                    window_spazio_comportamentale['informazioni'].update(
-                        window_spazio_comportamentale[
-                            'informazioni'].get() + "\nConcludo l'esecuzione senza aver generato tutto lo spazio comportamentale \n")
-
-                window_spazio_comportamentale['informazioni'].update(
-                    window_spazio_comportamentale['informazioni'].get() + "\nCreato lo spazio comportamentale: \n" + spazio.riassunto())
-                window_spazio_comportamentale['informazioni'].update(
-                    window_spazio_comportamentale[
-                        'informazioni'].get() + "\nLo spazio è stato ridenominato e salvato su file correttamente")
-                break
-            elif event == "passaggio_successivo":
-                nodi_a, nodo_attuale_a, transizioni_a, fine_a, commento = crea_spazio_comportamentale_manuale2(rete, osservazione_lineare, nodi_a, nodo_attuale_a,
-                                                                                            transizioni_a)
-                window_crea_spazio_comportamentale_manuale['informazioni_algoritmo'].update(
-                    window_crea_spazio_comportamentale_manuale[
-                        'informazioni_algoritmo'].get() + "\n" + commento)
+            if osservazione_lineare == None or (rete.controlla_osservazione(osservazione_lineare)):
+                #prima iterazione creo spazio
+                nodi_a, nodo_attuale_a, transizioni_a, fine_a, commento = crea_spazio_comportamentale_manuale2(rete, osservazione_lineare)
+                print("Nodo attuale: "+nodo_attuale_a.to_string())
 
                 nodi_finali_a = []
                 nodi_iniziali_a = []
@@ -1202,25 +1137,206 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                         nodi_finali_a.append(n)
                     if n.iniziale:
                         nodi_iniziali_a.append(n)
+                print("lunghezza nodi finali: "+str(len(nodi_finali_a)))
+                print("lunghezza nodi iniziali: " + str(len(nodi_iniziali_a)))
                 spazio = Spazio_comportamentale(nome_spazio, nodi_finali_a, nodi_iniziali_a, nodi_a, transizioni_a)
-                #stampa_spazio_su_file(spazio, cartella_save + nome)
-                sistema_transizioni(spazio)
+                sistema_transizioni2(spazio)
+                ridenominazione_spazio_appena_creato(spazio)
+                listOfGlobals['spazio_comportamentale'] = spazio
+                stampa_spazio_su_file(spazio, cartella_save + nome +"/iterazione1", "_oss")
+                i=2
+
+                colonna1 = [
+                    [
+                        sg.Button('Passaggio successivo', key='passaggio_successivo', disabled=False),
+                        sg.Button('Concludi', key='concludi', disabled=False),
+                    ],
+                    [
+                        sg.Multiline(
+                            "", enable_events=True, size=(40, 20), key="informazioni_algoritmo", autoscroll=True
+                        )
+                    ],
+                ]
+
+                colonna2 = [
+                    [
+                        sg.Image('Output/' + cartella_save+ nome +'/iterazione1/' + spazio.nome + '_grafico_oss.png', key="immagine", size=(1000, 2000))
+                    ]
+                ]
+
+                layout_grafici = [
+                    [
+                        sg.Column(colonna1),
+                        sg.VSeperator(),
+                        sg.Column(colonna2, scrollable=True),
+                    ]
+                ]
+
+                window_crea_spazio_comportamentale_manuale = sg.Window('Creazione manuale spazio comportamentale', layout_grafici, location=(0, 0),
+                                                  size=(800, 600), keep_on_top=True)
+
+                #window_crea_spazio_comportamentale_manuale['informazioni_algoritmo'].update(window_crea_spazio_comportamentale_manuale['informazioni_algoritmo'].get()+"\niniziato analizzando stato inziiale\n"+commento)
+
+                while True:
+                    event, values = window_crea_spazio_comportamentale_manuale.read()
+                    if event == sg.WINDOW_CLOSED or event == "concludi":
+                        abilita_algoritmo2_creato_spazio()
+                        if fine_a==False:
+                            window_spazio_comportamentale['informazioni'].update(
+                                window_spazio_comportamentale[
+                                    'informazioni'].get() + "\nConcludo l'esecuzione senza aver generato tutto lo spazio comportamentale \n")
+
+                        window_spazio_comportamentale['informazioni'].update(
+                            window_spazio_comportamentale['informazioni'].get() + "\nCreato lo spazio comportamentale: \n" + spazio.riassunto())
+                        window_spazio_comportamentale['informazioni'].update(
+                            window_spazio_comportamentale[
+                                'informazioni'].get() + "\nLo spazio è stato ridenominato e salvato su file correttamente")
+                        break
+                    elif event == "passaggio_successivo":
+                        nodi_a, nodo_attuale_a, transizioni_a, fine_a, commento = crea_spazio_comportamentale_manuale2(rete, osservazione_lineare, nodi_a, nodo_attuale_a,
+                                                                                                    transizioni_a)
+                        window_crea_spazio_comportamentale_manuale['informazioni_algoritmo'].update(
+                            window_crea_spazio_comportamentale_manuale[
+                                'informazioni_algoritmo'].get() + "\n" + commento)
+
+                        nodi_finali_a = []
+                        nodi_iniziali_a = []
+                        for n in nodi_a:
+                            if n.finale:
+                                nodi_finali_a.append(n)
+                            if n.iniziale:
+                                nodi_iniziali_a.append(n)
+                        spazio = Spazio_comportamentale(nome_spazio, nodi_finali_a, nodi_iniziali_a, nodi_a, transizioni_a)
+                        sistema_transizioni(spazio)
+                        ridenominazione_spazio_appena_creato(spazio)
+                        listOfGlobals['spazio_comportamentale_oss'] = spazio
+                        stampa_spazio_su_file(spazio, cartella_save +nome + "/iterazione"+str(i),"_oss")
+                        window_crea_spazio_comportamentale_manuale["immagine"].update('Output/' + cartella_save +nome +'/iterazione'+str(i)+"/" + spazio.nome + '_grafico_oss.png')
+                        i = i+1
+
+                window_crea_spazio_comportamentale_manuale.close()
+            else:
+                sg.Popup('Attenzione!',
+                         'Le etichette dell\'osservazione lineare inserita non sono presenti nella rete. Cambiare l\'osservazione lineare per proseguire')
+
+        else:
+            print("LAVORO SU SPAZIO")
+
+            spazio = listOfGlobals['spazio_importato']
+            spazio_comportamentale_oss = listOfGlobals['spazio_comportamentale_oss']
+            osservazione_lineare = listOfGlobals['osservazione_lineare']
+            cartella_save = listOfGlobals['cartella_save']
+            nome_spazio = listOfGlobals['nome_spazio']
+            spazio_comportamentale_oss = Spazio_comportamentale("")
+
+            if (osservazione_lineare != None):
+                # prima iterazione creo spazio
+                nodi_a, nodo_attuale_a, transizioni_a, fine_a, commento = crea_spazio_comportamentale_manuale2_da_spazio(spazio,
+                                                                                                               osservazione_lineare)
+
+                nodi_save= deepcopy(nodi_a)
+                transizioni_save = deepcopy(transizioni_a)
+                nodi_finali_a = []
+                nodi_iniziali_a = []
+                for n in nodi_save:
+                    if n.finale:
+                        nodi_finali_a.append(n)
+                    if n.iniziale:
+                        nodi_iniziali_a.append(n)
+                print("lunghezza nodi finali: " + str(len(nodi_finali_a)))
+                print("lunghezza nodi iniziali: " + str(len(nodi_iniziali_a)))
+                spazio = Spazio_comportamentale(nome_spazio, nodi_finali_a, nodi_iniziali_a, nodi_save, transizioni_save)
+                sistema_transizioni2(spazio)
                 ridenominazione_spazio_appena_creato(spazio)
                 listOfGlobals['spazio_comportamentale_oss'] = spazio
-                stampa_spazio_su_file(spazio, cartella_save +nome + "/iterazione"+str(i))
-                window_crea_spazio_comportamentale_manuale["immagine"].update('Output/' + cartella_save +nome +'/iterazione'+str(i)+"/" + spazio.nome + '_grafico.png')
-                i = i+1
+                stampa_spazio_su_file(spazio, cartella_save + nome + "/iterazione1", "_oss")
+                i = 2
 
-        window_crea_spazio_comportamentale_manuale.close()
+                colonna1 = [
+                    [
+                        sg.Button('Passaggio successivo', key='passaggio_successivo', disabled=False),
+                        sg.Button('Concludi', key='concludi', disabled=False),
+                    ],
+                    [
+                        sg.Multiline(
+                            "", enable_events=True, size=(40, 20), key="informazioni_algoritmo", autoscroll=True
+                        )
+                    ],
+                ]
 
+                colonna2 = [
+                    [
+                        sg.Image('Output/' + cartella_save + nome + '/iterazione1/' + spazio.nome + '_grafico_oss.png',
+                                 key="immagine", size=(1000, 2000))
+                    ]
+                ]
 
+                layout_grafici = [
+                    [
+                        sg.Column(colonna1),
+                        sg.VSeperator(),
+                        sg.Column(colonna2, scrollable=True),
+                    ]
+                ]
 
-        # window_spazio_comportamentale['informazioni'].update(
-        #     window_spazio_comportamentale['informazioni'].get() + "\nCreato lo spazio comportamentale: \n" + spazio_comportamentale.to_string())
-        # listOfGlobals['spazio_comportamentale'] = spazio_comportamentale
-        # window_spazio_comportamentale['avvio_algoritmo1'].update(disabled=True)
-        # window_spazio_comportamentale['salva'].update(disabled=False)
-        # window_spazio_comportamentale['potatura'].update(disabled=False)
+                window_crea_spazio_comportamentale_manuale = sg.Window('Creazione manuale spazio comportamentale',
+                                                                       layout_grafici, location=(0, 0),
+                                                                       size=(800, 600), keep_on_top=True)
+
+                # window_crea_spazio_comportamentale_manuale['informazioni_algoritmo'].update(window_crea_spazio_comportamentale_manuale['informazioni_algoritmo'].get()+"\niniziato analizzando stato inziiale\n"+commento)
+
+                while True:
+                    event, values = window_crea_spazio_comportamentale_manuale.read()
+                    if event == sg.WINDOW_CLOSED or event == "concludi":
+                        abilita_algoritmo2_creato_spazio()
+                        if fine_a == False:
+                            window_spazio_comportamentale['informazioni'].update(
+                                window_spazio_comportamentale[
+                                    'informazioni'].get() + "\nConcludo l'esecuzione senza aver generato tutto lo spazio comportamentale \n")
+
+                        window_spazio_comportamentale['informazioni'].update(
+                            window_spazio_comportamentale[
+                                'informazioni'].get() + "\nCreato lo spazio comportamentale: \n" + spazio.riassunto())
+                        window_spazio_comportamentale['informazioni'].update(
+                            window_spazio_comportamentale[
+                                'informazioni'].get() + "\nLo spazio è stato ridenominato e salvato su file correttamente")
+                        break
+                    elif event == "passaggio_successivo":
+                        nodi_a, nodo_attuale_a, transizioni_a, fine_a, commento = crea_spazio_comportamentale_manuale2_da_spazio(
+                            spazio, osservazione_lineare, nodi_a, nodo_attuale_a,
+                            transizioni_a)
+                        window_crea_spazio_comportamentale_manuale['informazioni_algoritmo'].update(
+                            window_crea_spazio_comportamentale_manuale[
+                                'informazioni_algoritmo'].get() + "\n" + commento)
+
+                        nodi_save = deepcopy(nodi_a)
+                        transizioni_save = deepcopy(transizioni_a)
+                        nodi_finali_a = []
+                        nodi_iniziali_a = []
+                        for n in nodi_save:
+                            if n.finale:
+                                nodi_finali_a.append(n)
+                            if n.iniziale:
+                                nodi_iniziali_a.append(n)
+                        print("lunghezza nodi finali: " + str(len(nodi_finali_a)))
+                        print("lunghezza nodi iniziali: " + str(len(nodi_iniziali_a)))
+                        spazio = Spazio_comportamentale(nome_spazio, nodi_finali_a, nodi_iniziali_a, nodi_save,
+                                                        transizioni_save)
+                        sistema_transizioni2(spazio)
+                        ridenominazione_spazio_appena_creato(spazio)
+
+                        listOfGlobals['spazio_comportamentale_oss'] = spazio
+                        stampa_spazio_su_file(spazio, cartella_save + nome + "/iterazione" + str(i), "_oss")
+                        window_crea_spazio_comportamentale_manuale["immagine"].update(
+                            'Output/' + cartella_save + nome + '/iterazione' + str(
+                                i) + "/" + spazio.nome + '_grafico_oss.png')
+                        i = i + 1
+
+                window_crea_spazio_comportamentale_manuale.close()
+            else:
+                sg.Popup('Attenzione!',
+                         'Le etichette dell\'osservazione lineare inserita non sono presenti nella rete. Cambiare l\'osservazione lineare per proseguire')
+
 
 
     def salva_su_file(nome):

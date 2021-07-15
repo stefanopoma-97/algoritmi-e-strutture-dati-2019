@@ -1,0 +1,12 @@
+digraph spazio1 {
+	3 [shape=circle]
+	5 [shape=circle]
+	6 [shape=circle]
+	7 [shape=circle]
+	start [label="" shape=point]
+	3 [shape=doublecircle]
+	5 [shape=doublecircle]
+	6 [shape=doublecircle]
+	7 [shape=doublecircle]
+	start -> 0 [label=""]
+}
