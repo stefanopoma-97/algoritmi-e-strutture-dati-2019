@@ -1,0 +1,17 @@
+digraph q {
+	"0, 0, , 0" [shape=circle]
+	"0, 1, op, 1" [shape=circle]
+	"0, 1, , 1" [shape=circle]
+	"0, 0, cl, 2" [shape=circle]
+	"0, 0, , 3" [shape=circle]
+	"0, 0, cl, 3" [shape=circle]
+	start [label="" shape=point]
+	"0, 0, , 3" [shape=doublecircle]
+	"0, 0, , 0" -> "0, 1, op, 1" [label=<s1 [<FONT COLOR="green">act</FONT>, <FONT COLOR="red"> </FONT>]>]
+	"0, 1, op, 1" -> "0, 1, , 1" [label=<b3 [<FONT COLOR="green"> </FONT>, <FONT COLOR="red">f3</FONT>]>]
+	"0, 1, , 1" -> "0, 0, cl, 2" [label=<s2 [<FONT COLOR="green">sby</FONT>, <FONT COLOR="red"> </FONT>]>]
+	"0, 0, cl, 2" -> "0, 0, , 3" [label=<b5 [<FONT COLOR="green">nop</FONT>, <FONT COLOR="red"> </FONT>]>]
+	"0, 0, , 3" -> "0, 0, cl, 3" [label=<s3 [<FONT COLOR="green"> </FONT>, <FONT COLOR="red">f1</FONT>]>]
+	"0, 1, , 1" -> "0, 1, op, 1" [label=<s4 [<FONT COLOR="green"> </FONT>, <FONT COLOR="red">f2</FONT>]>]
+	start -> "0, 0, , 0" [label=""]
+}

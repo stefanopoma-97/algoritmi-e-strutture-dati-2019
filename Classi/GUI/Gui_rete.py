@@ -1142,7 +1142,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                 spazio = Spazio_comportamentale(nome_spazio, nodi_finali_a, nodi_iniziali_a, nodi_a, transizioni_a)
                 sistema_transizioni2(spazio)
                 ridenominazione_spazio_appena_creato(spazio)
-                listOfGlobals['spazio_comportamentale'] = spazio
+                listOfGlobals['spazio_comportamentale_oss'] = spazio
                 stampa_spazio_su_file(spazio, cartella_save + nome +"/iterazione1", "_oss")
                 i=2
 
@@ -1233,9 +1233,9 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                 # prima iterazione creo spazio
                 nodi_a, nodo_attuale_a, transizioni_a, fine_a, commento = crea_spazio_comportamentale_manuale2_da_spazio(spazio,
                                                                                                                osservazione_lineare)
-
-                nodi_save= deepcopy(nodi_a)
-                transizioni_save = deepcopy(transizioni_a)
+                lista = deepcopy([nodi_a, transizioni_a])
+                nodi_save= lista[0]
+                transizioni_save = lista[1]
                 nodi_finali_a = []
                 nodi_iniziali_a = []
                 for n in nodi_save:
@@ -1300,6 +1300,8 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                         window_spazio_comportamentale['informazioni'].update(
                             window_spazio_comportamentale[
                                 'informazioni'].get() + "\nLo spazio è stato ridenominato e salvato su file correttamente")
+                        print("SPAZIO CREATO")
+                        print(spazio.to_string())
                         break
                     elif event == "passaggio_successivo":
                         nodi_a, nodo_attuale_a, transizioni_a, fine_a, commento = crea_spazio_comportamentale_manuale2_da_spazio(
@@ -1309,19 +1311,23 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                             window_crea_spazio_comportamentale_manuale[
                                 'informazioni_algoritmo'].get() + "\n" + commento)
 
-                        nodi_save = deepcopy(nodi_a)
-                        transizioni_save = deepcopy(transizioni_a)
+                        lista = deepcopy([nodi_a, transizioni_a])
+                        nodi_save = lista[0]
+                        transizioni_save = lista[1]
                         nodi_finali_a = []
                         nodi_iniziali_a = []
-                        for n in nodi_save:
-                            if n.finale:
-                                nodi_finali_a.append(n)
-                            if n.iniziale:
-                                nodi_iniziali_a.append(n)
-                        print("lunghezza nodi finali: " + str(len(nodi_finali_a)))
-                        print("lunghezza nodi iniziali: " + str(len(nodi_iniziali_a)))
+                        for nod in nodi_save:
+                            nod.potato=True
+                            if nod.finale:
+                                nodi_finali_a.append(nod)
+                            if nod.iniziale:
+                                nodi_iniziali_a.append(nod)
+                        for tr in transizioni_save:
+                            tr.potato=True
+
                         spazio = Spazio_comportamentale(nome_spazio, nodi_finali_a, nodi_iniziali_a, nodi_save,
                                                         transizioni_save)
+                        spazio.spazio_potato=False
                         sistema_transizioni2(spazio)
                         ridenominazione_spazio_appena_creato(spazio)
 

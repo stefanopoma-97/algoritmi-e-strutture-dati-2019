@@ -1,5 +1,0 @@
-digraph d {
-	"20, 30, , , 0" [shape=circle]
-	start [label="" shape=point]
-	start -> "20, 30, , , 0" [label=""]
-}

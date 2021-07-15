@@ -1,2 +1,0 @@
-Numero di automi:3
-Numero di link:3

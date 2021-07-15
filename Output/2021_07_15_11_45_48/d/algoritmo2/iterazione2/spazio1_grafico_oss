@@ -1,7 +1,0 @@
-digraph spazio1 {
-	"20, 30, , , 0" [shape=circle]
-	"20, 31, e2, , 1" [shape=circle]
-	start [label="" shape=point]
-	"20, 30, , , 0" -> "20, 31, e2, , 1" [label=<t2a [<FONT COLOR="green">o2</FONT>, <FONT COLOR="red"> </FONT>]>]
-	start -> "20, 30, , , 0" [label=""]
-}
