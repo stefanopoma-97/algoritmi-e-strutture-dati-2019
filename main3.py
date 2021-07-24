@@ -118,83 +118,37 @@ rete3 = carica_rete_da_file_txt(automi, links, "Input/RETE3/rete 3.txt")
 spazio1 = carica_spazio_da_file("Input/RETE1/spazio1_salvataggio")
 spazio2 = carica_spazio_da_file("Input/RETE2/spazio2_salvataggio")
 spazio3 = carica_spazio_da_file("Input/RETE3/spazio3_salvataggio")
+
+spazio1_potato_salvataggio_oss = carica_spazio_da_file("Input/spazio1_potato_salvataggio_oss")
 spazio2_salvataggio= carica_spazio_da_file("Input/spazio2_salvataggio")
 spazio2_potato_salvataggio= carica_spazio_da_file("Input/spazio2_potato_salvataggio")
+spazio2_potato_salvataggio_oss = carica_spazio_da_file("Input/spazio2_potato_salvataggio_oss")
 spazio3_salvataggio= carica_spazio_da_file("Input/spazio3_salvataggio")
 spazio3_potato_salvataggio= carica_spazio_da_file("Input/spazio3_potato_salvataggio")
+spazio3_potato_salvataggio_oss = carica_spazio_da_file("Input/spazio3_potato_salvataggio_oss")
 osservazione1=["o3","o2"]
 osservazione2=["act", "sby", "nop"]
 osservazione3=["o1", "o2"]
 
 
 
-#TODO spazio potato salvato sembra avere info dello spazio complessivo
+ridenominazione_spazio_appena_creato(spazio1_potato_salvataggio_oss)
 
-#TODO crea spazio da spazio sembra togliere moltissime transizioni, salvandolo deve essere ripristinato
-#probabilmente deriva dal settare all'inizio tutte le l_oss a 0
-#sembra che non scorra nessuna transizione for t in nodo.traniszioni
+#modificato con 1 transizione sorgente a stato iniziale
+spazio1_potato_salvataggio_oss_modificato= deepcopy(spazio1_potato_salvataggio_oss)
+spazio1_potato_salvataggio_oss_modificato.nodi_iniziali[0].transizioni_sorgente = [spazio1_potato_salvataggio_oss_modificato.transizioni[0]]
 
-# spazio_out = crea_spazio_comportamentale2_da_spazio(spazio3, osservazione3)
-# spazio_potato = deepcopy(spazio_out)
-# spazio_potato = potatura_e_ridenominazione(spazio_potato)
-#stampa_spazio_potato_su_file(spazio_potato, "SPAZIO")
+#DIAGNOSI
+diagnosi1=diagnosi(spazio1_potato_salvataggio_oss_modificato)
 
-#
-# print("SPAZIO 2 salvataggio: "+spazio2_oss.riassunto())
-# for n in spazio2_oss.nodi:
+
+stampa_spazio_ridenominato_su_file(diagnosi1,"SPAZIO")
+# spazio_oss=crea_spazio_comportamentale2_da_spazio(spazio3_salvataggio, osservazione3)
+# stampa_spazio_su_file(spazio_oss,"SPAZIO")
+# print("SPAZIO 3 salvataggio: "+spazio_oss.riassunto())
+# for n in spazio_oss.nodi:
 #   print("NODO: "+n.to_string())
 #   for t in n.transizioni:
 #     print("\t"+t.to_string())
-# stampa_spazio_su_file(spazio2_oss,"SPAZIO")
-
-# spazio2_oss = crea_spazio_comportamentale2_da_spazio(spazio2, osservazione2)
-# spazio2_oss_potato= potatura_e_ridenominazione(spazio2_oss)
-# stampa_spazio_su_file(spazio2_oss,"SPAZIO")
-# stampa_spazio_potato_su_file(spazio2_oss_potato,"SPAZIO/potato")
-#
-#salva_spazio_potato_su_file(spazio2_potato_salvataggio,"SPAZIO")
-
-stampa_spazio_su_file(spazio3_salvataggio,"SPAZIO")
-spazio_oss=crea_spazio_comportamentale2_da_spazio(spazio3_salvataggio, osservazione3)
-stampa_spazio_su_file(spazio_oss,"SPAZIO")
-print("SPAZIO 3 salvataggio: "+spazio_oss.riassunto())
-for n in spazio_oss.nodi:
-  print("NODO: "+n.to_string())
-  for t in n.transizioni:
-    print("\t"+t.to_string())
-
-# spazio_out = crea_spazio_comportamentale2_da_spazio(spazio2_potato_salvataggio, osservazione2)
-# stampa_spazio_su_file(spazio_out, "SPAZIO/oss/")
-
-
-
-#TEST
-#rete 1 con algoritmo 1 - OK
-#rete 1 algoritmo 1 importa spazio - OK
-#rete 1 algoritmo 2 - OK
-#rete 1 algoritmo 2, importa spazio base - OK
-#rete 1 algoritmo 2, importa spazio potato - OK
-#rete 1 algoritmo 2, importa spazio oss base - OK
-#rete 1 algoritmo 2, importa spazio oss potato - OK
-#passaggi
-
-#rete 2 con algoritmo 1 -
-#rete 2 algoritmo 1 importa spazio - OK
-#rete 2 algoritmo 2 - OK
-#rete 2 algoritmo 2, importa spazio base - OK
-#rete 2 algoritmo 2, importa spazio potato - OK
-#rete 2 algoritmo 2, importa spazio oss base - OK
-#rete 2 algoritmo 2, importa spazio oss potato - OK
-#passaggi
-
-
-#rete 3 con algoritmo 1 - OK
-#rete 3 algoritmo 1 importa spazio - OK
-#rete 3 algoritmo 2 - OK
-#rete 3 algoritmo 2, importa spazio base - NO (transizioni in più)
-#rete 3 algoritmo 2, importa spazio potato -
-#rete 3 algoritmo 2, importa spazio oss base - OK
-#rete 3 algoritmo 2, importa spazio oss potato - OK
-#passaggi
 
 

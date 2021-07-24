@@ -1463,3 +1463,102 @@ def crea_spazio_da_spazio(spazio):
         t.nodo_destinazione.transizioni_sorgente.append(t)
 
     return nuovo_spazio
+
+
+#---------------------------------------------------------
+#ALGORITMO 3
+def diagnosi(spazio):
+    nodi = spazio.nodi
+    transizioni=spazio.transizioni
+
+    nodo_iniziale = spazio.nodi_iniziali[0]
+    nodi_finali = spazio.nodi_finali
+    print("TROVO NODO INIZIALE:")
+    print(nodo_iniziale.to_string())
+
+    sistemo_nodo_iniziale(nodo_iniziale, nodi, transizioni)
+
+    sistemo_nodi_finali(nodi_finali, nodi, transizioni)
+
+    nodi_finali=[]
+    nodi_iniziali=[]
+    for n in nodi:
+        if n.finale:
+            nodi_finali.append(n)
+        if n.iniziale:
+            nodi_iniziali.append(n)
+    print("NODI TOTALI:")
+    i=0
+    for n in nodi:
+        print(str(i)+") "+n.to_string())
+        i=i+1
+
+    print("TRANSIZIONI TOTALI:")
+    i=0
+    for t in transizioni:
+        print(str(i)+") "+t.to_string())
+        i=i+1
+
+    print("NODI INZIALI:")
+    i = 0
+    for n in nodi_iniziali:
+        print(str(i) + ") " + n.to_string())
+        i = i + 1
+
+    print("NODI FINALI:")
+    i = 0
+    for n in nodi_finali:
+        print(str(i) + ") " + n.to_string())
+        i = i + 1
+
+
+    spazio = Spazio_comportamentale("spazio1", nodi_finali, nodi_iniziali, nodi, transizioni)
+    sistema_transizioni(spazio)
+    ridenominazione_spazio_appena_creato(spazio)
+    print("SPAZIO: ")
+    print(spazio.to_string())
+    return spazio
+
+def sistemo_nodo_iniziale(nodo_iniziale, nodi, transizioni):
+    print("\n\nSISTEMO NODO INIZIALE")
+    print("Lunghezza transizioni che entrano nel nodo iniziale: "+str(len(nodo_iniziale.transizioni_sorgente)))
+
+    if len(nodo_iniziale.transizioni_sorgente) > 0:
+        nuovo_nodo = Nodo(nodo_iniziale.stati, False, nodo_iniziale.links, True, [], 0)
+        print("Creo nuovo nodo: "+nuovo_nodo.to_string())
+        nodo_iniziale.iniziale=False
+        tra = Transizione_spazio("n0", nuovo_nodo, nodo_iniziale, " ", " ") #nome, nodo_sorgente=None, nodo_destinazione=None, osservazione=None, rilevanza=None
+        print("Creo nuova transizione: "+tra.to_string())
+
+        transizioni.insert(0, tra)
+        nodi.insert(0, nuovo_nodo)
+
+def sistemo_nodi_finali(nodi_finali, nodi, transizioni):
+    print("\n\nSISTEMO NODI FINALI")
+    numero_nodi_finali = len(nodi_finali)
+
+    if (numero_nodi_finali > 1):
+        print("Il numero di nodi finali è > 1")
+        nuovo_nodo = Nodo(nodi_finali[0].stati, False, nodi_finali[0].links, False, [], 0) #stati, check, links, iniziale, transizioni=[], *args):
+        nuovo_nodo.finale=True
+        nodi.append(nuovo_nodo)
+
+        for idx, n in enumerate(nodi_finali):
+            n.finale=False
+            tra = Transizione_spazio("nq"+str(idx), n, nuovo_nodo, " ", " ")  # nome, nodo_sorgente=None, nodo_destinazione=None, osservazione=None, rilevanza=None
+            transizioni.append(tra)
+            print("Creata nuova transizione: "+tra.to_string())
+
+    if (numero_nodi_finali==1)and(len(nodi_finali[0].transizioni>0)):
+        print("Il numero di nodi finali è = 1")
+        nuovo_nodo = Nodo(nodi_finali[0].stati, False, nodi_finali[0].links, False, [],
+                          0)  # stati, check, links, iniziale, transizioni=[], *args):
+        nuovo_nodo.finale = True
+        nodi.append(nuovo_nodo)
+
+        for idx, n in enumerate(nodi_finali):
+            n.finale = False
+            tra = Transizione_spazio("nq"+str(idx), n, nuovo_nodo, " ", " ")
+            transizioni.append(tra)
+            print("Creata nuova transizione: " + tra.to_string())
+
