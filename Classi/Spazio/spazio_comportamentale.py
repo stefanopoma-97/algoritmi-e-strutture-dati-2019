@@ -133,6 +133,7 @@ class Nodo:
         self.id = ""
         self.transizioni = transizioni
         self.transizioni_sorgente = []
+        self.transizioni_auto = []
         self.check = check
         self.stati = stati
         self.links = links
@@ -145,6 +146,7 @@ class Nodo:
         if (len(args)) == 1:
             self.lunghezza_osservazione=args[0]
         self.output = self.get_output()
+
 
 
 

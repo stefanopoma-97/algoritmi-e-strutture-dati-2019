@@ -197,16 +197,8 @@ def sistema_transizioni(spazio):
     for t in spazio.transizioni:
         t.nodo_sorgente.transizioni.append(t)
         t.nodo_destinazione.transizioni_sorgente.append(t)
-        if (t.nome == "t1c"):
-            print("TRANSIZIONE T1C")
-            print("Sorgente: "+t.nodo_sorgente.output)
-            print("destinazione: " + t.nodo_destinazione.output)
 
-            print("DA DESTINAZIONE scorro transizioni")
-            for u in t.nodo_destinazione.transizioni_sorgente:
-                print("\t"+u.nome)
-        else:
-            print("NON TROVATA T1C")
+
 
 
 def controllo_transizioni(nodi, nodo_attuale, transizioni_spazio):
@@ -1468,18 +1460,26 @@ def crea_spazio_da_spazio(spazio):
 #---------------------------------------------------------
 #ALGORITMO 3
 def diagnosi(spazio):
+
     nodi = spazio.nodi
     transizioni=spazio.transizioni
 
-    nodo_iniziale = spazio.nodi_iniziali[0]
+    nodo_iniziale = spazio.nodi_iniziali[0] #prendo nodo iniziale
     nodi_finali = spazio.nodi_finali
     print("TROVO NODO INIZIALE:")
     print(nodo_iniziale.to_string())
 
+    #se il nodo iniziale ha delle transizioni entranti va creato un nuovo nodo iniziae
     sistemo_nodo_iniziale(nodo_iniziale, nodi, transizioni)
 
+    #se ci sono più nodi finiali ne va creato solo uno
     sistemo_nodi_finali(nodi_finali, nodi, transizioni)
 
+
+    semplifico_transizioni_diagnosi(nodi, transizioni)
+
+
+    #fine output
     nodi_finali=[]
     nodi_iniziali=[]
     for n in nodi:
@@ -1518,6 +1518,69 @@ def diagnosi(spazio):
     print("SPAZIO: ")
     print(spazio.to_string())
     return spazio
+
+def semplifico_transizioni_diagnosi(nodi, transizioni):
+    sistema_transizioni_da_nodi_e_transizioni(nodi, transizioni)
+
+    #while transizioni presenti
+    controllo_sequenza(nodi, transizioni)
+
+
+def controllo_sequenza(nodi, transizioni):
+    '''funzione per verificare la presenza di una seguenza di transizioni (caso 1)'''
+    sequenza = False
+    lista_sequenza = []
+
+    for t in transizioni:
+        #il nodo destinazione ha 1 transizione uscente e una entrante
+        if len(t.nodo_sorgente.transizioni==1) and len(t.nodo_sorgente.transizioni_sorgente==1) and len(t.nodo_sorgente.transizioni_auto==0):
+            lista_sequenza.append(t)
+            sequenza=True
+            esplora_sequenza(t, lista_sequenza)
+
+    if sequenza:
+        etichetta=""
+        for tra in lista_sequenza:
+            if tra.rilevanza == " ":
+                if etichetta=="":
+                    etichetta=" "
+            else:
+                etichetta=etichetta+etichetta
+
+        #creo transizione
+        nodo_sorgente=lista_sequenza[0].nodo_sorgente
+        nodo_destinazione=lista_sequenza[len(lista_sequenza)].nodo_destinazione
+        transizione = Transizione_spazio(nome="nome",nodo_sorgente=nodo_sorgente,nodo_destinazione=nodo_destinazione,osservazione=" ",rilevanza=etichetta)
+        transizioni.append(transizione)
+
+        #elimino nodi e transizioni saltate
+        for tra in lista_sequenza:
+
+
+
+
+
+def esplora_sequenza(transizione, lista_sequenza):
+    '''funzione ricorsiva che parte da una transizione e cerca ulteriori transizioni che possano creare una sequenza di AND'''
+    #prendo transizione uscente
+    nuova_transizione = transizione.nodo_destinazione.transizioni[0]
+    if len(nuova_transizione.nodo_sorgente.transizioni == 1) and len(nuova_transizione.nodo_sorgente.transizioni_sorgente == 1) and len(
+            nuova_transizione.nodo_sorgente.transizioni_auto == 0):
+        lista_sequenza.append(nuova_transizione)
+        esplora_sequenza(nuova_transizione, lista_sequenza)
+    else:
+        return
+
+
+def sistema_transizioni_da_nodi_e_transizioni(nodi, transizioni):
+    '''Dati nodi e transizioni va ad aggiornare transizioni e transizioni sorgenti
+    dei vari nodi sulla base delle informazioni contenute nell'array di transizioni'''
+    for t in transizioni:
+        t.nodo_sorgente.transizioni.append(t)
+        t.nodo_destinazione.transizioni_sorgente.append(t)
+
+        if t.nodo_sorgente == t.nodo_destinazione:
+            t.nodo_sorgente.transizioni_auto.append(t)
 
 def sistemo_nodo_iniziale(nodo_iniziale, nodi, transizioni):
     print("\n\nSISTEMO NODO INIZIALE")
