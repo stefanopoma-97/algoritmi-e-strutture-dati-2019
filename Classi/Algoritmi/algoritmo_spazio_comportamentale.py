@@ -1514,47 +1514,165 @@ def diagnosi(spazio):
 
     spazio = Spazio_comportamentale("spazio1", nodi_finali, nodi_iniziali, nodi, transizioni)
     sistema_transizioni(spazio)
-    ridenominazione_spazio_appena_creato(spazio)
+    #ridenominazione_spazio_appena_creato(spazio)
     print("SPAZIO: ")
     print(spazio.to_string())
     return spazio
 
 def semplifico_transizioni_diagnosi(nodi, transizioni):
+    print("\n\n\nSEMPLIFICO TRANSIZIONI")
+
     sistema_transizioni_da_nodi_e_transizioni(nodi, transizioni)
-
+    print("Ho corretto sorgente, dest e auto di tutti i nodi")
     #while transizioni presenti
-    controllo_sequenza(nodi, transizioni)
 
+    sequenza = controllo_sequenza(nodi, transizioni)
+    if sequenza == False:
+        controlla_tratti_paralleli(transizioni)
+
+def controlla_tratti_paralleli(transizioni):
+    '''funzione per verificare la presenza di una seguenza di transizioni (caso 1)'''
+    print("CONTROLLO TRATTI PARALLELI PER OR")
+
+    for t in transizioni:
+        paralleli = False
+        lista_transizioni = []
+
+        print("FOR: Analizzo la transizione: ")
+        print(t.to_string())
+        print("\n")
+        print("INFO sulla transizione")
+        print("numero transizioni nodo sorgente: " + str(len(t.nodo_sorgente.transizioni)))
+        print("numero transizioni entranti nodo dest: " + str(len(t.nodo_destinazione.transizioni_sorgente)))
+
+        if ((len(t.nodo_sorgente.transizioni)) > 1 ) and ((len(t.nodo_destinazione.transizioni_sorgente)) > 1 ):
+            print("Il nodo destinazione rispecchia i requisiti")
+            print("Nodo destinazione: " + t.nodo_destinazione.to_string())
+            for tra in t.nodo_sorgente.transizioni:
+                if t!=tra:
+                    if t.nodo_destinazione==tra.nodo_destinazione:
+                        print("trovata transizione parallela:")
+                        print(tra.to_string())
+                        lista_transizioni.append(t)
+                        lista_transizioni.append(tra)
+                        paralleli = True
+                        break
+        if paralleli:
+            break
+
+
+    if paralleli:
+        print("Creazione etichetta")
+        etichetta = ""
+        if lista_transizioni[0].rilevanza==" ":
+            if lista_transizioni[1].rilevanza==" ":
+                etichetta=" "
+            else:
+                etichetta=lista_transizioni[1].rilevanza+"|ε"
+        else:
+            if lista_transizioni[1].rilevanza==" ":
+                etichetta=lista_transizioni[0].rilevanza+"|ε"
+            else:
+                etichetta=lista_transizioni[0].rilevanza+"|"+lista_transizioni[1].rilevanza
+
+        print("Ho creato etichetta nuova transizione: " + etichetta)
+
+        # creo transizione
+        nodo_sorgente = lista_transizioni[0].nodo_sorgente
+        nodo_destinazione = lista_transizioni[0].nodo_destinazione
+        transizione = Transizione_spazio(nome="nome", nodo_sorgente=nodo_sorgente, nodo_destinazione=nodo_destinazione,
+                                         osservazione=" ", rilevanza=etichetta)
+        transizioni.append(transizione)
+        print("Creo nuova transizione: ")
+        print(transizione.to_string())
+
+        transizioni.remove(lista_transizioni[0])
+        transizioni.remove(lista_transizioni[1])
+        return True
+    else:
+        return False
 
 def controllo_sequenza(nodi, transizioni):
     '''funzione per verificare la presenza di una seguenza di transizioni (caso 1)'''
-    sequenza = False
-    lista_sequenza = []
+    print("CONTROLLO PER SEQUENZA AND")
+
 
     for t in transizioni:
+        sequenza = False
+        lista_sequenza = []
+
+        print("FOR: Analizzo la transizione: ")
+        print(t.to_string())
+        print("\n")
+        print("INFO sulla transizione")
+        print("lunghezza nodo dest transizioni entranti: "+str(len(t.nodo_destinazione.transizioni_sorgente)))
+        print("nodo dest auto transizioni: "+str(len(t.nodo_sorgente.transizioni_auto)))
         #il nodo destinazione ha 1 transizione uscente e una entrante
-        if len(t.nodo_sorgente.transizioni==1) and len(t.nodo_sorgente.transizioni_sorgente==1) and len(t.nodo_sorgente.transizioni_auto==0):
+        if ((len(t.nodo_destinazione.transizioni) == 1) and (len(t.nodo_destinazione.transizioni_sorgente) == 1) and (len(t.nodo_destinazione.transizioni_auto)==0)):
+            print("Il nodo destinazione rispecchia i requisiti, 1 transizione entrante, 1 uscente, no auto transizioni")
+            print("Nodo destinazione: "+t.nodo_destinazione.to_string())
             lista_sequenza.append(t)
+            lista_sequenza.append(t.nodo_destinazione.transizioni[0])
             sequenza=True
-            esplora_sequenza(t, lista_sequenza)
+            esplora_sequenza(t.nodo_destinazione.transizioni[0], lista_sequenza)
+            print("ho finito di esplorare la seguenza, è lunga: "+str(len(lista_sequenza)))
+            break
 
     if sequenza:
+        print("Creazione etichetta")
         etichetta=""
         for tra in lista_sequenza:
-            if tra.rilevanza == " ":
+            print("\tValore di rilevanza:"+tra.rilevanza)
+            if tra.rilevanza!=" ":
                 if etichetta=="":
-                    etichetta=" "
-            else:
-                etichetta=etichetta+etichetta
+                    etichetta=tra.rilevanza
+                else:
+                    if "|" in tra.rilevanza:
+                        divisione = tra.rilevanza.split("|")
+                        out = ""
+                        for el in divisione:
+                            if el != "ε":
+                                el = etichetta + el
+                                out = out + el + "|"
+                            else:
+                                el = etichetta
+                                out = out + el + "|"
+                        etichetta = out[:-1]
+                    else:
+                        etichetta=etichetta+tra.rilevanza
+        if etichetta=="":
+            etichetta=" "
+
+
+        print("Ho creato etichetta nuova transizione: "+etichetta)
 
         #creo transizione
         nodo_sorgente=lista_sequenza[0].nodo_sorgente
-        nodo_destinazione=lista_sequenza[len(lista_sequenza)].nodo_destinazione
+        nodo_destinazione=lista_sequenza[len(lista_sequenza)-1].nodo_destinazione
         transizione = Transizione_spazio(nome="nome",nodo_sorgente=nodo_sorgente,nodo_destinazione=nodo_destinazione,osservazione=" ",rilevanza=etichetta)
         transizioni.append(transizione)
+        print("Creo nuova transizione: ")
+        print(transizione.to_string())
 
         #elimino nodi e transizioni saltate
-        for tra in lista_sequenza:
+        for index, tra in enumerate(lista_sequenza):
+            if index==0:
+                if tra.nodo_destinazione in nodi:
+                    nodi.remove(tra.nodo_destinazione)
+                transizioni.remove(tra)
+            elif index==len(lista_sequenza)-1:
+                if tra.nodo_sorgente in nodi:
+                    nodi.remove(tra.nodo_sorgente)
+                transizioni.remove(tra)
+            else:
+                if tra.nodo_sorgente in nodi:
+                    nodi.remove(tra.nodo_sorgente)
+                if tra.nodo_destinazione in nodi:
+                    nodi.remove(tra.nodo_destinazione)
+                transizioni.remove(tra)
+        return True
+    else:
+        return False
 
 
 
@@ -1563,11 +1681,14 @@ def controllo_sequenza(nodi, transizioni):
 def esplora_sequenza(transizione, lista_sequenza):
     '''funzione ricorsiva che parte da una transizione e cerca ulteriori transizioni che possano creare una sequenza di AND'''
     #prendo transizione uscente
-    nuova_transizione = transizione.nodo_destinazione.transizioni[0]
-    if len(nuova_transizione.nodo_sorgente.transizioni == 1) and len(nuova_transizione.nodo_sorgente.transizioni_sorgente == 1) and len(
-            nuova_transizione.nodo_sorgente.transizioni_auto == 0):
-        lista_sequenza.append(nuova_transizione)
-        esplora_sequenza(nuova_transizione, lista_sequenza)
+    print("Esploro la seguenza, sono nella transizione:")
+    print(transizione.to_string())
+    if ((len(transizione.nodo_destinazione.transizioni )== 1) and (len(transizione.nodo_destinazione.transizioni_sorgente )== 1) and (len(
+            transizione.nodo_destinazione.transizioni_auto)==0)):
+        print("Il nodo destinazione rispecchia i requisiti, 1 transizione entrante, 1 uscente, no auto transizioni")
+        print("Nodo: " + transizione.nodo_destinazione.to_string())
+        lista_sequenza.append(transizione)
+        esplora_sequenza(transizione.nodo_destinazione.transizioni[0], lista_sequenza)
     else:
         return
 
@@ -1575,6 +1696,11 @@ def esplora_sequenza(transizione, lista_sequenza):
 def sistema_transizioni_da_nodi_e_transizioni(nodi, transizioni):
     '''Dati nodi e transizioni va ad aggiornare transizioni e transizioni sorgenti
     dei vari nodi sulla base delle informazioni contenute nell'array di transizioni'''
+    for n in nodi:
+        n.transizioni=[]
+        n.transizioni_sorgente=[]
+        n.transizioni_auto=[]
+
     for t in transizioni:
         t.nodo_sorgente.transizioni.append(t)
         t.nodo_destinazione.transizioni_sorgente.append(t)
@@ -1612,7 +1738,7 @@ def sistemo_nodi_finali(nodi_finali, nodi, transizioni):
             transizioni.append(tra)
             print("Creata nuova transizione: "+tra.to_string())
 
-    if (numero_nodi_finali==1)and(len(nodi_finali[0].transizioni>0)):
+    if (numero_nodi_finali==1)and(len(nodi_finali[0].transizioni)>0):
         print("Il numero di nodi finali è = 1")
         nuovo_nodo = Nodo(nodi_finali[0].stati, False, nodi_finali[0].links, False, [],
                           0)  # stati, check, links, iniziale, transizioni=[], *args):

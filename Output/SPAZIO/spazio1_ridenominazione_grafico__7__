@@ -1,0 +1,13 @@
+digraph spazio1 {
+	0 [shape=circle]
+	1 [shape=circle]
+	2 [shape=circle]
+	7 [shape=circle]
+	start [label="" shape=point]
+	7 [shape=doublecircle]
+	1 -> 2 [label=<t3c [<FONT COLOR="green"> </FONT>, <FONT COLOR="red">f</FONT>]>]
+	0 -> 1 [label=<nome [<FONT COLOR="green"> </FONT>, <FONT COLOR="red"> </FONT>]>]
+	1 -> 7 [label=<nome [<FONT COLOR="green"> </FONT>, <FONT COLOR="red"> </FONT>]>]
+	2 -> 7 [label=<nome [<FONT COLOR="green"> </FONT>, <FONT COLOR="red">rf|r|ε</FONT>]>]
+	start -> 0 [label=""]
+}

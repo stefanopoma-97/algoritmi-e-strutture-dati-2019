@@ -1,0 +1,10 @@
+digraph spazio1 {
+	0 [shape=circle]
+	1 [shape=circle]
+	7 [shape=circle]
+	start [label="" shape=point]
+	7 [shape=doublecircle]
+	0 -> 1 [label=<nome [<FONT COLOR="green"> </FONT>, <FONT COLOR="red"> </FONT>]>]
+	1 -> 7 [label=<nome [<FONT COLOR="green"> </FONT>, <FONT COLOR="red">frf|fr|f|ε</FONT>]>]
+	start -> 0 [label=""]
+}

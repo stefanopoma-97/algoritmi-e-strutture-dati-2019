@@ -139,10 +139,50 @@ spazio1_potato_salvataggio_oss_modificato= deepcopy(spazio1_potato_salvataggio_o
 spazio1_potato_salvataggio_oss_modificato.nodi_iniziali[0].transizioni_sorgente = [spazio1_potato_salvataggio_oss_modificato.transizioni[0]]
 
 #DIAGNOSI
-diagnosi1=diagnosi(spazio1_potato_salvataggio_oss_modificato)
+stampa_spazio_ridenominato_su_file(spazio1_potato_salvataggio_oss,"SPAZIO","__0__")
+
+print("----------------ITERAZIONE 1\n\n")
+diagnosi1=diagnosi(spazio1_potato_salvataggio_oss)
+ridenominazione_spazio_appena_creato(diagnosi1)
+stampa_spazio_ridenominato_su_file(diagnosi1,"SPAZIO","__1__")
+
+print("----------------ITERAZIONE 2\n\n")
+diagnosi2=diagnosi(diagnosi1)
+stampa_spazio_ridenominato_su_file(diagnosi2,"SPAZIO","__2__")
+
+print("----------------ITERAZIONE 3\n\n")
+diagnosi3=diagnosi(diagnosi2)
+stampa_spazio_ridenominato_su_file(diagnosi3,"SPAZIO","__3__")
+
+print("----------------ITERAZIONE 4\n\n")
+diagnosi4=diagnosi(diagnosi3)
+stampa_spazio_ridenominato_su_file(diagnosi4,"SPAZIO","__4__")
+
+print("----------------ITERAZIONE 5\n\n")
+diagnosi5=diagnosi(diagnosi4)
+stampa_spazio_ridenominato_su_file(diagnosi5,"SPAZIO","__5__")
+
+print("----------------ITERAZIONE 6\n\n")
+diagnosi6=diagnosi(diagnosi5)
+stampa_spazio_ridenominato_su_file(diagnosi6,"SPAZIO","__6__")
+
+print("----------------ITERAZIONE 7\n\n")
+diagnosi7=diagnosi(diagnosi6)
+stampa_spazio_ridenominato_su_file(diagnosi7,"SPAZIO","__7__")
+
+print("----------------ITERAZIONE 8\n\n")
+diagnosi8=diagnosi(diagnosi7)
+stampa_spazio_ridenominato_su_file(diagnosi8,"SPAZIO","__8__")
+
+print("----------------ITERAZIONE 9\n\n")
+diagnosi9=diagnosi(diagnosi8)
+stampa_spazio_ridenominato_su_file(diagnosi9,"SPAZIO","__9__")
+
+print("----------------ITERAZIONE 10\n\n")
+diagnosi10=diagnosi(diagnosi9)
+stampa_spazio_ridenominato_su_file(diagnosi10,"SPAZIO","__10__")
 
 
-stampa_spazio_ridenominato_su_file(diagnosi1,"SPAZIO")
 # spazio_oss=crea_spazio_comportamentale2_da_spazio(spazio3_salvataggio, osservazione3)
 # stampa_spazio_su_file(spazio_oss,"SPAZIO")
 # print("SPAZIO 3 salvataggio: "+spazio_oss.riassunto())
