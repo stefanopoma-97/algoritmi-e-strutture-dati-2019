@@ -1,15 +1,11 @@
 from Classi.Algoritmi.algoritmo_spazio_comportamentale import *
 
 
-
-lista_sequenza=["fr|ε","f|r"]
+# ε
+lista_sequenza=["i|t","(a)*","o|u"]
 etichetta=""
 for tra in lista_sequenza:
-    if tra!=" ":
-        if etichetta=="":
-            etichetta=tra
-        else:
-            etichetta= crea_etichetta_and(etichetta, tra)
+    etichetta= crea_etichetta_and(etichetta, tra)
 
     print("ETICHETTA: "+etichetta)
 
