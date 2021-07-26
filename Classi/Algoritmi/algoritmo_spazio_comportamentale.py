@@ -1627,7 +1627,24 @@ def controllo_sequenza(nodi, transizioni):
                 if etichetta=="":
                     etichetta=tra.rilevanza
                 else:
-                    if "|" in tra.rilevanza:
+                    if ("|" in etichetta) and ("|" in tra.rilevanza):
+                        divisione_etichetta = etichetta.split("|")
+                        divisione_tra = tra.rilevanza.split("|")
+                        out = ""
+                        for e in divisione_etichetta:
+                            for t in divisione_tra:
+                                # print("Analizzo: "+e+", "+t)
+                                if e != "ε" and t != "ε":
+                                    out = out + e + t + "|"
+                                elif e == "ε" and t != "ε":
+                                    out = out + t + "|"
+                                elif e != "ε" and t == "ε":
+                                    out = out + e + "|"
+                                else:
+                                    out = out + "ε|"
+                                # print("out: "+out+"\n")
+                        etichetta = out[:-1]
+                    elif "|" in tra.rilevanza:
                         divisione = tra.rilevanza.split("|")
                         out = ""
                         for el in divisione:
@@ -1638,8 +1655,19 @@ def controllo_sequenza(nodi, transizioni):
                                 el = etichetta
                                 out = out + el + "|"
                         etichetta = out[:-1]
+                    elif "|" in etichetta:
+                        divisione = etichetta.split("|")
+                        out = ""
+                        for el in divisione:
+                            if el != "ε":
+                                el = el + tra.rilevanza
+                                out = out + el + "|"
+                            else:
+                                el = tra.rilevanza
+                                out = out + el + "|"
+                        etichetta = out[:-1]
                     else:
-                        etichetta=etichetta+tra.rilevanza
+                        etichetta = etichetta + tra.rilevanza
         if etichetta=="":
             etichetta=" "
 
