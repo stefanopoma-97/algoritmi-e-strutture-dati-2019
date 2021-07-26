@@ -1622,52 +1622,8 @@ def controllo_sequenza(nodi, transizioni):
         print("Creazione etichetta")
         etichetta=""
         for tra in lista_sequenza:
-            print("\tValore di rilevanza:"+tra.rilevanza)
-            if tra.rilevanza!=" ":
-                if etichetta=="":
-                    etichetta=tra.rilevanza
-                else:
-                    if ("|" in etichetta) and ("|" in tra.rilevanza):
-                        divisione_etichetta = etichetta.split("|")
-                        divisione_tra = tra.rilevanza.split("|")
-                        out = ""
-                        for e in divisione_etichetta:
-                            for t in divisione_tra:
-                                # print("Analizzo: "+e+", "+t)
-                                if e != "ε" and t != "ε":
-                                    out = out + e + t + "|"
-                                elif e == "ε" and t != "ε":
-                                    out = out + t + "|"
-                                elif e != "ε" and t == "ε":
-                                    out = out + e + "|"
-                                else:
-                                    out = out + "ε|"
-                                # print("out: "+out+"\n")
-                        etichetta = out[:-1]
-                    elif "|" in tra.rilevanza:
-                        divisione = tra.rilevanza.split("|")
-                        out = ""
-                        for el in divisione:
-                            if el != "ε":
-                                el = etichetta + el
-                                out = out + el + "|"
-                            else:
-                                el = etichetta
-                                out = out + el + "|"
-                        etichetta = out[:-1]
-                    elif "|" in etichetta:
-                        divisione = etichetta.split("|")
-                        out = ""
-                        for el in divisione:
-                            if el != "ε":
-                                el = el + tra.rilevanza
-                                out = out + el + "|"
-                            else:
-                                el = tra.rilevanza
-                                out = out + el + "|"
-                        etichetta = out[:-1]
-                    else:
-                        etichetta = etichetta + tra.rilevanza
+            etichetta = crea_etichetta_and(etichetta, tra.rilevanza)
+
         if etichetta=="":
             etichetta=" "
 
@@ -1702,7 +1658,55 @@ def controllo_sequenza(nodi, transizioni):
     else:
         return False
 
+def crea_etichetta_and(e1, e2):
 
+    if e2 != " ":
+        if e1 == "":
+            e1 = e2
+        else:
+            if ("|" in e1) and ("|" in e2):
+                divisione_etichetta = e1.split("|")
+                divisione_tra = e2.split("|")
+                out = ""
+                for e in divisione_etichetta:
+                    for t in divisione_tra:
+                        # print("Analizzo: "+e+", "+t)
+                        if e != "ε" and t != "ε":
+                            out = out + e + t + "|"
+                        elif e == "ε" and t != "ε":
+                            out = out + t + "|"
+                        elif e != "ε" and t == "ε":
+                            out = out + e + "|"
+                        else:
+                            out = out + "ε|"
+                        # print("out: "+out+"\n")
+                e1 = out[:-1]
+            elif "|" in e2:
+                divisione = e2.split("|")
+                out = ""
+                for el in divisione:
+                    if el != "ε":
+                        el = e1 + el
+                        out = out + el + "|"
+                    else:
+                        el = e1
+                        out = out + el + "|"
+                e1 = out[:-1]
+            elif "|" in e1:
+                divisione = e1.split("|")
+                out = ""
+                for el in divisione:
+                    if el != "ε":
+                        el = el + e2
+                        out = out + el + "|"
+                    else:
+                        el = e2
+                        out = out + el + "|"
+                e1 = out[:-1]
+            else:
+                e1 = e1 + e2
+
+    return e1
 
 
 
