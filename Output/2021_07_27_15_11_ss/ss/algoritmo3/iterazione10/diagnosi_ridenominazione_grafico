@@ -1,0 +1,6 @@
+digraph diagnosi {
+	0 [shape=circle]
+	8 [shape=circle]
+	start [label="" shape=point]
+	0 -> 8 [label=<nome [<FONT COLOR="green"> </FONT>, <FONT COLOR="red">frf|fr|f|ε</FONT>]>]
+}

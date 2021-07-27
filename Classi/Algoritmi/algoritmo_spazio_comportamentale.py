@@ -1461,6 +1461,7 @@ def crea_spazio_da_spazio(spazio):
 #---------------------------------------------------------
 #ALGORITMO 3
 
+#controllo inizile
 def diagnosi_sistemo_spazio(spazio):
     nodi = spazio.nodi
     transizioni = spazio.transizioni
@@ -1476,6 +1477,62 @@ def diagnosi_sistemo_spazio(spazio):
     # se ci sono più nodi finiali ne va creato solo uno
     sistemo_nodi_finali(nodi_finali, nodi, transizioni)
 
+#manuale
+def diagnosi_algoritmo_su_spazio_manuale(spazio):
+
+    nodi = spazio.nodi
+    transizioni=spazio.transizioni
+
+    nodo_iniziale = spazio.nodi_iniziali[0] #prendo nodo iniziale
+    nodi_finali = spazio.nodi_finali
+
+    finito = semplifico_transizioni_diagnosi_manuale(nodi, transizioni)
+
+
+    #fine output
+    nodi_finali=[]
+    nodi_iniziali=[]
+    for n in nodi:
+        if n.finale:
+            nodi_finali.append(n)
+        if n.iniziale:
+            nodi_iniziali.append(n)
+
+
+    spazio = Spazio_comportamentale("spazio1", nodi_finali, nodi_iniziali, nodi, transizioni)
+    sistema_transizioni(spazio)
+
+    return spazio, finito
+
+def semplifico_transizioni_diagnosi_manuale(nodi, transizioni):
+
+    sistema_transizioni_da_nodi_e_transizioni(nodi, transizioni)
+    if (len(transizioni)>1):
+        sistema_transizioni_da_nodi_e_transizioni(nodi, transizioni)
+        # print("---------------------iterazione: "+str(i))
+        #
+        # print("-----------CONTROLLO SEQUENZA")
+        sequenza = controllo_sequenza(nodi, transizioni)
+        if sequenza == False:
+            #print("--------CONTROLLO TRATTI PARALLELI")
+            tratti = controlla_tratti_paralleli(transizioni)
+            if tratti==False:
+                #print("------------CONTROLLO NODI")
+                controlla_nodi(nodi, transizioni)
+                sistema_transizioni_da_nodi_e_transizioni(nodi, transizioni)
+        nodi_finali = []
+        nodi_iniziali = []
+        for n in nodi:
+            if n.finale:
+                nodi_finali.append(n)
+            if n.iniziale:
+                nodi_iniziali.append(n)
+        return False
+    else:
+        return True
+
+
+#principale
 def diagnosi_algoritmo_su_spazio(spazio):
 
     print("DENTRO LA DIAGNOSI")
@@ -1500,11 +1557,13 @@ def diagnosi_algoritmo_su_spazio(spazio):
     #fine output
     nodi_finali=[]
     nodi_iniziali=[]
-    # for n in nodi:
-    #     if n.finale:
-    #         nodi_finali.append(n)
-    #     if n.iniziale:
-    #         nodi_iniziali.append(n)
+    for n in nodi:
+        if n.finale:
+            nodi_finali.append(n)
+        if n.iniziale:
+            nodi_iniziali.append(n)
+
+
     # print("NODI TOTALI:")
     # i=0
     # for n in nodi:

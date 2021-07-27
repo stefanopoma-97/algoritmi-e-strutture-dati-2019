@@ -178,7 +178,8 @@ def stampa_spazio_ridenominato_su_file(spazio, cartella, *args):
         nome = "<" + t.nome + " [" + '<FONT COLOR="green">' + t.osservazione + '</FONT>' + ", " + '<FONT COLOR="red">' + t.rilevanza + '</FONT>' + "]>"
         gra.edge(t.nodo_sorgente.id, t.nodo_destinazione.id, label=nome)
 
-    gra.edge("start", spazio.nodi_iniziali[0].id, label="")
+    if (len(spazio.nodi_iniziali))==1:
+        gra.edge("start", spazio.nodi_iniziali[0].id, label="")
 
     gra.render(directory="Output/"+cartella)
 

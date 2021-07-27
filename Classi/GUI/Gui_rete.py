@@ -716,7 +716,6 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         window_spazio_comportamentale['avvio3'].update(disabled=bool)
         window_spazio_comportamentale['reset_algoritmo3'].update(disabled=bool)
         window_spazio_comportamentale['stampa_diagnosi'].update(disabled=bool)
-        window_spazio_comportamentale['potatura_spazio2'].update(disabled=bool)
         window_spazio_comportamentale['stampa_potatura_spazio2'].update(disabled=bool)
 
     def abilita_algoritmo1(bool):
@@ -1511,6 +1510,163 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                 sg.Popup('Attenzione!',
                          'Le etichette dell\'osservazione lineare inserita non sono presenti nella rete. Cambiare l\'osservazione lineare per proseguire')
 
+    def algoritmo_diagnosi_manuale(nome):
+        '''Permette di creare uno spazio comportamentale data un'osservazione lineare svolgendo manualmente tutti i vari passaggi
+                l'algoritmo non termina fino a che l'utente non chiude la nuova finestra'''
+        listOfGlobals = globals()
+        spazio_comportamentale = listOfGlobals['spazio_comportamentale_potato_oss_per_diagnosi']
+        cartella_save = listOfGlobals['cartella_save']
+
+
+        #controllo iniziale
+        diagnosi_sistemo_spazio(spazio_comportamentale)
+        ridenominazione_spazio_appena_creato(spazio_comportamentale)
+        listOfGlobals['spazio_comportamentale_potato_oss_per_diagnosi'] = spazio_comportamentale
+        spazio_comportamentale_oss = listOfGlobals['spazio_comportamentale_potato_oss_per_diagnosi']
+        spazio_comportamentale_oss.nome = "spazio_diagnosi"
+        stampa_spazio_ridenominato_su_file(spazio_comportamentale_oss, cartella_save + nome+"iterazione0")
+
+        #prima iterazione
+        # diagnosi, finito = diagnosi_algoritmo_su_spazio_manuale(spazio_comportamentale_oss)
+        # diagnosi.nome = "diagnosi"
+        # listOfGlobals['diagnosi'] = diagnosi
+        # diagnosi = listOfGlobals['diagnosi']
+
+        ####
+        # nodi = diagnosi.nodi
+        # nodi_finali = diagnosi.nodi_finali
+        # transizioni = diagnosi.transizioni
+        # nodi_iniziali = diagnosi.nodi_iniziali
+        # for n in nodi:
+        #     if n.finale:
+        #         nodi_finali.append(n)
+        #     if n.iniziale:
+        #         nodi_iniziali.append(n)
+        # print("NODI TOTALI:")
+        # u = 0
+        # for n in nodi:
+        #     print(str(u) + ") " + n.to_string())
+        #     u = u + 1
+        #
+        # print("TRANSIZIONI TOTALI:")
+        # u = 0
+        # for t in transizioni:
+        #     print(str(u) + ") " + t.to_string())
+        #     u = u + 1
+        #
+        # print("NODI INZIALI:")
+        # u = 0
+        # for n in nodi_iniziali:
+        #     print(str(u) + ") " + n.to_string())
+        #     u = u + 1
+        #
+        # print("NODI FINALI:")
+        # u = 0
+        # for n in nodi_finali:
+        #     print(str(u) + ") " + n.to_string())
+        #     u = u + 1
+        ######
+        #stampa_spazio_ridenominato_su_file(diagnosi, "SPAZIO", "__2__")
+        #stampa_spazio_ridenominato_su_file(diagnosi, cartella_save + nome + "iterazione1")
+
+
+        i=1
+
+        colonna1 = [
+            [
+                sg.Button('Passaggio successivo', key='passaggio_successivo', disabled=False),
+                sg.Button('Concludi', key='concludi', disabled=False),
+            ],
+            [
+                sg.Multiline(
+                    "", enable_events=True, size=(40, 20), key="informazioni_algoritmo", autoscroll=True
+                )
+            ],
+        ]
+
+        colonna2 = [
+            [
+                sg.Image('Output/' + cartella_save + nome +'iterazione0/' + 'spazio_diagnosi_ridenominazione_grafico.png', key="immagine", size=(1000, 2000))
+            ]
+        ]
+
+        layout_grafici = [
+            [
+                sg.Column(colonna1),
+                sg.VSeperator(),
+                sg.Column(colonna2, scrollable=True),
+            ]
+        ]
+
+        window_crea_spazio_comportamentale_manuale = sg.Window('Creazione manuale spazio comportamentale', layout_grafici, location=(0, 0),
+                                          size=(800, 600), keep_on_top=True)
+
+        #window_crea_spazio_comportamentale_manuale['informazioni_algoritmo'].update(window_crea_spazio_comportamentale_manuale['informazioni_algoritmo'].get()+"\niniziato analizzando stato inziiale\n"+commento)
+
+        while True:
+            event, values = window_crea_spazio_comportamentale_manuale.read()
+            if event == sg.WINDOW_CLOSED or event == "concludi":
+                diagnosi.nome = "diagnosi"
+                listOfGlobals['diagnosi'] = diagnosi
+                salva_su_file3_diagnosi("/algoritmo3/")
+                abilita_algoritmo3_dopo_diagnosi()
+                if finito==False:
+                    window_spazio_comportamentale['informazioni'].update(
+                        window_spazio_comportamentale[
+                            'informazioni'].get() + "\nConcludo l'esecuzione senza aver generato tutta la diagnosi \n")
+
+
+                break
+            elif event == "passaggio_successivo":
+                diagnosi, finito = diagnosi_algoritmo_su_spazio_manuale(spazio_comportamentale)
+                diagnosi.nome = "diagnosi"
+                listOfGlobals['diagnosi'] = diagnosi
+
+                ####
+                nodi = diagnosi.nodi
+                nodi_finali = diagnosi.nodi_finali
+                transizioni = diagnosi.transizioni
+                nodi_iniziali = diagnosi.nodi_iniziali
+                # for n in nodi:
+                #     if n.finale:
+                #         nodi_finali.append(n)
+                #     if n.iniziale:
+                #         nodi_iniziali.append(n)
+                # print("NODI TOTALI:")
+                # u = 0
+                # for n in nodi:
+                #     print(str(i) + ") " + n.to_string())
+                #     u = u + 1
+                #
+                # print("TRANSIZIONI TOTALI:")
+                # u = 0
+                # for t in transizioni:
+                #     print(str(i) + ") " + t.to_string())
+                #     u = u + 1
+                #
+                # print("NODI INZIALI:")
+                # u = 0
+                # for n in nodi_iniziali:
+                #     print(str(i) + ") " + n.to_string())
+                #     u = u + 1
+                #
+                # print("NODI FINALI:")
+                # u = 0
+                # for n in nodi_finali:
+                #     print(str(i) + ") " + n.to_string())
+                #     u = u + 1
+                ######
+                stampa_spazio_ridenominato_su_file(diagnosi, "SPAZIO", "__2__")
+                stampa_spazio_ridenominato_su_file(diagnosi, cartella_save + nome + "iterazione"+str(i))
+                window_crea_spazio_comportamentale_manuale["immagine"].update(
+                    'Output/' + cartella_save + nome + 'iterazione' + str(i) + "/" + 'diagnosi_ridenominazione_grafico.png')
+
+
+
+                i=i+1
+
+        window_crea_spazio_comportamentale_manuale.close()
+
     def algoritmo_diagnosi(nome):
         listOfGlobals = globals()
         spazio_comportamentale = listOfGlobals['spazio_comportamentale_potato_oss_per_diagnosi']
@@ -1716,7 +1872,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         colonna1 = [
             [
                 sg.Text("Grafico spazio comportamentale"),
-                sg.Image(filename='Output/' + cartella_save + nome + '/' + 'diagnosi_ridenominazione_grafico.png')
+                sg.Image(filename='Output/' + cartella_save + nome  + 'diagnosi_ridenominazione_grafico.png')
             ]
         ]
 
@@ -1963,6 +2119,8 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             algoritmo_crea_spazio_comportamentale_manuale2("/algoritmo2/")
         elif event == "avvio_algoritmo3":
             algoritmo_diagnosi("/algoritmo3/")
+        elif event == "avvio_algoritmo3_manuale":
+            algoritmo_diagnosi_manuale("/algoritmo3/")
         elif event == "stampa_diagnosi":
             stampa_grafici3("/algoritmo3/")
 
