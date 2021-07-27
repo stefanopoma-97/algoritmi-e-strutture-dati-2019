@@ -1460,8 +1460,25 @@ def crea_spazio_da_spazio(spazio):
 
 #---------------------------------------------------------
 #ALGORITMO 3
-def diagnosi(spazio):
 
+def diagnosi_sistemo_spazio(spazio):
+    nodi = spazio.nodi
+    transizioni = spazio.transizioni
+
+    nodo_iniziale = spazio.nodi_iniziali[0]  # prendo nodo iniziale
+    nodi_finali = spazio.nodi_finali
+    # print("TROVO NODO INIZIALE:")
+    # print(nodo_iniziale.to_string())
+
+    # se il nodo iniziale ha delle transizioni entranti va creato un nuovo nodo iniziale
+    sistemo_nodo_iniziale(nodo_iniziale, nodi, transizioni)
+
+    # se ci sono più nodi finiali ne va creato solo uno
+    sistemo_nodi_finali(nodi_finali, nodi, transizioni)
+
+def diagnosi_algoritmo_su_spazio(spazio):
+
+    print("DENTRO LA DIAGNOSI")
     nodi = spazio.nodi
     transizioni=spazio.transizioni
 
@@ -1470,11 +1487,11 @@ def diagnosi(spazio):
     #print("TROVO NODO INIZIALE:")
     #print(nodo_iniziale.to_string())
 
-    #se il nodo iniziale ha delle transizioni entranti va creato un nuovo nodo iniziae
-    sistemo_nodo_iniziale(nodo_iniziale, nodi, transizioni)
+    #se il nodo iniziale ha delle transizioni entranti va creato un nuovo nodo iniziale
+    #sistemo_nodo_iniziale(nodo_iniziale, nodi, transizioni)
 
     #se ci sono più nodi finiali ne va creato solo uno
-    sistemo_nodi_finali(nodi_finali, nodi, transizioni)
+    #sistemo_nodi_finali(nodi_finali, nodi, transizioni)
 
 
     semplifico_transizioni_diagnosi(nodi, transizioni)
@@ -1483,11 +1500,11 @@ def diagnosi(spazio):
     #fine output
     nodi_finali=[]
     nodi_iniziali=[]
-    for n in nodi:
-        if n.finale:
-            nodi_finali.append(n)
-        if n.iniziale:
-            nodi_iniziali.append(n)
+    # for n in nodi:
+    #     if n.finale:
+    #         nodi_finali.append(n)
+    #     if n.iniziale:
+    #         nodi_iniziali.append(n)
     # print("NODI TOTALI:")
     # i=0
     # for n in nodi:

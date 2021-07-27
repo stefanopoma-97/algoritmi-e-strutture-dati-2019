@@ -1,0 +1,8 @@
+digraph diagnosi {
+	"" [shape=circle]
+	"" [shape=circle]
+	start [label="" shape=point]
+	"" [shape=doublecircle]
+	"" -> "" [label=<nome [<FONT COLOR="green"> </FONT>, <FONT COLOR="red">frf|fr|f|ε</FONT>]>]
+	start -> "" [label=""]
+}

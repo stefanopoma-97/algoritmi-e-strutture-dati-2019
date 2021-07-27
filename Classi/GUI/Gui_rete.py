@@ -518,7 +518,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
     #variabili globali
     global stato, cartella, automi, links, rete, cartella_save, spazio_comportamentale, nome_spazio, \
         elenco_cartelle, spazio_importato, spazio_comportamentale_potato, \
-        osservazione_lineare, spazio_comportamentale_oss, spazio_comportamentale_potato_oss
+        osservazione_lineare, spazio_comportamentale_oss, spazio_comportamentale_potato_oss, spazio_comportamentale_potato_oss_per_diagnosi, diagnosi, osservazione_lineare_diagnosi
 
     stato = s #stato attuale
     cartella = c2 #cartella selezionata per il salvataggio
@@ -534,6 +534,9 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
     osservazione_lineare = None #osservazione lineare inserita manualmente
     spazio_comportamentale_oss = None #spazio comportamentale generato con algoritmo 2
     spazio_comportamentale_potato_oss = None  # spazio comportamentale potato generato con algoritmo 2
+    diagnosi = None #risultato della diagnosi
+    spazio_comportamentale_potato_oss_per_diagnosi = None #spazio comportamentale relativo ad un osservazione per diagnosi
+    osservazione_lineare_diagnosi = None
 
 
     def crea_layout_spazio_comportamentale():
@@ -585,10 +588,6 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
 
             ],
             [
-                sg.Text("Creazione di uno spazio comportamentale relativo ad un'osservazione lineare, partendo da una rete"),
-
-            ],
-            [
                 sg.Button("Crea spazio comportamentale relativo all'osservazione", key="avvio_algoritmo2",
                           disabled=True),
                 sg.Button("Crea spazio comportamentale relativo all'osservazione (passaggi)",
@@ -608,6 +607,31 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             ],
             [
                 sg.HSeparator(),
+            ],
+            [
+                sg.Text("Algoritmo 3", key="algoritmo3"),
+            ],
+            [
+
+                sg.Text("Inserisci un osservazione lineare"),
+                sg.Input(key='input_osservazione_lineare_diagnosi', size=(20, 1), disabled=True),
+                sg.Button('Conferma', key='conferma_osservazione_lineare_diagnosi', disabled=True)
+
+            ],
+            [
+                sg.Button("Crea spazio comportamentale relativo all'osservazione", key="avvio_algoritmo2_diagnosi",
+                          disabled=True),
+            ],
+            [
+                sg.Button("Diagnosi", key="avvio_algoritmo3", disabled=True),
+                sg.Button("Diagnosi (passaggi)", key="avvio_algoritmo3_manuale", disabled=True),
+
+            ],
+            [
+                sg.Button("Mostra grafico", key="stampa_diagnosi", disabled=True)
+            ],
+            [
+                sg.Button("Reset", key="reset_algoritmo3", disabled=True),
             ],
 
         ]
@@ -662,6 +686,36 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         window_spazio_comportamentale['reset_algoritmo2'].update(disabled=bool)
         window_spazio_comportamentale['salva_spazio2'].update(disabled=bool)
         window_spazio_comportamentale['stampa_spazio2'].update(disabled=bool)
+        window_spazio_comportamentale['potatura_spazio2'].update(disabled=bool)
+        window_spazio_comportamentale['stampa_potatura_spazio2'].update(disabled=bool)
+
+    def abilita_algoritmo3(bool):
+        '''abilita o disabilita tutta la sezione dell'algoritmo 3'''
+        if bool==False:
+
+            window_spazio_comportamentale['informazioni'].update(
+                window_spazio_comportamentale[
+                    'informazioni'].get() + "\nL'algoritmo 3 è disabilitato")
+        else:
+            listOfGlobals = globals()
+            rete = listOfGlobals['rete']
+            if rete==None:
+                window_spazio_comportamentale['informazioni'].update(
+                    window_spazio_comportamentale[
+                        'informazioni'].get() + "\nL'algoritmo 3 è abilitato - Verra svolto sullo spazio importato")
+            else:
+                window_spazio_comportamentale['informazioni'].update(
+                    window_spazio_comportamentale[
+                        'informazioni'].get() + "\nL'algoritmo 3 è abilitato - Verra svolto sulla rete importata")
+        bool = not bool
+        window_spazio_comportamentale['input_osservazione_lineare_diagnosi'].update('', disabled=bool)
+        window_spazio_comportamentale['conferma_osservazione_lineare_diagnosi'].update(disabled=bool)
+        window_spazio_comportamentale['avvio_algoritmo3'].update(disabled=bool)
+        window_spazio_comportamentale['avvio_algoritmo3_manuale'].update(disabled=bool)
+        window_spazio_comportamentale['avvio_algoritmo2_diagnosi'].update(disabled=bool)
+        window_spazio_comportamentale['avvio3'].update(disabled=bool)
+        window_spazio_comportamentale['reset_algoritmo3'].update(disabled=bool)
+        window_spazio_comportamentale['stampa_diagnosi'].update(disabled=bool)
         window_spazio_comportamentale['potatura_spazio2'].update(disabled=bool)
         window_spazio_comportamentale['stampa_potatura_spazio2'].update(disabled=bool)
 
@@ -732,6 +786,16 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             window_spazio_comportamentale[
                 'informazioni'].get() + "\nL'algoritmo 1 è stato avviato, sono ora disponibili le funzioni di salvataggio e potatura")
 
+    def abilita_algoritmo3_diagnosi():
+        window_spazio_comportamentale['input_osservazione_lineare_diagnosi'].update('', disabled=True)
+        window_spazio_comportamentale['conferma_osservazione_lineare_diagnosi'].update(disabled=True)
+        window_spazio_comportamentale['avvio_algoritmo3'].update(disabled=False)
+        window_spazio_comportamentale['avvio_algoritmo3_manuale'].update(disabled=False)
+        window_spazio_comportamentale['avvio_algoritmo2_diagnosi'].update(disabled=True)
+        window_spazio_comportamentale['informazioni'].update(
+            window_spazio_comportamentale[
+                'informazioni'].get() + "\nL'algoritmo 3 ha generato uno spazio realitivo all'osservazione inserita. Ora è possibile eseguire la diagnosu")
+
     def abilita_algoritmo2_salva():
         window_spazio_comportamentale['salva_spazio2'].update(disabled=True)
         window_spazio_comportamentale['stampa_spazio2'].update(disabled=False)
@@ -751,6 +815,32 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             window_spazio_comportamentale[
                 'informazioni'].get() + "\nL'algoritmo 2 è abilitato, verrà avviato sullo spazio comportamentale inserito")
 
+    def abilita_algoritmo3_spazio():
+        window_spazio_comportamentale['input_osservazione_lineare_diagnosi'].update(disabled=False)
+        window_spazio_comportamentale['conferma_osservazione_lineare_diagnosi'].update(disabled=False)
+        window_spazio_comportamentale['avvio_algoritmo3'].update(disabled=True)
+        window_spazio_comportamentale['avvio_algoritmo3_manuale'].update(disabled=True)
+        window_spazio_comportamentale['avvio_algoritmo2_diagnosi'].update(disabled=True)
+        window_spazio_comportamentale['reset_algoritmo3'].update(disabled=False)
+        window_spazio_comportamentale['informazioni'].update(
+            window_spazio_comportamentale[
+                'informazioni'].get() + "\nL'algoritmo 3 è abilitato, verrà avviato sullo spazio comportamentale inserito")
+
+    def abilita_algoritmo3_dopo_diagnosi():
+        window_spazio_comportamentale['input_osservazione_lineare_diagnosi'].update(disabled=True)
+        window_spazio_comportamentale['conferma_osservazione_lineare_diagnosi'].update(disabled=True)
+        window_spazio_comportamentale['avvio_algoritmo3'].update(disabled=True)
+        window_spazio_comportamentale['avvio_algoritmo3_manuale'].update(disabled=True)
+        window_spazio_comportamentale['avvio_algoritmo2_diagnosi'].update(disabled=True)
+        window_spazio_comportamentale['reset_algoritmo3'].update(disabled=False)
+        window_spazio_comportamentale['stampa_diagnosi'].update(disabled=False)
+        listOfGlobals = globals()
+        diagnosi = listOfGlobals["diagnosi"]
+        etichetta= diagnosi.transizioni[0].rilevanza
+        window_spazio_comportamentale['informazioni'].update(
+            window_spazio_comportamentale[
+                'informazioni'].get() + "\nL'algoritmo 3 ha prodotto la diagnosi: "+etichetta)
+
     def abilita_algoritmo2_rete():
         window_spazio_comportamentale['input_osservazione_lineare'].update(disabled=False)
         window_spazio_comportamentale['conferma_osservazione_lineare'].update(disabled=False)
@@ -761,6 +851,17 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         window_spazio_comportamentale['informazioni'].update(
             window_spazio_comportamentale[
                 'informazioni'].get() + "\nL'algoritmo 2 è abilitato, verrà avviato sulla rete inserita")
+
+    def abilita_algoritmo3_rete():
+        window_spazio_comportamentale['input_osservazione_lineare_diagnosi'].update(disabled=False)
+        window_spazio_comportamentale['conferma_osservazione_lineare_diagnosi'].update(disabled=False)
+        window_spazio_comportamentale['avvio_algoritmo3'].update(disabled=True)
+        window_spazio_comportamentale['avvio_algoritmo3_manuale'].update(disabled=True)
+        window_spazio_comportamentale['avvio_algoritmo2_diagnosi'].update(disabled=True)
+        window_spazio_comportamentale['reset_algoritmo3'].update(disabled=False)
+        window_spazio_comportamentale['informazioni'].update(
+            window_spazio_comportamentale[
+                'informazioni'].get() + "\nL'algoritmo 3 è abilitato, inserire osservazione lineare")
 
     def abilita_algoritmo2_inserita_osservazione():
         listOfGlobals = globals()
@@ -783,6 +884,24 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                 window_spazio_comportamentale[
                     'informazioni'].get() + "\nL'algoritmo 2 verrà eseguito sulla rete inserita")
 
+    def abilita_algoritmo3_inserita_osservazione():
+        listOfGlobals = globals()
+        rete = listOfGlobals["rete"]
+        window_spazio_comportamentale['input_osservazione_lineare_diagnosi'].update(disabled=False)
+        window_spazio_comportamentale['conferma_osservazione_lineare_diagnosi'].update(disabled=False)
+        window_spazio_comportamentale['avvio_algoritmo2_diagnosi'].update(disabled=False)
+        window_spazio_comportamentale['reset_algoritmo3'].update(disabled=False)
+        window_spazio_comportamentale['informazioni'].update(
+            window_spazio_comportamentale[
+                'informazioni'].get() + "\nL'algoritmo 3 è pronto per essere eseguito: osservazione lineare inserita correttamente")
+        if rete == None:
+            window_spazio_comportamentale['informazioni'].update(
+                window_spazio_comportamentale[
+                    'informazioni'].get() + "\nL'algoritmo 3 verrà eseguito sullo spazio comportamentale inserito")
+        else:
+            window_spazio_comportamentale['informazioni'].update(
+                window_spazio_comportamentale[
+                    'informazioni'].get() + "\nL'algoritmo 3 verrà eseguito sulla rete inserita")
 
 
 #METODI
@@ -852,6 +971,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
 
                     abilita_algoritmo1_spazio()
                     abilita_algoritmo2_spazio()
+                    abilita_algoritmo3_spazio()
 
                     listOfGlobals['cartella_save'] = cartella_save
                     listOfGlobals['elenco_cartelle'] = elenco_cartelle
@@ -886,6 +1006,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
 
                 abilita_algoritmo1_rete()
                 abilita_algoritmo2_rete()
+                abilita_algoritmo3_rete()
                 listOfGlobals['nome_spazio'] = nome_spazio
         else:
             sg.Popup('Attenzione!',
@@ -919,6 +1040,35 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             sg.Popup('Attenzione!',
                      'Inserire un nome non vuoto')
 
+    def conferma_osservazione_lineare_diagnosi():
+        '''Permette di impostare un'osservazione lineare. Sfruttando la seguente espressione regolare:
+        ^[a-zA-Z0-9]+(,([a-zA-Z0-9]+,)*[a-zA-Z0-9]+)?
+
+        l'osservazione lineare sarà quindi del tipo: o2,o3,o4'''
+        REGEX_OSSERVAZIONE = "^[a-zA-Z0-9]+(,([a-zA-Z0-9]+,)*[a-zA-Z0-9]+)?"
+        listOfGlobals = globals()
+        osservazione_lineare_diagnosi = listOfGlobals['osservazione_lineare_diagnosi']
+
+        if values['input_osservazione_lineare_diagnosi'] != "":
+
+            stringa_regex = values['input_osservazione_lineare_diagnosi']
+            x = re.fullmatch(REGEX_OSSERVAZIONE, stringa_regex)
+            if x:
+                osservazione_lineare_diagnosi = values['input_osservazione_lineare_diagnosi']
+                osservazione_lineare_diagnosi = stringa_regex.split(",")
+                window_spazio_comportamentale['informazioni'].update(
+                    window_spazio_comportamentale[
+                        'informazioni'].get() + "\nOsservazione lineare letta correttamente: "+str(osservazione_lineare))
+                abilita_algoritmo3_inserita_osservazione()
+                listOfGlobals['osservazione_lineare_diagnosi'] = osservazione_lineare_diagnosi
+            else:
+                sg.Popup('Attenzione!',
+                         'formato della stringa sbagliato. Inserire un\'osservazione tipo \"o2,o3,o4\"')
+        else:
+            sg.Popup('Attenzione!',
+                     'Inserire un nome non vuoto')
+
+
     def reset():
         '''Imposta la rete allo stato iniziale'''
         window_spazio_comportamentale['conferma_cartella'].update(disabled=False)
@@ -928,6 +1078,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         window_spazio_comportamentale['informazioni'].update("RESET")
         abilita_algoritmo1(False)
         abilita_algoritmo2(False)
+        abilita_algoritmo3(False)
         listOfGlobals = globals()
         listOfGlobals['spazio_comportamentale']=None
 
@@ -949,7 +1100,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
 
         abilita_algoritmo1_creato_spazio()
 
-    def algoritmo_crea_spazio_comportamentale2():
+    def algoritmo_crea_spazio_comportamentale2(*args):
         '''Invoca l'algoritmo per creare uno spazio comportamentale data un'osservazione lineare'''
         listOfGlobals = globals()
         if listOfGlobals['spazio_importato'] == None:
@@ -957,7 +1108,11 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             rete = listOfGlobals['rete']
             if rete != None:
                 spazio_comportamentale_oss = listOfGlobals['spazio_comportamentale_oss']
-                osservazione_lineare = listOfGlobals['osservazione_lineare']
+                #questo mi permette di usare lo stesso metodo sia nell'algorimto 2 che nel 3
+                if len(args)==1:
+                    osservazione_lineare = listOfGlobals['osservazione_lineare_diagnosi']
+                else:
+                    osservazione_lineare = listOfGlobals['osservazione_lineare']
                 nome_spazio = listOfGlobals['nome_spazio']
                 print("OSS: "+str(osservazione_lineare))
 
@@ -971,15 +1126,25 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                             osservazione_lineare))
                     listOfGlobals['spazio_comportamentale_oss'] = spazio_comportamentale_oss
 
-                    abilita_algoritmo2_creato_spazio()
+                    if len(args) == 1:
+                        abilita_algoritmo3_diagnosi()
+                    else:
+                        abilita_algoritmo2_creato_spazio()
+
+
                 else:
                     sg.Popup('Attenzione!',
                              'Le etichette dell\'osservazione lineare inserita non sono presenti nella rete. Cambiare l\'osservazione lineare per proseguire')
         else:
             print("LAVORO SU SPAZIO")
-            spazio = listOfGlobals['spazio_importato']
+            spazio_imp = listOfGlobals['spazio_importato']
+            spazio = deepcopy(spazio_imp)
             spazio_comportamentale_oss = listOfGlobals['spazio_comportamentale_oss']
-            osservazione_lineare = listOfGlobals['osservazione_lineare']
+            if len(args) == 1:
+                osservazione_lineare = listOfGlobals['osservazione_lineare_diagnosi']
+            else:
+                osservazione_lineare = listOfGlobals['osservazione_lineare']
+
             nome_spazio = listOfGlobals['nome_spazio']
             print("OSS: " + str(osservazione_lineare))
 
@@ -993,7 +1158,10 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                         osservazione_lineare))
                 listOfGlobals['spazio_comportamentale_oss'] = spazio_comportamentale_oss
 
-                abilita_algoritmo2_creato_spazio()
+                if len(args) == 1:
+                    abilita_algoritmo3_diagnosi()
+                else:
+                    abilita_algoritmo2_creato_spazio()
             else:
                 sg.Popup('Attenzione!',
                          'Le etichette dell\'osservazione lineare inserita non sono presenti nella rete. Cambiare l\'osservazione lineare per proseguire')
@@ -1343,7 +1511,56 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                 sg.Popup('Attenzione!',
                          'Le etichette dell\'osservazione lineare inserita non sono presenti nella rete. Cambiare l\'osservazione lineare per proseguire')
 
+    def algoritmo_diagnosi(nome):
+        listOfGlobals = globals()
+        spazio_comportamentale = listOfGlobals['spazio_comportamentale_potato_oss_per_diagnosi']
+        cartella_save = listOfGlobals['cartella_save']
 
+        diagnosi_sistemo_spazio(spazio_comportamentale)
+        ridenominazione_spazio_appena_creato(spazio_comportamentale)
+        listOfGlobals['spazio_comportamentale_potato_oss_per_diagnosi'] = spazio_comportamentale
+        salva_su_file3("/algoritmo3/")
+
+        print("\n\n\nINIZIO DIAGNOSI")
+        diagnosi = diagnosi_algoritmo_su_spazio(spazio_comportamentale)
+
+        listOfGlobals['diagnosi'] = diagnosi
+        nodi=diagnosi.nodi
+        nodi_finali=diagnosi.nodi_finali
+        transizioni=diagnosi.transizioni
+        nodi_iniziali=diagnosi.nodi_iniziali
+        for n in nodi:
+            if n.finale:
+                nodi_finali.append(n)
+            if n.iniziale:
+                nodi_iniziali.append(n)
+        print("NODI TOTALI:")
+        i = 0
+        for n in nodi:
+            print(str(i) + ") " + n.to_string())
+            i = i + 1
+
+        print("TRANSIZIONI TOTALI:")
+        i = 0
+        for t in transizioni:
+            print(str(i) + ") " + t.to_string())
+            i = i + 1
+
+        print("NODI INZIALI:")
+        i = 0
+        for n in nodi_iniziali:
+            print(str(i) + ") " + n.to_string())
+            i = i + 1
+
+        print("NODI FINALI:")
+        i = 0
+        for n in nodi_finali:
+            print(str(i) + ") " + n.to_string())
+            i = i + 1
+
+        salva_su_file3_diagnosi(nome)
+
+        abilita_algoritmo3_dopo_diagnosi()
 
     def salva_su_file(nome):
         '''Salva lo spazio comportamentale creato su file
@@ -1394,6 +1611,39 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
 
         abilita_algoritmo2_salva()
 
+    def salva_su_file3(nome):
+        '''Salva lo spazio comportamentale creato su file
+        nome spazio_grafico.png
+        nome spazio_riassunto.txt
+        nome spazio_salvataggio
+        nome spazio_ridenominazione_grafico.png'''
+        listOfGlobals = globals()
+        cartella_save = listOfGlobals['cartella_save']
+        spazio_comportamentale_oss = listOfGlobals['spazio_comportamentale_potato_oss_per_diagnosi']
+        spazio_comportamentale_oss.nome="spazio_diagnosi"
+
+        window_spazio_comportamentale['informazioni'].update(
+            window_spazio_comportamentale['informazioni'].get() + "\n" + "Salvo file nella cartella: " + cartella_save)
+
+        #stampa_spazio_su_file(spazio_comportamentale_oss, cartella_save+nome, "_oss")
+        stampa_spazio_ridenominato_su_file(spazio_comportamentale_oss, cartella_save + nome, "_sistemati_nodi_iniziali_e_finali")
+
+    def salva_su_file3_diagnosi(nome):
+        '''Salva lo spazio comportamentale creato su file
+        nome spazio_grafico.png
+        nome spazio_riassunto.txt
+        nome spazio_salvataggio
+        nome spazio_ridenominazione_grafico.png'''
+        listOfGlobals = globals()
+        cartella_save = listOfGlobals['cartella_save']
+        diagnosi = listOfGlobals['diagnosi']
+        diagnosi.nome="diagnosi"
+
+        window_spazio_comportamentale['informazioni'].update(
+            window_spazio_comportamentale['informazioni'].get() + "\n" + "Salvo file nella cartella: " + cartella_save)
+
+        #stampa_spazio_su_file(spazio_comportamentale_oss, cartella_save+nome, "_oss")
+        stampa_spazio_ridenominato_su_file(diagnosi, cartella_save + nome)
 
 
     def stampa_grafici(nome):
@@ -1455,6 +1705,36 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             if event == sg.WINDOW_CLOSED:
                 break
         window_mostra_grafici.close()
+
+    def stampa_grafici3(nome):
+        listOfGlobals = globals()
+        cartella_save = listOfGlobals['cartella_save']
+
+        window_spazio_comportamentale['informazioni'].update(
+            window_spazio_comportamentale['informazioni'].get() + "\n" + "Leggo file PNG: " + 'Output/' + cartella_save +nome + 'diagnosi_ridenominazione_grafico.png')
+
+        colonna1 = [
+            [
+                sg.Text("Grafico spazio comportamentale"),
+                sg.Image(filename='Output/' + cartella_save + nome + '/' + 'diagnosi_ridenominazione_grafico.png')
+            ]
+        ]
+
+        layout_grafici = [
+            [
+                sg.Column(colonna1, scrollable=True),
+                sg.VSeperator()
+            ]
+        ]
+
+        window_mostra_grafici = sg.Window('Mostra grafico spazio comportamentale', layout_grafici, location=(0,0), size=(800,600), keep_on_top=True)
+
+        while True:
+            event, values = window_mostra_grafici.read()
+            if event == sg.WINDOW_CLOSED:
+                break
+        window_mostra_grafici.close()
+
 
     def stampa_grafici_potatura(nome):
         listOfGlobals = globals()
@@ -1598,6 +1878,45 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
 
         listOfGlobals['spazio_comportamentale_potato_oss'] = spazio_comportamentale_potato_oss
 
+    def potatura3(nome):
+        listOfGlobals = globals()
+        spazio_comportamentale_oss = listOfGlobals['spazio_comportamentale_oss']
+        spazio_comportamentale_potato_oss_per_diagnosi = listOfGlobals['spazio_comportamentale_potato_oss_per_diagnosi']
+        spazio_comportamentale_potato_oss_per_diagnosi = deepcopy(spazio_comportamentale_oss)
+        cartella_save = listOfGlobals['cartella_save']
+        window_spazio_comportamentale['informazioni'].update(
+            window_spazio_comportamentale[
+                'informazioni'].get() + "\n" + "Inizio processo di potatura e ridenominazione")
+
+        spazio_comportamentale_potato_oss_per_diagnosi = potatura_e_ridenominazione(spazio_comportamentale_potato_oss_per_diagnosi)
+        if spazio_comportamentale_potato_oss_per_diagnosi.nodi_finali is None:
+            sg.Popup('Attenzione!',
+                     'Lo spazio comportamentale non ha nodi finali. Dopo la potatura è risultato vuoto')
+            return
+        if len(spazio_comportamentale_potato_oss_per_diagnosi.nodi_finali)==0:
+            sg.Popup('Attenzione!',
+                     'Lo spazio comportamentale non ha nodi finali. Dopo la potatura è risultato vuoto')
+            return
+
+        spazio_salvataggio = crea_spazio_da_spazio_potato(spazio_comportamentale_potato_oss_per_diagnosi)
+
+        stampa_spazio_potato_su_file(spazio_comportamentale_potato_oss_per_diagnosi, cartella_save + nome, "_oss")
+        print("SPAZIO POTATO")
+        for n in spazio_salvataggio.nodi:
+            print(n.to_string()+" potato: "+str(n.potato))
+        #salvo spazio su file
+        # spazio_salvataggio = crea_spazio_da_spazio_potato(spazio_comportamentale_potato_oss)
+        # spazio_salvataggio.spazio_potato=True
+        # salva_spazio_potato_su_file(spazio_salvataggio, cartella_save + nome, "_oss" )
+        window_spazio_comportamentale['informazioni'].update(
+            window_spazio_comportamentale[
+                'informazioni'].get() + "\n" + "Spazio correttamente creato e salvato")
+        window_spazio_comportamentale['informazioni'].update(
+            window_spazio_comportamentale[
+                'informazioni'].get() + "\n" + spazio_comportamentale_potato_oss_per_diagnosi.riassunto_potatura())
+
+        listOfGlobals['spazio_comportamentale_potato_oss_per_diagnosi'] = spazio_salvataggio
+
 
     window_spazio_comportamentale = sg.Window('Spazio comportamentale', crea_layout_spazio_comportamentale())
 
@@ -1605,7 +1924,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         event, values = window_spazio_comportamentale.read()
         if event == sg.WIN_CLOSED:
             return True
-        elif event == "reset" or event == "reset_algoritmo2":
+        elif event == "reset" or event == "reset_algoritmo2" or event == "reset_algoritmo3":
             reset()
         elif event == "conferma_cartella":
             conferma_cartella()
@@ -1625,8 +1944,13 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             stampa_grafici_potatura("/algoritmo1/")
         elif event == "conferma_osservazione_lineare":
             conferma_osservazione_lineare()
+        elif event == "conferma_osservazione_lineare_diagnosi":
+            conferma_osservazione_lineare_diagnosi()
         elif event == "avvio_algoritmo2":
             algoritmo_crea_spazio_comportamentale2()
+        elif event == "avvio_algoritmo2_diagnosi":
+            algoritmo_crea_spazio_comportamentale2("diagnosi")
+            potatura3("/algoritmo3/")
         elif event == "salva_spazio2":
             salva_su_file2("/algoritmo2/")
         elif event == "stampa_spazio2":
@@ -1637,8 +1961,12 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             stampa_grafici_potatura2("/algoritmo2/")
         elif event == "avvio_algoritmo2_manuale":
             algoritmo_crea_spazio_comportamentale_manuale2("/algoritmo2/")
+        elif event == "avvio_algoritmo3":
+            algoritmo_diagnosi("/algoritmo3/")
+        elif event == "stampa_diagnosi":
+            stampa_grafici3("/algoritmo3/")
 
-
+#IMPORTA RETE
 def gui_importa_rete():
     '''Metodo per gestire la finestra finalizzata ad importare una rete'''
 
