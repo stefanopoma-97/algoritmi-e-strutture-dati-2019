@@ -28,7 +28,7 @@ def stampa_automa(automa):
     for t in get_transizioni(automa):
         gra.edge(t.stato_sorgente.nome, t.stato_destinazione.nome, label=transizione_to_string(t))
 
-    print(gra.source)
+    #print(gra.source)
 
 #non usato per ora
 def stampa_automi_su_file(automi, cartella):
@@ -38,7 +38,7 @@ def stampa_automi_su_file(automi, cartella):
     for a in automi:
         stampa_automa_su_file_new(gra, a)
 
-    print(gra.source)
+    #print(gra.source)
     gra.render(directory="Output/grafici_automi/" + cartella)
 
     stati=[]
@@ -137,7 +137,7 @@ def stampa_spazio_su_file(spazio, cartella, *args):
 
     gra.edge("start", spazio.nodi_iniziali[0].output, label="")
 
-    print(gra.source)
+    #print(gra.source)
 
     gra.render(directory="Output/"+cartella)
 
@@ -192,10 +192,10 @@ def stampa_spazio_potato_su_file(spazio, cartella, *args):
 
     gra = Digraph(spazio.nome, filename=spazio.nome+"_potatura_grafico"+aggiunta, format='png')
 
-    print("INSERISCO NODI")
+    #print("INSERISCO NODI")
     for s in spazio.nodi:
         if s.potato == False:
-            print(s.to_string())
+            #print(s.to_string())
             gra.node(s.id, shape='circle')
 
     gra.node("start", shape="point", label="")
@@ -207,13 +207,13 @@ def stampa_spazio_potato_su_file(spazio, cartella, *args):
                     gra.node(s.id, shape='doublecircle')
     i = 0
     for t in spazio.transizioni:
-        print("\n\n\n")
-        print(str(i)+") "+"ID: "+t.nodo_sorgente.id+"("+str(t.nodo_sorgente.potato)+") - "+t.nome+" potata: "+str(t.potato)+", "+str(t.nodo_destinazione.id)+"("+str(t.nodo_destinazione.potato)+")")
+        #print("\n\n\n")
+        #print(str(i)+") "+"ID: "+t.nodo_sorgente.id+"("+str(t.nodo_sorgente.potato)+") - "+t.nome+" potata: "+str(t.potato)+", "+str(t.nodo_destinazione.id)+"("+str(t.nodo_destinazione.potato)+")")
         i=i+1
         if t.nodo_sorgente.potato == False and t.nodo_destinazione.potato == False:
             nome = "<" + t.nome + " [" + '<FONT COLOR="green">' + t.osservazione + '</FONT>' + ", " + '<FONT COLOR="red">' + t.rilevanza + '</FONT>' + "]>"
             gra.edge(t.nodo_sorgente.id, t.nodo_destinazione.id, label=nome)
-            print("La stampo")
+            #print("La stampo")
 
 
     gra.edge("start", spazio.nodi_iniziali[0].id, label="")
@@ -240,7 +240,7 @@ def stampa_rete_su_file(rete, cartella):
     for link in rete.links:
         gra.edge(link.automa_sorgente.nome, link.automa_destinazione.nome, link.nome)
 
-    print(gra.source)
+    #print(gra.source)
 
     gra.render(directory="Output/" + cartella)
 
