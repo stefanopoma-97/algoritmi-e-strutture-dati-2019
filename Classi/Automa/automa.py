@@ -1,6 +1,7 @@
-'''modulo contenente le classi per creare un automa'''
+'''modulo contenente le classi per creare e gestire automi, transizioni ed eventi
+'''
 import pickle
-
+import uuid
 
 class Automa:
     '''Classe Automa
@@ -9,7 +10,8 @@ class Automa:
     stato_corrente:Stato
     stati_finali:[Stato]
     stato_iniziale:Stato
-    stati:[Stato]'''
+    stati:[Stato]
+    transizioni:[Transizioni]'''
 
     def __init__(self, nome, stato_corrente=None, stati_finali=[None], stati_iniziali=None, stati=[None], transizioni=[None]):
         self.nome = nome
@@ -78,12 +80,13 @@ class Automa:
     def stampa(self):
         '''Stampa automa'''
         print(self.to_string())
-import uuid
+
 
 class Stato:
     '''Stato di un automa
     nome: Stringa
-    transizioni: [Transizione]'''
+    transizioni: [Transizione]
+    id: Stringa'''
 
     def __init__(self, nome, transizioni=[]):
         self.nome = nome
@@ -105,7 +108,14 @@ class Stato:
 
 
 class Transizione:
-    '''Classe rappresentante una transizione di un automa a stati finiti'''
+    '''Classe rappresentante una transizione di un automa a stati finiti
+    nome: Stringa
+    stato_sorgente: Stato
+    stato_destinazione: Stato
+    osservazione: Stringa
+    rilevanza: Stringa
+    input: [Evento]
+    output: [Evento]'''
 
     def __init__(self, nome, stato_sorgente=None, stato_destinazione=None, osservazione=None, rilevanza=None,
                  input=None, output=None):
@@ -247,6 +257,7 @@ def automi_to_string(automi):
     return stringa
 
 def controlla_inserimento_automa(automi, automa):
+    '''Controlla se un automa è già presente nella lista automi'''
     nome=automa.nome
     out=True
 

@@ -1,7 +1,12 @@
+'''Modulo contenente classi e metodi per creare e gestire Reti e Link'''
 from Classi.Automa.automa import *
 
 class Link:
-    '''Classe rappresentate un link tra due automi'''
+    '''Classe rappresentate un link tra due automi
+    nome: Stringa
+    automa_sorgente: Automa
+    automa_destinazione: Automa
+    evento: Evento'''
     def __init__(self, nome, automa_sorgente, automa_destinazione, evento=Evento("")):
         self.nome = nome
         self.automa_sorgente=automa_sorgente
@@ -19,12 +24,16 @@ class Link:
         print(self.to_string())
 
     def to_string_txt(self):
+        '''Converte il link nella striga utilizzata per importarlo da file txt'''
         stringa=self.automa_sorgente.nome+">"+self.nome+">"+self.automa_destinazione.nome
         return stringa
 
 
 class Rete:
-    '''Rete. costituita da automi e link'''
+    '''CLasse rappresentante una Rete, costituita da automi e link
+    nome: Stringa
+    automi: [Automa]
+    links: [Link]'''
     def __init__(self, nome, automi, links):
         self.nome = nome
         self.automi=automi
@@ -79,12 +88,14 @@ class Rete:
         return stringa
 
     def get_stati(self):
+        '''Restituisce tutti gli stati presenti nella rete. Scorrendo quindi gli automi'''
         stati = []
         for a in self.automi:
             stati += a.stati
         return stati
 
     def get_transizioni(self):
+        '''Restituisce tutte le transizioni presenti nella rete'''
         transizioni=[]
         for a in self.automi:
             for s in a.stati:
@@ -92,12 +103,15 @@ class Rete:
         return transizioni
 
     def get_stati_correnti(self):
+        '''Restituisce l'elenco degli stati correnti di tutti gli automi presenti nella rete'''
         stati = []
         for a in self.automi:
             stati.append(a.stato_corrente[0])
         return stati
 
     def controlla_osservazione(self, osservazioni):
+        '''Data in input una lista di osservazioni (Stringhe). Il metodo verifica che le singole stringhe siano effettivamente
+        delle osservazioni presenti all'interno delle transizioni della rete'''
         out = False
         tra = []
         for a in self.automi:
@@ -110,10 +124,8 @@ class Rete:
 
 
 
-
-
-
 def links_to_string(links):
+    '''Data una lista di links la stampa in un formato leggibile'''
     stringa = ""
     for x in range(len(links)):
         stringa = stringa + links[x].to_string() + "\n\n"

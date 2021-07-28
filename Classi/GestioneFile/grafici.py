@@ -1,3 +1,5 @@
+'''Modulo per gestire tutta la componente di creazione di grafici e esportazione in file .PNG'''
+
 from graphviz import Digraph
 from Classi.Automa.automa import *
 from Classi.Automa.rete import *
@@ -28,7 +30,9 @@ def stampa_automa(automa):
 
     print(gra.source)
 
+#non usato per ora
 def stampa_automi_su_file(automi, cartella):
+    '''Vengono stampati gli automi dato in input e salvato nella cartella specificata'''
     gra = Digraph('automa doppio', filename='automa doppio', format='png')
 
     for a in automi:
@@ -64,21 +68,11 @@ def stampa_automa_su_file_new(gra, automa):
         gra.edge(t.stato_sorgente.nome, t.stato_destinazione.nome, label=transizione_to_string(t))
 
 
-
-
-    # riassunto = open("Output/grafici_automi/" + filename + "/" + filename + "_riassunto.txt", "w")
-    # riassunto.write("Numero di stati:" + str(len(automa.stati)) + "\n")
-    # riassunto.write(stati_to_string(automa.stati) + "\n")
-    #
-    # riassunto.write("Numero di transizioni:" + str(len(get_transizioni(automa))) + "\n")
-    # riassunto.write(transizioni_to_string(get_transizioni(automa)) + "\n")
-    # riassunto.close()
-
 def stampa_automa_su_file(automa, cartella):
     '''Stampa l'automa su un file PNG
     Input: automa, nome cartella di output
     Output: viene generato un file .png nella cartella selezionata
-    viene anche creato un file nome automa_riassunto.txt contenente le informazioni sull'automa in questione'''
+    viene anche creato un file nome_automa_riassunto.txt contenente le informazioni sull'automa in questione'''
     gra = Digraph(automa.nome, filename=automa.nome+"_grafico", format='png')
 
     for s in automa.stati:
@@ -97,7 +91,7 @@ def stampa_automa_su_file(automa, cartella):
 
     gra.edge("start", automa.stati_iniziali[0].nome, label="")
 
-    print(gra.source)
+    #print(gra.source)
 
     gra.render(directory="Output/"+cartella)
 
@@ -115,13 +109,11 @@ def stampa_automa_su_file(automa, cartella):
 def stampa_spazio_su_file(spazio, cartella, *args):
     '''Stampa l'automa su un file PNG
     Input: automa, nome cartella di output
+            *args permette di specificare una stringa aggiuntiva da mettere in coda al nome del file generato
     Output: viene generato un file .png nella cartella selezionata
-    viene anche creato un file nome automa_riassunto.txt contenente le informazioni sull'automa in questione'''
+    viene anche creato un file nome_automa_riassunto.txt contenente le informazioni sull'automa in questione'''
 
-    # filePath="Output/"+cartella+"/"+spazio.nome+"_grafico"
-    # if os.path.exists(filePath):
-    #     os.remove(filePath)
-    #     os.remove("Output/"+cartella+"/"+spazio.nome+"_riassunto.txt")
+
     if len(args)==1:
         aggiunta=args[0]
     else:
@@ -156,7 +148,8 @@ def stampa_spazio_su_file(spazio, cartella, *args):
 def stampa_spazio_ridenominato_su_file(spazio, cartella, *args):
     '''Stampa l'automa su un file PNG
     Input: automa, nome cartella di output
-    Output: viene generato un file .png nella cartella selezionata
+            *args permette di specificare una stringa aggiuntiva da mettere in coda al nome del file generato
+    Output: viene generato un file nome_ridenominazione_grafico.png nella cartella selezionata
     viene anche creato un file nome automa_riassunto.txt contenente le informazioni sull'automa in questione'''
 
     if len(args)==1:
@@ -189,8 +182,9 @@ def stampa_spazio_ridenominato_su_file(spazio, cartella, *args):
 def stampa_spazio_potato_su_file(spazio, cartella, *args):
     '''Stampa l'automa su un file PNG
     Input: automa, nome cartella di output
-    Output: viene generato un file .png nella cartella selezionata
-    viene anche creato un file nome automa_riassunto.txt contenente le informazioni sull'automa in questione'''
+            *args permette di specificare una stringa aggiuntiva da mettere in coda al nome del file generato
+    Output: viene generato un file nome_potatura_grafico.png nella cartella selezionata
+    viene anche creato un file nome_riassunto.txt contenente le informazioni sull'automa in questione'''
     if (len(args)==1):
         aggiunta=args[0]
     else:
@@ -221,11 +215,10 @@ def stampa_spazio_potato_su_file(spazio, cartella, *args):
             gra.edge(t.nodo_sorgente.id, t.nodo_destinazione.id, label=nome)
             print("La stampo")
 
-    #gra.edge(t.nodo_sorgente.id, t.nodo_destinazione.id, label=nome)
 
     gra.edge("start", spazio.nodi_iniziali[0].id, label="")
 
-    print(gra.source)
+    #print(gra.source)
 
     gra.render(directory="Output/"+cartella)
 
@@ -237,7 +230,7 @@ def stampa_spazio_potato_su_file(spazio, cartella, *args):
 def stampa_rete_su_file(rete, cartella):
     '''Stampa la rete su un file PNG
         Input: rete, nome cartella di output
-        Output: viene generato un file .png nella cartella selezionata
+        Output: viene generato un file nome_rete.png nella cartella selezionata
         viene anche creato un file nome rete_riassunto.txt contenente le informazioni sull'automa in questione'''
     gra = Digraph("rete", filename=rete.nome+"_grafico", format='png')
 
