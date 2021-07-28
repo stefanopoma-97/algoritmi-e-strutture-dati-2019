@@ -18,6 +18,10 @@ class Link:
     def stampa(self):
         print(self.to_string())
 
+    def to_string_txt(self):
+        stringa=self.automa_sorgente.nome+">"+self.nome+">"+self.automa_destinazione.nome
+        return stringa
+
 
 class Rete:
     '''Rete. costituita da automi e link'''

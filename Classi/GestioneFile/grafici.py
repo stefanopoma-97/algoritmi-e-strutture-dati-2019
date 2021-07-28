@@ -106,7 +106,9 @@ def stampa_automa_su_file(automa, cartella):
     riassunto.write(stati_to_string(automa.stati)+"\n")
 
     riassunto.write("Numero di transizioni:" + str(len(get_transizioni(automa))) + "\n")
-    riassunto.write(transizioni_to_string(get_transizioni(automa))+"\n")
+    #riassunto.write(transizioni_to_string(get_transizioni(automa))+"\n")
+    for t in get_transizioni(automa):
+        riassunto.write("\t"+t.to_string() + "\n")
     riassunto.close()
 
 
@@ -252,4 +254,5 @@ def stampa_rete_su_file(rete, cartella):
     riassunto = open("Output/" + cartella+"/"+rete.nome+"_riassunto.txt", "w")
     riassunto.write("Numero di automi:" + str(len(rete.automi)) + "\n")
     riassunto.write("Numero di link:" + str(len(rete.links)) + "\n")
+    riassunto.write(rete.to_string())
     riassunto.close()
