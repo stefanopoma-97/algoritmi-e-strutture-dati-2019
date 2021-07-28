@@ -1,8 +1,0 @@
-digraph spazio1 {
-	0 [shape=circle]
-	1 [shape=circle]
-	start [label="" shape=point]
-	1 [shape=doublecircle]
-	0 -> 1 [label=<nome [<FONT COLOR="green"> </FONT>, <FONT COLOR="red">f3(f2f3)*</FONT>]>]
-	start -> 0 [label=""]
-}
