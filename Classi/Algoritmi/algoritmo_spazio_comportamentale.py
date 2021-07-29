@@ -65,14 +65,6 @@ def crea_spazio_comportamentale_manuale(rete, *args):
 
     out= controllo_transizioni_manualmente(nodi, nodo_attuale, transizioni)
 
-    # nodi_finali=[]
-    # nodi_iniziali=[]
-    # for n in nodi:
-    #     if n.finale:
-    #         nodi_finali.append(n)
-    #     if n.iniziale:
-    #         nodi_iniziali.append(n)
-    # spazio = Spazio_comportamentale("spazio1", nodi_finali, nodi_iniziali, nodi, transizioni)
     # sistema_transizioni(spazio)
     nodi = out[0]
     nodo_attuale = out[1]
@@ -165,24 +157,19 @@ def crea_spazio_comportamentale(rete):
     #print("\n\n\n---------------------------------\nCREO SPAZIO COMPORTAMENTALE")
     rete = rete
 
-    #Salvo l'array degli automi presenti nella rete #rete.automi
-    #Salvo l'array dei links presenti nella rete #rete.links
-    #Salvo l'array delle transizioni presenti nella rete #rete.transizioni
-    automi = rete.automi
-    links = rete.links
-    transizioni = rete.get_transizioni()
+    # automi = rete.automi
+    # links = rete.links
+    # transizioni = rete.get_transizioni()
 
     #creo un array vuoto di nodi dello spazio comportamentale
     nodi = []
 
     #Istanzio il nodo iniziale partendo dagli stati iniziali dei vari automi e dal contenuto dei link
     nodo_attuale = istanzio_nodo_iniziale(rete)
-    # print("Creo nodo iniziale:")
-    # print("\t"+nodo_attuale.to_string()+"\n")
 
     #Inserisco il nodo iniziale nell'array
     nodi.append(nodo_attuale)
-    #print("Creata lista di nodi\n")
+
     transizioni=[]
 
     controllo_transizioni(nodi, nodo_attuale, transizioni)
@@ -363,6 +350,7 @@ def istanzio_nodo_iniziale(rete):
     links = dict()
     for l in rete.links:
         links[l.nome] = [l, l.evento.nome]
+
     nodo_iniziale = Nodo(stati=stati_correnti, check=False, links=links, iniziale=True)
     return nodo_iniziale
 
@@ -568,7 +556,7 @@ def controllo_transizioni_manualmente2_da_spazio(nodi, nodo_attuale, transizioni
     commento="analizzate tutte le possibili transizioni del nodo: ["+nodo.output+"]\n necessario passare al prossimo nodo"
     return [nodi, nodo, transizioni_spazio, commento]
 
-#ALGORITMO 2 - da spazio, Manuale
+#ALGORITMO 2 - da spazio
 def crea_spazio_comportamentale2_da_spazio(spazio, osservazione):
 
     #print("\n\n\n---------------------------------\nCREO SPAZIO COMPORTAMENTALE CON OSSERVAZIONE DA SPAZIO")
@@ -651,11 +639,9 @@ def controllo_transizioni2_da_spazio(nodi, transizioni_spazio, osservazione, spa
             nuovo_nodo.lunghezza_osservazione=indice
             contiene = contiene_nodo(nuovo_nodo, nodi)
             if (isinstance(contiene, Nodo)):
-                # print("Voglio creare nuovo nodo: "+nuovo_nodo.to_string())
-                # print("il nodo destinazione esiste già")
-                # print("Eccolo: "+contiene.to_string())
+
+                #IL nodo è presente e ha anche lo stesso valore di l_osservazione
                 if contiene.lunghezza_osservazione==indice:
-                    #print("effettivamente è lo stesso nodo")
                     if contiene.iniziale and contiene.lunghezza_osservazione == len(osservazione):
                         contiene.finale = True
                     tra = Transizione_spazio(t.nome, nodo, contiene, t.osservazione, t.rilevanza)
@@ -665,9 +651,9 @@ def controllo_transizioni2_da_spazio(nodi, transizioni_spazio, osservazione, spa
                     # print("\t" + t.to_string())
                     # print("numero totale di transizioni: " + str(len(transizioni_spazio)))
                 else:
-                    #print("l'indice è diverso, verrà creato un nodo separato")
-                    #nuovo_nodo = deepcopy(t.nodo_destinazione)
-                    nuovo_nodo = Nodo(t.nodo_destinazione.stati, False, t.nodo_destinazione.links, False, [])
+                    #l_osservazione è diverso. Creo nodo sepratato
+                    nuovo_nodo = Nodo(t.nodo_destinazione.stati, False, t.nodo_destinazione.links, False, []) #stati, check, links, iniziale, transizioni=[], *args):
+
                     nuovo_nodo.iniziale=False
                     nuovo_nodo.check = False
                     nuovo_nodo.finale=False
@@ -681,9 +667,8 @@ def controllo_transizioni2_da_spazio(nodi, transizioni_spazio, osservazione, spa
                     tra = Transizione_spazio(t.nome, nodo, nuovo_nodo, t.osservazione, t.rilevanza)
                     transizioni_spazio.append(tra)
 
-                    # print("Nuovo nodo (aggiornato) creato ")
-                    # print("\t" + nuovo_nodo.to_string() + "\n")
-                    controllo_transizioni2_da_spazio(nodi, transizioni_spazio, osservazione, spazio, nuovo_nodo)
+
+                    #controllo_transizioni2_da_spazio(nodi, transizioni_spazio, osservazione, spazio, nuovo_nodo)
 
 
             else:
@@ -893,7 +878,7 @@ def controllo_transizioni_manualmente2(nodi, nodo_attuale, transizioni_spazio, o
     commento="analizzate tutte le possibili transizioni del nodo: ["+nodo_attuale.output+"]\n necessario passare al prossimo nodo"
     return [nodi, nodo_attuale, transizioni_spazio, commento]
 
-#ALGORITMO 2 - da spazio
+#ALGORITMO 2 - da rete
 def crea_spazio_comportamentale2(rete, osservazione):
 
     #print("\n\n\n---------------------------------\nCREO SPAZIO COMPORTAMENTALE CON OSSERVAZIONE")
@@ -912,13 +897,14 @@ def crea_spazio_comportamentale2(rete, osservazione):
 
     #Istanzio il nodo iniziale partendo dagli stati iniziali dei vari automi e dal contenuto dei link
     nodo_attuale = istanzio_nodo_iniziale2(rete)
-    # print("Creo nodo iniziale:")
-    # print("\t"+nodo_attuale.to_string()+"\n")
+
 
     #Inserisco il nodo iniziale nell'array
     nodi.append(nodo_attuale)
-    #print("Creata lista di nodi\n")
+
     transizioni=[]
+
+    #variabile globale
     global indice
     indice=0
 
@@ -1029,23 +1015,7 @@ def scatto_transizione2(tranizione, nodo, osservazioni):
 
 
     if tranizione.osservazione != " ":
-        # print("La transizione contiene un valore di osservazione: "+tranizione.osservazione)
-        #
-        # print("Osservazioni con lunghezza: "+str(len(osservazioni)))
-        # print("Valore di l_osservazione nel nodo: " + str(nodo.lunghezza_osservazione))
-        #print("Valore dell'indice complessivo: "+str(indice))
 
-        # if indice == len(osservazioni):
-        #     print("Indice vale: "+str(indice))
-        #     print("La lunghezza delle osservazioni è: "+str(len(osservazioni)))
-        #     print("SALTO")
-        #     return False
-        #
-        # if (osservazioni[indice]!=tranizione.osservazione):
-        #     print("rispetto all'indice mi serve il valore: "+osservazioni[indice])
-        #     print("il nodo contiene: "+tranizione.osservazione)
-        #     print("NON COINCIDONO, salto")
-        #     return False
 
         if nodo.lunghezza_osservazione == len(osservazioni):
             #print("len osservazione è già uguale a: " + str(nodo.lunghezza_osservazione) + ", non posso aggiungerne altre")
@@ -1149,19 +1119,19 @@ def potatura_e_ridenominazione(spazio):
     nodi_finali = spazio.nodi_finali
     potatura(nodi_finali)
     #print("SPAZIO DOPO POTATURA")
-    i = 0
+
 
     ridenominazione_dopo_potatura(spazio)
-    for n in spazio.nodi:
-        #print("NODO: "+str(n.id))
-        for t in n.transizioni_sorgente:
-            print(str(i) + ") " + "ID: " + t.nodo_sorgente.id + "(" + str(
-                t.nodo_sorgente.potato) + ") - " + t.nome + " potata: " + str(t.potato) + ", " + str(
-                t.nodo_destinazione.id) + "(" + str(t.nodo_destinazione.potato) + ")")
-            i = i + 1
+    # for n in spazio.nodi:
+    #     #print("NODO: "+str(n.id))
+    #     # for t in n.transizioni_sorgente:
+    #     #     print(str(i) + ") " + "ID: " + t.nodo_sorgente.id + "(" + str(
+    #     #         t.nodo_sorgente.potato) + ") - " + t.nome + " potata: " + str(t.potato) + ", " + str(
+    #     #         t.nodo_destinazione.id) + "(" + str(t.nodo_destinazione.potato) + ")")
+    #     #     i = i + 1
     spazio.spazio_potato=True
     #print("Durante POTATURA")
-    i = 0
+
     return spazio
 
 def potatura(nodi):
@@ -1169,8 +1139,6 @@ def potatura(nodi):
         salva_nodo_da_potatura(n)
         for t in n.transizioni_sorgente:
             t.potato=False
-            # print("NODO ID: " + str(n.id)+ "potato: "+str(n.potato))
-            # print("TRANSIZIONE: " + t.nome + ", potata: " + str(t.potato))
             if t.nodo_sorgente.potato == True:
                 potatura([t.nodo_sorgente])
         #print("NODO ID: " + str(n.id) + "potato: " + str(n.potato))
@@ -1601,6 +1569,7 @@ def controllo_sequenza(nodi, transizioni):
         # print("INFO sulla transizione")
         # print("lunghezza nodo dest transizioni entranti: "+str(len(t.nodo_destinazione.transizioni_sorgente)))
         # print("nodo dest auto transizioni: "+str(len(t.nodo_sorgente.transizioni_auto)))
+
         #il nodo destinazione ha 1 transizione uscente e una entrante
         if ((len(t.nodo_destinazione.transizioni) == 1) and (len(t.nodo_destinazione.transizioni_sorgente) == 1) and (len(t.nodo_destinazione.transizioni_auto)==0)):
             #print("Il nodo destinazione rispecchia i requisiti, 1 transizione entrante, 1 uscente, no auto transizioni")
@@ -1665,6 +1634,376 @@ def esplora_sequenza(transizione, lista_sequenza):
         esplora_sequenza(transizione.nodo_destinazione.transizioni[0], lista_sequenza)
     else:
         return
+
+#Migliorato
+def controllo_sequenza_migliorato(nodi, transizioni):
+    '''Terzo tipo di semplificazione: sequenza'''
+    print("CONTROLLO PER SEQUENZA AND")
+
+
+    for t in transizioni:
+        sequenza = False
+        lista_sequenza = []
+
+        # print("FOR: Analizzo la transizione: ")
+        # print(t.to_string())
+        # print("\n")
+        # print("INFO sulla transizione")
+        # print("lunghezza nodo dest transizioni entranti: "+str(len(t.nodo_destinazione.transizioni_sorgente)))
+        # print("nodo dest auto transizioni: "+str(len(t.nodo_destinazione.transizioni_auto)))
+        # print("nodo dest transizioni: " + str(len(t.nodo_destinazione.transizioni)))
+
+        #il nodo destinazione ha 1 transizione uscente e una entrante
+        if ((len(t.nodo_destinazione.transizioni) == 1) and (len(t.nodo_destinazione.transizioni_sorgente) == 1) and (len(t.nodo_destinazione.transizioni_auto)==0)):
+            # print("Il nodo destinazione rispecchia i requisiti, 1 transizione entrante, 1 uscente, no auto transizioni")
+            # print("Nodo destinazione: "+t.nodo_destinazione.to_string())
+            lista_sequenza.append(t)
+            lista_sequenza.append(t.nodo_destinazione.transizioni[0])
+            sequenza=True
+            esplora_sequenza(t.nodo_destinazione.transizioni[0], lista_sequenza)
+            #print("ho finito di esplorare la seguenza, è lunga: "+str(len(lista_sequenza)))
+            break
+
+    if sequenza:
+        #print("Creazione etichetta")
+        etichetta=""
+        for tra in lista_sequenza:
+            etichetta = crea_etichetta_and(etichetta, tra.rilevanza)
+
+        if etichetta=="":
+            etichetta=" "
+
+
+        #print("Ho creato etichetta nuova transizione: "+etichetta)
+
+        #creo transizione
+        nodo_sorgente=lista_sequenza[0].nodo_sorgente
+        nodo_destinazione=lista_sequenza[len(lista_sequenza)-1].nodo_destinazione
+        transizione = Transizione_spazio(nome="nome",nodo_sorgente=nodo_sorgente,nodo_destinazione=nodo_destinazione,osservazione=" ",rilevanza=etichetta)
+        transizioni.append(transizione)
+        nodo_sorgente.transizioni.append(transizione)
+        nodo_destinazione.transizioni_sorgente.append(transizione)
+
+
+        for index, tra in enumerate(lista_sequenza):
+            if index==0:
+                if tra.nodo_destinazione in nodi:
+                    nodi.remove(tra.nodo_destinazione)
+                transizioni.remove(tra)
+                #migliorato
+                tra.nodo_sorgente.transizioni.remove(tra)
+            elif index==len(lista_sequenza)-1:
+                if tra.nodo_sorgente in nodi:
+                    nodi.remove(tra.nodo_sorgente)
+                transizioni.remove(tra)
+                tra.nodo_destinazione.transizioni_sorgente.remove(tra)
+            else:
+                if tra.nodo_sorgente in nodi:
+                    nodi.remove(tra.nodo_sorgente)
+                if tra.nodo_destinazione in nodi:
+                    nodi.remove(tra.nodo_destinazione)
+                transizioni.remove(tra)
+        #print("NUMERO DI NODI DOPO SEQUENZA: " + str(len(nodi)))
+        # for nod in nodi:
+        #     print("\t" + nod.to_string() + " numero transizioni: " + str(len(nod.transizioni)))
+        return True
+    else:
+        return False
+
+def controlla_tratti_paralleli_migliorato(transizioni):
+    '''Terzo tipo di semplificazione: tratti paralleli'''
+    #print("CONTROLLO TRATTI PARALLELI PER OR")
+
+    for t in transizioni:
+        paralleli = False
+        lista_transizioni = []
+
+        # print("FOR: Analizzo la transizione: ")
+        # print(t.to_string())
+        # print("\n")
+        # print("INFO sulla transizione")
+        # print("numero transizioni nodo sorgente: " + str(len(t.nodo_sorgente.transizioni)))
+        # print("numero transizioni entranti nodo dest: " + str(len(t.nodo_destinazione.transizioni_sorgente)))
+
+        if ((len(t.nodo_sorgente.transizioni)) > 1 ) and ((len(t.nodo_destinazione.transizioni_sorgente)) > 1 ):
+            #print("Il nodo destinazione rispecchia i requisiti")
+            #print("Nodo destinazione: " + t.nodo_destinazione.to_string())
+            for tra in t.nodo_sorgente.transizioni:
+                if t!=tra:
+                    if t.nodo_destinazione==tra.nodo_destinazione:
+                        # print("trovata transizione parallela:")
+                        # print(tra.to_string())
+                        lista_transizioni.append(t)
+                        lista_transizioni.append(tra)
+                        paralleli = True
+                        break
+        if paralleli:
+            break
+
+
+    if paralleli:
+        #print("Creazione etichetta")
+        etichetta = ""
+        if lista_transizioni[0].rilevanza==" ":
+            if lista_transizioni[1].rilevanza==" ":
+                etichetta=" "
+            else:
+                etichetta=lista_transizioni[1].rilevanza+"|ε"
+        else:
+            if lista_transizioni[1].rilevanza==" ":
+                etichetta=lista_transizioni[0].rilevanza+"|ε"
+            else:
+                etichetta=lista_transizioni[0].rilevanza+"|"+lista_transizioni[1].rilevanza
+
+        #print("Ho creato etichetta nuova transizione: " + etichetta)
+
+        # creo transizione
+        nodo_sorgente = lista_transizioni[0].nodo_sorgente
+        nodo_destinazione = lista_transizioni[0].nodo_destinazione
+        transizione = Transizione_spazio(nome="nome", nodo_sorgente=nodo_sorgente, nodo_destinazione=nodo_destinazione,
+                                         osservazione=" ", rilevanza=etichetta)
+        transizioni.append(transizione)
+        #print("Creo nuova transizione: ")
+        #print(transizione.to_string())
+
+        nodo_sorgente.transizioni.append(transizione)
+        nodo_destinazione.transizioni_sorgente.append(transizione)
+
+
+        nodo_sorgente.transizioni.remove(lista_transizioni[0])
+        nodo_sorgente.transizioni.remove(lista_transizioni[1])
+        nodo_destinazione.transizioni_sorgente.remove(lista_transizioni[0])
+        nodo_destinazione.transizioni_sorgente.remove(lista_transizioni[1])
+        if lista_transizioni[0] in transizioni:
+            transizioni.remove(lista_transizioni[0])
+        if lista_transizioni[1] in transizioni:
+            transizioni.remove(lista_transizioni[1])
+        return True
+    else:
+        return False
+
+def controlla_nodi_migliorato(nodi, transizioni):
+    '''Terzo tipo di semplificazione: auto transizioni'''
+    for n in nodi:
+        #print("FOR NODO: ")
+        #print(n.to_string())
+        transizioni_inserite=[]
+        trovato=False
+        if n.finale==False and n.iniziale==False:
+            #transizioni entranti (non auto transizioni)
+            for i in [x for x in n.transizioni_sorgente if x.nodo_sorgente!=n]:
+                for o in [y for y in n.transizioni if y.nodo_destinazione!=n]:
+                    # print("INTERNO FOR, transizioni")
+                    # print("Transizione entrante: "+i.to_string())
+                    # print("Transizione uscente: " + o.to_string())
+
+                    if len(n.transizioni_auto)==0: #non ci sono autotransizioni
+                        print("n non ha auto transizioni")
+                        trovato=True
+                        lista_etichette=[]
+                        lista_etichette.append(i.rilevanza)
+                        lista_etichette.append(o.rilevanza)
+
+                        print("Creazione etichetta")
+                        etichetta = ""
+                        for e in lista_etichette:
+                            etichetta = crea_etichetta_and(etichetta, e)
+                        if etichetta == "":
+                            etichetta = " "
+                        print("Ho creato etichetta nuova transizione: " + etichetta)
+
+                        nodo_sorgente = i.nodo_sorgente
+                        nodo_destinazione = o.nodo_destinazione
+                        transizione = Transizione_spazio(nome="nome", nodo_sorgente=nodo_sorgente,
+                                                         nodo_destinazione=nodo_destinazione, osservazione=" ",
+                                                         rilevanza=etichetta)
+                        transizioni.append(transizione)
+
+                        info=[]
+                        info.append(nodo_sorgente)
+                        info.append(nodo_destinazione)
+                        info.append(transizione)
+                        info.append(i)
+                        info.append(o)
+                        # nodo_sorgente.transizioni.append(transizione)
+                        # nodo_destinazione.transizioni_sorgente.append(transizione)
+                        # if i in nodo_sorgente.transizioni:
+                        #     nodo_sorgente.transizioni.remove(i)
+                        # if o in nodo_destinazione.transizioni_sorgente:
+                        #     nodo_destinazione.transizioni_sorgente.remove(o)
+                        transizioni_inserite.append(info)
+
+                    else: #ci sono autotransizioni
+                        #print("n ha auto transizioni")
+                        trovato=True
+                        for auto in n.transizioni_auto:
+                            lista_etichette = []
+                            lista_etichette.append(i.rilevanza)
+                            lista_etichette.append("("+auto.rilevanza+")*")
+                            lista_etichette.append(o.rilevanza)
+
+                            #print("Creazione etichetta")
+                            etichetta = ""
+                            for e in lista_etichette:
+                                etichetta = crea_etichetta_and(etichetta, e)
+                            if etichetta == "":
+                                etichetta = " "
+                            #print("Ho creato etichetta nuova transizione: " + etichetta)
+
+                            nodo_sorgente = i.nodo_sorgente
+                            nodo_destinazione = o.nodo_destinazione
+                            transizione = Transizione_spazio(nome="nome", nodo_sorgente=nodo_sorgente,
+                                                             nodo_destinazione=nodo_destinazione, osservazione=" ",
+                                                             rilevanza=etichetta)
+                            transizioni.append(transizione)
+
+                            info = []
+                            info.append(nodo_sorgente)
+                            info.append(nodo_destinazione)
+                            info.append(transizione)
+                            info.append(i)
+                            info.append(o)
+                            transizioni_inserite.append(info)
+                            # nodo_sorgente.transizioni.append(transizione)
+                            # nodo_destinazione.transizioni_sorgente.append(transizione)
+                            #
+                            # nodo_sorgente.transizioni.remove(i)
+                            # nodo_destinazione.transizioni_sorgente.remove(o)
+
+        if trovato:
+            #print("Finito FOR sul nodo con successo. Inizio a eliminare parti inutili")
+            #scorro lista
+            for info in transizioni_inserite:
+                nodo_sorgente=info[0]
+                nodo_destinazione=info[1]
+                transizione=info[2]
+                i=info[3]
+                o=info[4]
+                if(transizione.nodo_sorgente==transizione.nodo_destinazione):
+                    nodo_sorgente.transizioni_auto.append(transizione)
+                if (transizione not in nodo_sorgente.transizioni):
+                    nodo_sorgente.transizioni.append(transizione)
+                if (transizione not in nodo_destinazione.transizioni_sorgente):
+                    nodo_destinazione.transizioni_sorgente.append(transizione)
+                if i in nodo_sorgente.transizioni:
+                    nodo_sorgente.transizioni.remove(i)
+                if o in nodo_destinazione.transizioni_sorgente:
+                    nodo_destinazione.transizioni_sorgente.remove(o)
+
+
+            if n in nodi:
+                nodi.remove(n)
+                #print("rimuovo nodo: "+n.to_string())
+            for t in n.transizioni:
+                if t in transizioni:
+                    transizioni.remove(t)
+                    #print("rimuovo transizione: " + t.to_string())
+            for t in n.transizioni_sorgente:
+                if t in transizioni:
+                    transizioni.remove(t)
+                    #print("rimuovo transizione: " + t.to_string())
+            break
+
+def semplifico_transizioni_diagnosi_migliorato(nodi, transizioni):
+    '''Metodo per svolgere i passaggi della diagnosi
+        Semplificazione di una seguenza
+        Semplificazione di transizioni parallele
+        Terzo tipo di semplificazione (auto transizione)'''
+    #print("\n\n\nSEMPLIFICO TRANSIZIONI")
+
+    sistema_transizioni_da_nodi_e_transizioni(nodi, transizioni)
+    #print("Ho corretto sorgente, dest e auto di tutti i nodi")
+    i=1
+    while (len(transizioni)>1):
+        #sistema_transizioni_da_nodi_e_transizioni(nodi, transizioni)
+        #print("---------------------iterazione: "+str(i))
+        #print("NUMERO DI TRANSIZIONI: "+str(len(transizioni)))
+        # for trr in transizioni:
+        #     print("\t"+trr.to_string()+"\n")
+        #
+        # print("NUMERO DI NODI: " + str(len(nodi)))
+        # for nod in nodi:
+        #     print("\t" + nod.to_string()+" numero transizioni: "+str(len(nod.transizioni)))
+        #
+        # print("-----------CONTROLLO SEQUENZA")
+        sequenza = controllo_sequenza_migliorato(nodi, transizioni)
+        if sequenza == False:
+            #print("--------CONTROLLO TRATTI PARALLELI")
+            tratti = controlla_tratti_paralleli_migliorato(transizioni)
+            if tratti==False:
+                print("------------CONTROLLO NODI")
+                controlla_nodi_migliorato(nodi, transizioni)
+                #sistema_transizioni_da_nodi_e_transizioni(nodi, transizioni)
+        nodi_finali = []
+        nodi_iniziali = []
+        for n in nodi:
+            if n.finale:
+                nodi_finali.append(n)
+            if n.iniziale:
+                nodi_iniziali.append(n)
+
+        # spazio = Spazio_comportamentale("spazio1", nodi_finali, nodi_iniziali, nodi, transizioni)
+        # #sistema_transizioni(spazio)
+        # stampa_spazio_ridenominato_su_file(spazio, "SPAZIO", "__"+str(i)+"__")
+        # if (i==5):
+        #     break
+        i=i+1
+
+def diagnosi_algoritmo_su_spazio_migliorato(spazio):
+    '''Metodo per eseguire una diagnosi sullo spazio dato in input'''
+
+    print("DENTRO LA DIAGNOSI")
+    nodi = spazio.nodi
+    transizioni=spazio.transizioni
+
+
+
+    semplifico_transizioni_diagnosi_migliorato(nodi, transizioni)
+
+
+    #fine output
+    nodi_finali=[]
+    nodi_iniziali=[]
+    for n in nodi:
+        if n.finale:
+            nodi_finali.append(n)
+        if n.iniziale:
+            nodi_iniziali.append(n)
+
+
+    # print("NODI TOTALI:")
+    # i=0
+    # for n in nodi:
+    #     print(str(i)+") "+n.to_string())
+    #     i=i+1
+    #
+    # print("TRANSIZIONI TOTALI:")
+    # i=0
+    # for t in transizioni:
+    #     print(str(i)+") "+t.to_string())
+    #     i=i+1
+    #
+    # print("NODI INZIALI:")
+    # i = 0
+    # for n in nodi_iniziali:
+    #     print(str(i) + ") " + n.to_string())
+    #     i = i + 1
+    #
+    # print("NODI FINALI:")
+    # i = 0
+    # for n in nodi_finali:
+    #     print(str(i) + ") " + n.to_string())
+    #     i = i + 1
+
+
+    spazio = Spazio_comportamentale("spazio1", nodi_finali, nodi_iniziali, nodi, transizioni)
+    sistema_transizioni(spazio)
+    #ridenominazione_spazio_appena_creato(spazio)
+    #print("SPAZIO: ")
+    #print(spazio.to_string())
+    return spazio
+
+
 
 
 def crea_etichetta_and(e1, e2):

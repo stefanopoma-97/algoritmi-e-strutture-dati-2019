@@ -115,9 +115,9 @@ rete3 = carica_rete_da_file_txt(automi, links, "Input/RETE3/rete 3.txt")
 #
 # print("NUMERO DI TRANSIZIONI: "+str(len(spazio.transizioni)))
 # print("NUMERO DI TRANSIZIONI metodo: "+str(len(get_transizioni_spazio(spazio))))
-spazio1 = carica_spazio_da_file("Input/RETE1/spazio1_salvataggio")
-spazio2 = carica_spazio_da_file("Input/RETE2/spazio2_salvataggio")
-spazio3 = carica_spazio_da_file("Input/RETE3/spazio3_salvataggio")
+# spazio1 = carica_spazio_da_file("Input/RETE1/spazio1_salvataggio")
+# spazio2 = carica_spazio_da_file("Input/RETE2/spazio2_salvataggio")
+# spazio3 = carica_spazio_da_file("Input/RETE3/spazio3_salvataggio")
 
 spazio1_potato_salvataggio_oss = carica_spazio_da_file("Input/spazio1_potato_salvataggio_oss")
 spazio2_salvataggio= carica_spazio_da_file("Input/spazio2_salvataggio")
@@ -138,77 +138,79 @@ osservazione3=["o1", "o2"]
 # spazio1_potato_salvataggio_oss_modificato= deepcopy(spazio1_potato_salvataggio_oss)
 # spazio1_potato_salvataggio_oss_modificato.nodi_iniziali[0].transizioni_sorgente = [spazio1_potato_salvataggio_oss_modificato.transizioni[0]]
 #
-# #DIAGNOSI
+#DIAGNOSI
 # stampa_spazio_ridenominato_su_file(spazio1_potato_salvataggio_oss,"SPAZIO","__0__")
+# diagnosi_sistemo_spazio(spazio1_potato_salvataggio_oss)
+# ridenominazione_spazio_appena_creato(spazio1_potato_salvataggio_oss)
 #
 # print("----------------ITERAZIONE 1\n\n")
-# diagnosi1=diagnosi(spazio1_potato_salvataggio_oss)
-# ridenominazione_spazio_appena_creato(diagnosi1)
-# stampa_spazio_ridenominato_su_file(diagnosi1,"SPAZIO","__1__")
+# diagnosi1=diagnosi_algoritmo_su_spazio_migliorato(spazio1_potato_salvataggio_oss)
 #
+# stampa_spazio_ridenominato_su_file(diagnosi1,"SPAZIO","__1__")
+
 # print("----------------ITERAZIONE 2\n\n")
-# diagnosi2=diagnosi(diagnosi1)
+# diagnosi2=diagnosi_algoritmo_su_spazio_migliorato(diagnosi1)
 # stampa_spazio_ridenominato_su_file(diagnosi2,"SPAZIO","__2__")
 #
 # print("----------------ITERAZIONE 3\n\n")
-# diagnosi3=diagnosi(diagnosi2)
+# diagnosi3=diagnosi_algoritmo_su_spazio_migliorato(diagnosi2)
 # stampa_spazio_ridenominato_su_file(diagnosi3,"SPAZIO","__3__")
 #
 # print("----------------ITERAZIONE 4\n\n")
-# diagnosi4=diagnosi(diagnosi3)
+# diagnosi4=diagnosi_algoritmo_su_spazio_migliorato(diagnosi3)
 # stampa_spazio_ridenominato_su_file(diagnosi4,"SPAZIO","__4__")
 #
 # print("----------------ITERAZIONE 5\n\n")
-# diagnosi5=diagnosi(diagnosi4)
+# diagnosi5=diagnosi_algoritmo_su_spazio_migliorato(diagnosi4)
 # stampa_spazio_ridenominato_su_file(diagnosi5,"SPAZIO","__5__")
 #
 # print("----------------ITERAZIONE 6\n\n")
-# diagnosi6=diagnosi(diagnosi5)
+# diagnosi6=diagnosi_algoritmo_su_spazio_migliorato(diagnosi5)
 # stampa_spazio_ridenominato_su_file(diagnosi6,"SPAZIO","__6__")
 #
 # print("----------------ITERAZIONE 7\n\n")
-# diagnosi7=diagnosi(diagnosi6)
+# diagnosi7=diagnosi_algoritmo_su_spazio_migliorato(diagnosi6)
 # stampa_spazio_ridenominato_su_file(diagnosi7,"SPAZIO","__7__")
 #
 # print("----------------ITERAZIONE 8\n\n")
-# diagnosi8=diagnosi(diagnosi7)
+# diagnosi8=diagnosi_algoritmo_su_spazio_migliorato(diagnosi7)
 # stampa_spazio_ridenominato_su_file(diagnosi8,"SPAZIO","__8__")
 #
 # print("----------------ITERAZIONE 9\n\n")
-# diagnosi9=diagnosi(diagnosi8)
+# diagnosi9=diagnosi_algoritmo_su_spazio_migliorato(diagnosi8)
 # stampa_spazio_ridenominato_su_file(diagnosi9,"SPAZIO","__9__")
 #
 # print("----------------ITERAZIONE 10\n\n")
-# diagnosi10=diagnosi(diagnosi9)
+# diagnosi10=diagnosi_algoritmo_su_spazio_migliorato(diagnosi9)
 # stampa_spazio_ridenominato_su_file(diagnosi10,"SPAZIO","__10__")
 
 
 
 #SPAZIO 2
-# ridenominazione_spazio_appena_creato(spazio2_potato_salvataggio_oss)
-#
-# #DIAGNOSI
-# stampa_spazio_ridenominato_su_file(spazio2_potato_salvataggio_oss,"SPAZIO","__0__")
-#
-# print("----------------ITERAZIONE 1\n\n")
-# diagnosi1=diagnosi(spazio2_potato_salvataggio_oss)
-# ridenominazione_spazio_appena_creato(diagnosi1)
-# stampa_spazio_ridenominato_su_file(diagnosi1,"SPAZIO","__1__")
-#
+ridenominazione_spazio_appena_creato(spazio2_potato_salvataggio_oss)
+stampa_spazio_ridenominato_su_file(spazio2_potato_salvataggio_oss,"SPAZIO","__0__")
+diagnosi_sistemo_spazio(spazio2_potato_salvataggio_oss)
+
+
+print("----------------ITERAZIONE 1\n\n")
+diagnosi1=diagnosi_algoritmo_su_spazio_migliorato(spazio2_potato_salvataggio_oss)
+
+stampa_spazio_ridenominato_su_file(diagnosi1,"SPAZIO","__FINE__")
+
 # print("----------------ITERAZIONE 2\n\n")
-# diagnosi2=diagnosi(diagnosi1)
+# diagnosi2=diagnosi_algoritmo_su_spazio_migliorato(diagnosi1)
 # stampa_spazio_ridenominato_su_file(diagnosi2,"SPAZIO","__2__")
 #
 # print("----------------ITERAZIONE 3\n\n")
-# diagnosi3=diagnosi(diagnosi2)
+# diagnosi3=diagnosi_algoritmo_su_spazio_migliorato(diagnosi2)
 # stampa_spazio_ridenominato_su_file(diagnosi3,"SPAZIO","__3__")
 
 
-diagnosi=diagnosi(spazio3_potato_salvataggio_oss)
+#diagnosi=diagnosi(spazio3_potato_salvataggio_oss)
 #ridenominazione_spazio_appena_creato(diagnosi)
 #stampa_spazio_ridenominato_su_file(diagnosi,"SPAZIO")
 
 
-
+#crea_spazio_comportamentale2_da_spazio(spazio3_salvataggio, ["o1","o2"])
 
 

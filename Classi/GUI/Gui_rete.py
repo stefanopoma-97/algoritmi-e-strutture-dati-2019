@@ -1754,7 +1754,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         salva_su_file3("/algoritmo3/")
 
         #print("\n\n\nINIZIO DIAGNOSI")
-        diagnosi = diagnosi_algoritmo_su_spazio(spazio_comportamentale)
+        diagnosi = diagnosi_algoritmo_su_spazio_migliorato(spazio_comportamentale)
 
         listOfGlobals['diagnosi'] = diagnosi
         nodi=diagnosi.nodi
