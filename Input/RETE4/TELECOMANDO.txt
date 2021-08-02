@@ -1,0 +1,4 @@
+TELECOMANDO
+spento_chiuso,acceso_chiuso,apri,stop_aperto,spento_aperto,acceso_aperto,chiudi,stop_chiuso
+
+spento_chiuso>t1>acceso_chiuso,acceso_chiuso>t2>apri,apri>t4>stop_aperto,stop_aperto>t5>spento_aperto,spento_aperto>t6>acceso_aperto,acceso_aperto>t7>chiudi,stop_aperto>t3>chiudi,chiudi>t8>stop_chiuso,stop_chiuso>t9>spento_chiuso,stop_chiuso>t10>apri

@@ -1,0 +1,17 @@
+rete 4
+TELECOMANDO,t1, /{ },accendo da chiuso, 
+TELECOMANDO,t6, /{ },accendo da aperto, 
+TELECOMANDO,t2, /{apri(L1)},apri, 
+TELECOMANDO,t3, /{chiudi(L1)},chiudi, 
+TELECOMANDO,t4,aperto(L2)/{ },stop da aperto, 
+TELECOMANDO,t5, /{ },spento aperto, 
+TELECOMANDO,t7, /{chiudi(L1)},chiudi da acceso, 
+TELECOMANDO,t8,chiuso(L2)/{ },stop da chiuso, 
+TELECOMANDO,t9, /{ },spento chiuso, 
+TELECOMANDO,t10, /{apri(L1)},apri2, 
+CANCELLO,c1,apri(L1)/{ },apertura, 
+CANCELLO,c2, /{aperto(L2)},aperto, 
+CANCELLO,c3,chiudi(L1)/{ },chiusura, 
+CANCELLO,c4, /{chiuso(L2)},chiuso, 
+CANCELLO,c5, /{ }, ,bloccoApertura
+CANCELLO,c6, /{ }, ,bloccoChiusura
