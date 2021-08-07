@@ -1,0 +1,4 @@
+CANCELLO
+chiuso,apertura,aperto,chiusura,bloccoApertura,bloccoChiusura
+
+chiuso>c1>apertura,apertura>c2>aperto,aperto>c3>chiusura,chiusura>c4>chiuso,chiusura>c6>bloccoChiusura,apertura>c5>bloccoApertura,bloccoChiusura>c7>chiuso,bloccoApertura>c8>aperto

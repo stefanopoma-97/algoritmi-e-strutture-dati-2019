@@ -1,0 +1,25 @@
+rete 5
+TELECOMANDO,t1, /{ },accendoDaChiuso, 
+TELECOMANDO,t6, /{ },accendoDaAperto, 
+TELECOMANDO,t2, /{apri(L1)},apri, 
+TELECOMANDO,t3, /{chiudi(L1)},chiudi, 
+TELECOMANDO,t4,aperto(L2)/{ },stopDaAperto, 
+TELECOMANDO,t5, /{ },spento aperto, 
+TELECOMANDO,t7, /{chiudi(L1)},chiudiDaAcceso, 
+TELECOMANDO,t8,chiuso(L2)/{ },stopDaChiuso, 
+TELECOMANDO,t9, /{ },spento chiuso, 
+TELECOMANDO,t10, /{apri(L1)},apri2, 
+CANCELLO,c1,apri(L1)/{ },apertura, 
+CANCELLO,c2, /{aperto(L2)},aperto, 
+CANCELLO,c3,chiudi(L1)/{ },chiusura, 
+CANCELLO,c4, /{chiuso(L2)},chiuso, 
+CANCELLO,c5, /{bloccoApertura(L3)}, ,bloccoApertura
+CANCELLO,c6, /{bloccoChiusura(L3)}, ,bloccoChiusura
+CANCELLO,c7,forzoChiusura(L4)/{chiuso(L2)}, ,bloccoChiusura
+CANCELLO,c8,forzoApertura(L4)/{aperto(L2)}, ,bloccoApertura
+PERSONA,p1,bloccoChiusura(L3)/{ }, ,forzoMaBloccato
+PERSONA,p4,bloccoApertura(L3)/{ }, ,forzoMaBloccato
+PERSONA,p2,bloccoChiusura(L3)/{forzoChiusura(L4)},forzoLaChiusura, 
+PERSONA,p3,bloccoApertura(L3)/{forzoApertura(L4)},forzoApertura, 
+PERSONA,p5,bloccoApertura(L3)/{ },forzoContrarioRompendo, 
+PERSONA,p6,bloccoChiusura(L3)/{ },forzoContrarioRompendo, 

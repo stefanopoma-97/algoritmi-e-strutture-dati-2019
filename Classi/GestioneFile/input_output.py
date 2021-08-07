@@ -303,14 +303,14 @@ def carica_links_da_file_txt(automi, *args):
         if (len(automa_presente) == 1):
             sorgente = automa_presente[0]
         else:
-            return "Un automa sorgente non è mai stato dichiarato precedentemente: "+lista_componenti[0]
+            return "Questo automa sorgente non è mai stato dichiarato precedentemente: "+lista_componenti[0]
 
         # verifico che l'automa destinazione esista
         automa_presente = [x for x in automi if x.nome == lista_componenti[2]]
         if (len(automa_presente) == 1):
             destinazione = automa_presente[0]
         else:
-            return "Un automa destinazione non è mai stato dichiarato precedentemente: "+lista_componenti[2]
+            return "Questo automa destinazione non è mai stato dichiarato precedentemente: "+lista_componenti[2]
 
         links.append(Link(lista_componenti[1], sorgente, destinazione))
 

@@ -174,7 +174,8 @@ class Nodo:
             self.lunghezza_osservazione=args[0]
         self.passata_osservazione = False
 
-        # TODO scrivere a cosa serve
+        # rappresenta la stringa che verrà stampata sul grafico
+        #(nome stato1, nome stato2, ecc, evento in link1, evento in link2, ecc, lunghezza_osservazione)
         self.output = self.get_output()
 
 

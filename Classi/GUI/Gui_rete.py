@@ -12,7 +12,7 @@ from Classi.Automa.rete import *
 from Classi.GestioneFile.input_output import *
 import datetime
 from Classi.Spazio.spazio_comportamentale import *
-from Classi.Algoritmi.algoritmo_spazio_comportamentale import *
+from Classi.Algoritmi.algoritmi_spazio_comportamentale import *
 import os
 
 
@@ -1676,12 +1676,12 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                 salva_su_file3_diagnosi("/algoritmo3/")
                 abilita_algoritmo3_dopo_diagnosi()
                 if finito==False:
-                    window_spazio_comportamentale['informazioni_algoritmo'].update(
+                    window_spazio_comportamentale['informazioni'].update(
                         window_spazio_comportamentale[
-                            'informazioni_algoritmo'].get() + "\nConcludo l'esecuzione senza aver generato tutta la diagnosi \n")
-                window_spazio_comportamentale['informazioni_algoritmo'].update(
+                            'informazioni'].get() + "\nConcludo l'esecuzione senza aver generato tutta la diagnosi \n")
+                window_spazio_comportamentale['informazioni'].update(
                     window_spazio_comportamentale[
-                        'informazioni_algoritmo'].get() + "\nConcludo l'esecuzione \n")
+                        'informazioni'].get() + "\nConcludo l'esecuzione \n")
 
 
                 break
@@ -1754,7 +1754,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         salva_su_file3("/algoritmo3/")
 
         #print("\n\n\nINIZIO DIAGNOSI")
-        diagnosi = diagnosi_algoritmo_su_spazio_migliorato(spazio_comportamentale)
+        diagnosi = diagnosi_algoritmo_su_spazio(spazio_comportamentale)
 
         listOfGlobals['diagnosi'] = diagnosi
         nodi=diagnosi.nodi

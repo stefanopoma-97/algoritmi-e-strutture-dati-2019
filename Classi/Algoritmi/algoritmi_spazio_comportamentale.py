@@ -155,7 +155,7 @@ def crea_spazio_comportamentale(rete):
     '''Algorimto 1: data una rete genera lo spazio comportamentale'''
 
     #print("\n\n\n---------------------------------\nCREO SPAZIO COMPORTAMENTALE")
-    rete = rete
+    #rete = rete
 
     # automi = rete.automi
     # links = rete.links
@@ -184,6 +184,7 @@ def crea_spazio_comportamentale(rete):
     spazio = Spazio_comportamentale("spazio1", nodi_finali, nodi_iniziali, nodi, transizioni)
     sistema_transizioni(spazio)
     ridenominazione_spazio_appena_creato(spazio)
+
     return spazio
 
 def ridenominazione_spazio_appena_creato(spazio):
@@ -201,66 +202,66 @@ def sistema_transizioni(spazio):
 
 def controllo_transizioni(nodi, nodo_attuale, transizioni_spazio):
     '''Partendo dal nodo attuale controllo tutte le transizioni che possono scattare e le faccio scattare'''
-    # print("Controllo transizioni in nodo numero: "+str(nodi.index(nodo_attuale)))
-    # print("\t"+nodo_attuale.to_string()+"\n")
+    print("Controllo transizioni in nodo numero: "+str(nodi.index(nodo_attuale)))
+    print("\t"+nodo_attuale.to_string()+"\n")
 
     #ricavo gli stati correnti del nodo analizzato, una transizione scatta solo se parte da uno di questi stati
     stati_correnti = nodo_attuale.stati
 
     #scorro gli stati
     for s in stati_correnti:
-        # print("Scorro stati, in nodo numero: "+str(nodi.index(nodo_attuale)))
-        # print("il nodo ha transizioni (nodo attuale.transizioni): "+str(len(nodo_attuale.transizioni)))
-        # print("FOR LOOP. stato: "+s.nome+"\n")
+        print("Scorro stati, in nodo numero: "+str(nodi.index(nodo_attuale)))
+        print("il nodo ha transizioni (nodo attuale.transizioni): "+str(len(nodo_attuale.transizioni)))
+        print("FOR LOOP. stato: "+s.nome+"\n")
 
         #scorro transizioni dello stato
         for t in s.transizioni:
-            # print("Scorro transizioni, in nodo numero (id): " +str(nodi.index(nodo_attuale)))
-            # print("transizione: "+t.nome+"\n")
+            print("Scorro transizioni, in nodo numero (id): " +str(nodi.index(nodo_attuale)))
+            print("transizione: "+t.nome+"\n")
 
             #controllo se la transizione può scattare
             scatta = scatto_transizione(t, nodo_attuale)
 
             if(scatta):
                 #creo il nuovo nodo generato dallo scatto della transizione
-                # print("inizio a creare il nuovo nodo")
+                print("inizio a creare il nuovo nodo")
                 nuovo_nodo = deepcopy(nodo_attuale)
                 nuovo_nodo.iniziale = False
                 nuovo_nodo = aggiorna_nodo(nuovo_nodo, t)
                 nuovo_nodo.finale = nuovo_nodo.is_finale()
                 nuovo_nodo.output = nuovo_nodo.get_output()
 
-                # print("Nuovo nodo creato")
-                # print("\t" + nuovo_nodo.to_string() + "\n")
+                print("Nuovo nodo creato")
+                print("\t" + nuovo_nodo.to_string() + "\n")
                 #controllo che il nodo sia nuovo
                 contiene = contiene_nodo(nuovo_nodo, nodi)
                 if (isinstance(contiene, Nodo)):
-                    #print("Il nuovo nodo è già presente nella lista")
+                    print("Il nuovo nodo è già presente nella lista")
                     if contiene.iniziale:
                         contiene.finale = True
                     tra = crea_nuova_transizione(nodo_attuale, contiene, t)
                     transizioni_spazio.append(tra)
                     #nodo_attuale.transizioni.append(tra)
-                    # print("Creata la nuova transizione: ")
-                    # print("\t"+tra.to_string())
-                    # print("numero totale di transizioni: "+str(len(transizioni_spazio)))
+                    print("Creata la nuova transizione: ")
+                    print("\t"+tra.to_string())
+                    print("numero totale di transizioni: "+str(len(transizioni_spazio)))
                 else:
-                    #print("Inserisco il nuovo nodo")
+                    print("Inserisco il nuovo nodo")
                     nodi.append(nuovo_nodo)
-                    #print("Il suo indice è " + str(nodi.index(nuovo_nodo)))
+                    print("Il suo indice è " + str(nodi.index(nuovo_nodo)))
                     tra = crea_nuova_transizione(nodo_attuale, nuovo_nodo, t)
                     transizioni_spazio.append(tra)
-                    #nodo_attuale.transizioni.append(tra)
-                    # print("numero totale di transizioni: " + str(len(transizioni_spazio)))
-                    # print("Creata la nuova transizione: ")
-                    # print("\t" + tra.to_string())
-                    # print("numero totale di transizioni: " + str(len(transizioni_spazio)))
+                    nodo_attuale.transizioni.append(tra)
+                    print("numero totale di transizioni: " + str(len(transizioni_spazio)))
+                    print("Creata la nuova transizione: ")
+                    print("\t" + tra.to_string())
+                    print("numero totale di transizioni: " + str(len(transizioni_spazio)))
                     controllo_transizioni(nodi, nuovo_nodo, transizioni_spazio)
 
             else:
                 print("La transizione non scatta, esco dal ciclo")
 
-    #print("ho concluso tutte gli stati di nodo: " + str(nodi.index(nodo_attuale)))
+    print("ho concluso tutte gli stati di nodo: " + str(nodi.index(nodo_attuale)))
     nodo_attuale.check = True
 
 def crea_nuova_transizione(sorgente, destinazione, transizione):
@@ -1320,7 +1321,7 @@ def semplifico_transizioni_diagnosi_manuale(nodi, transizioni):
         return True
 
 
-#ALGORITMO 3, manuale
+#ALGORITMO 3
 def diagnosi_algoritmo_su_spazio(spazio):
     '''Metodo per eseguire una diagnosi sullo spazio dato in input'''
 
@@ -1638,7 +1639,7 @@ def esplora_sequenza(transizione, lista_sequenza):
 #Migliorato
 def controllo_sequenza_migliorato(nodi, transizioni):
     '''Terzo tipo di semplificazione: sequenza'''
-    print("CONTROLLO PER SEQUENZA AND")
+    #print("CONTROLLO PER SEQUENZA AND")
 
 
     for t in transizioni:
@@ -1798,19 +1799,19 @@ def controlla_nodi_migliorato(nodi, transizioni):
                     # print("Transizione uscente: " + o.to_string())
 
                     if len(n.transizioni_auto)==0: #non ci sono autotransizioni
-                        print("n non ha auto transizioni")
+                        #print("n non ha auto transizioni")
                         trovato=True
                         lista_etichette=[]
                         lista_etichette.append(i.rilevanza)
                         lista_etichette.append(o.rilevanza)
 
-                        print("Creazione etichetta")
+                        #print("Creazione etichetta")
                         etichetta = ""
                         for e in lista_etichette:
                             etichetta = crea_etichetta_and(etichetta, e)
                         if etichetta == "":
                             etichetta = " "
-                        print("Ho creato etichetta nuova transizione: " + etichetta)
+                        #print("Ho creato etichetta nuova transizione: " + etichetta)
 
                         nodo_sorgente = i.nodo_sorgente
                         nodo_destinazione = o.nodo_destinazione
@@ -1931,7 +1932,7 @@ def semplifico_transizioni_diagnosi_migliorato(nodi, transizioni):
             #print("--------CONTROLLO TRATTI PARALLELI")
             tratti = controlla_tratti_paralleli_migliorato(transizioni)
             if tratti==False:
-                print("------------CONTROLLO NODI")
+                #print("------------CONTROLLO NODI")
                 controlla_nodi_migliorato(nodi, transizioni)
                 #sistema_transizioni_da_nodi_e_transizioni(nodi, transizioni)
         nodi_finali = []
@@ -1952,7 +1953,7 @@ def semplifico_transizioni_diagnosi_migliorato(nodi, transizioni):
 def diagnosi_algoritmo_su_spazio_migliorato(spazio):
     '''Metodo per eseguire una diagnosi sullo spazio dato in input'''
 
-    print("DENTRO LA DIAGNOSI")
+    #print("DENTRO LA DIAGNOSI")
     nodi = spazio.nodi
     transizioni=spazio.transizioni
 

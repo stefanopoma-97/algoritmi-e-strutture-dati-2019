@@ -2,7 +2,7 @@ from Classi.GestioneFile.grafici import *
 from Classi.Automa.rete import *
 from Classi.GestioneFile.input_output import *
 from Classi.Spazio.spazio_comportamentale import *
-from Classi.Algoritmi.algoritmo_spazio_comportamentale import *
+from Classi.Algoritmi.algoritmi_spazio_comportamentale import *
 
 
 import re

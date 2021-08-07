@@ -1,0 +1,4 @@
+PERSONA
+fermo,blocco,rotto
+
+fermo>p1>blocco,fermo>p4>blocco,fermo>p2>fermo,fermo>p3>fermo,fermo>p5>rotto,fermo>p6>rotto

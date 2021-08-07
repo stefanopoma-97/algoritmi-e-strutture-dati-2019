@@ -1,4 +1,4 @@
-from Classi.Algoritmi.algoritmo_spazio_comportamentale import *
+from Classi.Algoritmi.algoritmi_spazio_comportamentale import *
 
 
 # ε
