@@ -1155,6 +1155,18 @@ def ridenominazione_dopo_potatura(spazio):
         spazio.nodi[i].old_id = spazio.nodi[i].id
         spazio.nodi[i].id = str(i)
 
+#POTATURA MIGLIORATO
+def potatura_migliorato(nodi):
+    for n in nodi:
+        n.potato = False
+        for t in n.transizioni_sorgente:
+            t.potato = False
+            if t.nodo_sorgente.potato == True:
+                potatura([t.nodo_sorgente])
+
+
+
+
 def crea_spazio_da_spazio_potato(spazio):
     '''Dato uno spazio potato ne crea un secondo contenente solamente i nodi non potati
     e aggiornando di conseguenza tutte le transizioni'''
@@ -1617,7 +1629,8 @@ def controllo_sequenza(nodi, transizioni):
                     nodi.remove(tra.nodo_sorgente)
                 if tra.nodo_destinazione in nodi:
                     nodi.remove(tra.nodo_destinazione)
-                transizioni.remove(tra)
+                if tra in transizioni:
+                    transizioni.remove(tra)
         return True
     else:
         return False
@@ -1703,7 +1716,8 @@ def controllo_sequenza_migliorato(nodi, transizioni):
                     nodi.remove(tra.nodo_sorgente)
                 if tra.nodo_destinazione in nodi:
                     nodi.remove(tra.nodo_destinazione)
-                transizioni.remove(tra)
+                if tra in transizioni:
+                    transizioni.remove(tra)
         #print("NUMERO DI NODI DOPO SEQUENZA: " + str(len(nodi)))
         # for nod in nodi:
         #     print("\t" + nod.to_string() + " numero transizioni: " + str(len(nod.transizioni)))

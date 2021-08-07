@@ -1052,7 +1052,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         ^[a-zA-Z0-9]+(,([a-zA-Z0-9]+,)*[a-zA-Z0-9]+)?
 
         l'osservazione lineare sarà quindi del tipo: o2,o3,o4'''
-        REGEX_OSSERVAZIONE = "^[a-zA-Z0-9]+(,([a-zA-Z0-9]+,)*[a-zA-Z0-9]+)?"
+        REGEX_OSSERVAZIONE = "^[a-zA-Z0-9_.]+(,([a-zA-Z0-9_.]+,)*[a-zA-Z0-9_.]+)?"
         listOfGlobals = globals()
         osservazione_lineare = listOfGlobals['osservazione_lineare']
 
@@ -1080,7 +1080,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         ^[a-zA-Z0-9]+(,([a-zA-Z0-9]+,)*[a-zA-Z0-9]+)?
 
         l'osservazione lineare sarà quindi del tipo: o2,o3,o4'''
-        REGEX_OSSERVAZIONE = "^[a-zA-Z0-9]+(,([a-zA-Z0-9]+,)*[a-zA-Z0-9]+)?"
+        REGEX_OSSERVAZIONE = "^[a-zA-Z0-9_.]+(,([a-zA-Z0-9_.]+,)*[a-zA-Z0-9_.]+)?"
         listOfGlobals = globals()
         osservazione_lineare_diagnosi = listOfGlobals['osservazione_lineare_diagnosi']
 
