@@ -130,16 +130,15 @@ data=[]
 
 for u in range(100):
     tracemalloc.start()
-    spazio=crea_spazio3_oss()
-    diagnosi_sistemo_spazio(spazio)
-    diagnosi_algoritmo_su_spazio_migliorato(spazio)
+    crea_spazio_comportamentale_non_ricorsivo(crea_rete5())
     data.append((tracemalloc.get_traced_memory())[0])
+    tracemalloc.stop()
 
 
 print("MEDIA: "+str(statistics.mean(data)))
 
 
-out = open("Output/Test memoria/algoritmo3 rete3 migliorato.txt", "w")
+out = open("Output/Test memoria/creazione spazio 5.txt", "w")
 
 out.write(str(statistics.mean(data)))
 out.close()

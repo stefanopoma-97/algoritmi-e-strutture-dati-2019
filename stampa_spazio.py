@@ -5,7 +5,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 
-nome="creazione rete"
+nome="algoritmo 1 (non ricorsivo)"
 file="Output/Test memoria/"+nome+".txt"
 out="Output/Test memoria/"+nome+".png"
 
@@ -14,7 +14,7 @@ out="Output/Test memoria/"+nome+".png"
 
 
 
-data = [['rete 1', 107208.56], ['rete 2', 124570.92], ['rete 3', 113986.58], ['rete 4', 165188.22], ['rete 4', 237808.44]]
+data = [['spazio 1', 245815.59], ['spazio 2', 315996.92], ['spazio 3', 1608562.43], ['spazio 4', 630016.78], ['spazio 5', 1262122.44]]
 # Create the pandas DataFrame
 df = pd.DataFrame(data, columns=['Rete', 'Kb'])
 
@@ -28,9 +28,9 @@ df = pd.DataFrame(data, columns=['Rete', 'Kb'])
 #
 fig, ax = plt.subplots()
 plt.bar(df['Rete'],height=df['Kb'], color='red')
-
-plt.xlabel('Creazione reti')
-plt.ylabel('Memoria Kb')
+plt.title("Creazione spazio da rete (non ricorsivo)")
+plt.xlabel('Creazione spazi')
+plt.ylabel('Memoria byte')
 plt.savefig(out)
 plt.show()
 #
