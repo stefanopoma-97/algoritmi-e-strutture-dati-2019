@@ -272,14 +272,8 @@ spazio = crea_spazio_comportamentale_non_ricorsivo(rete)
 
 '''
 TEST_RETE1_ALGORITMO2='''
-spazio = crea_spazio_comportamentale2(rete1, ["o3","o2"])
-del a1
-del a2
-del automi
-del links
-del rete1
-del spazio
-gc.collect(generation=2)
+spazio = crea_spazio_comportamentale2(rete, ["o3","o2"])
+
 '''
 TEST_RETE2_ALGORITMO2='''
 spazio = crea_spazio_comportamentale2(rete2, ["act","sby","nop"])
@@ -292,15 +286,8 @@ del spazio
 gc.collect(generation=2)
 '''
 TEST_RETE3_ALGORITMO2='''
-spazio = crea_spazio_comportamentale2(rete3, ["o1","o2"])
-del a1
-del a2
-del a3
-del automi
-del links
-del rete3
-del spazio
-gc.collect(generation=2)
+spazio = crea_spazio_comportamentale2(rete, ["o1","o2"])
+
 '''
 TEST_RETE4_ALGORITMO2='''
 spazio = crea_spazio_comportamentale2(rete4, ["accendoDaChiuso","apri","apertura","aperto","stopDaAperto","spento aperto","accendoDaAperto","chiudiDaAcceso","chiusura"])
@@ -407,10 +394,10 @@ gc.collect(generation=2)
 '''
 
 
-dates = timeit.repeat(setup=SETUP_SPAZIO5, stmt=TEST_SPAZIO5_ALGORITMO2, repeat=200, number=1)
+dates = timeit.repeat(setup=SETUP_RETE1, stmt=TEST_RETE1_ALGORITMO2, repeat=200, number=1)
 
 print("FINITO ESECUZIONE")
-out = open("Output/Test tempo/algoritmo2(spazio) rete 5.txt", "w")
+out = open("Output/Test tempo/algoritmo2(rete) rete 1 - no ridenominazione.txt", "w")
 
 for d in dates:
     out.write(str(d)+"\n")

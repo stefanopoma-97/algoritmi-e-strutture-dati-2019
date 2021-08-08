@@ -635,8 +635,12 @@ def controllo_transizioni_non_ricorsivo(nodi, transizioni_spazio):
                     print("La transizione non scatta, esco dal ciclo")
 
         #print("ho concluso tutte gli stati di nodo: " + str(nodi.index(nodo_attuale)))
+
+
         nodo_attuale.check = True
         lista_nodi = [x for x in nodi if x.check == False]
+
+
         #print("\n\n\n\n\n-------------------------- iterazioni: " + str(i))
         #i=i+1
 
@@ -968,8 +972,8 @@ def controllo_transizioni_manualmente2_da_spazio(nodi, nodo_attuale, transizioni
 def crea_spazio_comportamentale2_da_spazio(spazio, osservazione):
 
     #print("\n\n\n---------------------------------\nCREO SPAZIO COMPORTAMENTALE CON OSSERVAZIONE DA SPAZIO")
-    spazio = spazio
-    osservazione=osservazione
+    #spazio = spazio
+    #osservazione=osservazione
 
     #creo un array vuoto di nodi dello spazio comportamentale
     nodi = []
@@ -991,7 +995,7 @@ def crea_spazio_comportamentale2_da_spazio(spazio, osservazione):
     transizioni=[]
 
 
-    controllo_transizioni2_da_spazio(nodi, transizioni, osservazione, spazio, nodo_attuale)
+    controllo_transizioni2_da_spazio(nodi, transizioni, osservazione, nodo_attuale)
 
     # print("VEDO TRANSIZIONI CREATE")
     # for t in transizioni:
@@ -1012,7 +1016,7 @@ def crea_spazio_comportamentale2_da_spazio(spazio, osservazione):
     #print("FINE CREAZIONE SPAZIO COMPORTAMENTALE")
     return spazio_out
 
-def controllo_transizioni2_da_spazio(nodi, transizioni_spazio, osservazione, spazio, nodo_attuale):
+def controllo_transizioni2_da_spazio(nodi, transizioni_spazio, osservazione, nodo_attuale):
     '''Partendo dal nodo attuale controllo tutte le transizioni che possono scattare e le faccio scattare'''
     nodo=nodo_attuale
     #scorro nodi
@@ -1099,7 +1103,7 @@ def controllo_transizioni2_da_spazio(nodi, transizioni_spazio, osservazione, spa
                 # print("Creata la nuova transizione: ")
                 # print("\t" + t.to_string())
                 # print("numero totale di transizioni: " + str(len(transizioni_spazio)))
-                controllo_transizioni2_da_spazio(nodi, transizioni_spazio, osservazione, spazio, nuovo_nodo)
+                controllo_transizioni2_da_spazio(nodi, transizioni_spazio, osservazione, nuovo_nodo)
 
         else:
             print("La transizione non scatta, esco dal ciclo")
@@ -1330,7 +1334,7 @@ def crea_spazio_comportamentale2(rete, osservazione):
             nodi_iniziali.append(n)
     spazio = Spazio_comportamentale("spazio1", nodi_finali, nodi_iniziali, nodi, transizioni)
     sistema_transizioni(spazio)
-    ridenominazione_spazio_appena_creato(spazio)
+    #ridenominazione_spazio_appena_creato(spazio)
     return spazio
 
 def istanzio_nodo_iniziale2(rete):

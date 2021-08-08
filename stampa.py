@@ -4,9 +4,9 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 
-nome="algoritmo 1 rete 1 (non ricorsivo)"
-file="Output/Test memoria/"+nome+".txt"
-out="Output/Test memoria/"+nome+".png"
+nome="algoritmo3 spazio 5 (migliorato)"
+file="Output/Test tempo/"+nome+".txt"
+out="Output/Test tempo/"+nome+".png"
 
 data= pd.read_csv(file, delimiter="\n")
 Y = data.squeeze()
@@ -18,7 +18,7 @@ plt.bar(X, Y)
 
 plt.xlabel('Iterazioni')
 plt.ylabel('Tempi (s)')
-plt.title(nome)
+plt.title(nome+" - Media: "+str(media)+"s")
 plt.savefig(out)
 plt.show()
 
