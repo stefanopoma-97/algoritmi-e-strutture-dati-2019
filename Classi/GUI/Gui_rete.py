@@ -1129,7 +1129,15 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         spazio_comportamentale = listOfGlobals['spazio_comportamentale']
         nome_spazio = listOfGlobals['nome_spazio']
 
-        spazio_comportamentale = crea_spazio_comportamentale(rete)
+        #Solita versione
+        #spazio_comportamentale = crea_spazio_comportamentale(rete)
+
+        #versione migliorata
+        #spazio_comportamentale = crea_spazio_comportamentale_migliorato(rete)
+
+        #versione non ricorsiva
+        spazio_comportamentale = crea_spazio_comportamentale_non_ricorsivo(rete)
+
         spazio_comportamentale.nome=nome_spazio
 
 
@@ -1168,7 +1176,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                 #print("OSS: "+str(osservazione_lineare))
 
                 if osservazione_lineare==None or (rete.controlla_osservazione(osservazione_lineare)):
-                    spazio_comportamentale_oss = crea_spazio_comportamentale2(rete, osservazione_lineare)
+                    spazio_comportamentale_oss = crea_spazio_comportamentale2_migliorato(rete, osservazione_lineare)
                     spazio_comportamentale_oss.nome = nome_spazio
 
                     window_spazio_comportamentale['informazioni'].update(
