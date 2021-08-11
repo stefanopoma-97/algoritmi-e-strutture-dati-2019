@@ -116,6 +116,10 @@ def crea_spazio5_oss():
     spazio=carica_spazio_da_file("Input/spazio5_potato_salvataggio_oss")
     return spazio
 
+def crea_spazio_diagnosi1():
+    spazio = carica_spazio_da_file("Input/diagnosi_ridenominazione_grafico1")
+    return spazio
+
 
 def spazio_comportamentale(rete):
     return crea_spazio_comportamentale(rete)
@@ -130,7 +134,9 @@ data=[]
 
 for u in range(100):
     tracemalloc.start()
-    crea_spazio_comportamentale_non_ricorsivo(crea_rete5())
+
+    crea_spazio_comportamentale2_migliorato_nuova_ridenominazione(crea_rete5(),["accendoDaChiuso","apri","apertura","aperto","stopDaAperto","spento aperto","accendoDaAperto","chiudiDaAcceso","chiusura","chiuso","stopDaChiuso"])
+
     data.append((tracemalloc.get_traced_memory())[0])
     tracemalloc.stop()
 
@@ -138,7 +144,7 @@ for u in range(100):
 print("MEDIA: "+str(statistics.mean(data)))
 
 
-out = open("Output/Test memoria/creazione spazio 5.txt", "w")
+out = open("Output/Test memoria/algoritmo2 rete1 (ridenominazione)", "w")
 
 out.write(str(statistics.mean(data)))
 out.close()

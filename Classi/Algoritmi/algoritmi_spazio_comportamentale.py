@@ -1721,6 +1721,211 @@ def scatto_transizione2_migliorato(transizione, nodo, osservazioni, l_osservazio
 
     return nuovo_nodo
 
+#ALGORITMO 2 Da rete - Migliorato (nuova ridenominazione)
+def crea_spazio_comportamentale2_migliorato_nuova_ridenominazione(rete, osservazione):
+
+    print("\n\n\n---------------------------------\nCREO SPAZIO COMPORTAMENTALE CON OSSERVAZIONE")
+    rete = rete
+    osservazione=osservazione
+
+    #Salvo l'array degli automi presenti nella rete #rete.automi
+    #Salvo l'array dei links presenti nella rete #rete.links
+    #Salvo l'array delle transizioni presenti nella rete #rete.transizioni
+    automi = rete.automi
+    links = rete.links
+    transizioni = rete.get_transizioni()
+
+    #creo un array vuoto di nodi dello spazio comportamentale
+    nodi = []
+
+    #Istanzio il nodo iniziale partendo dagli stati iniziali dei vari automi e dal contenuto dei link
+    nodo_attuale = istanzio_nodo_iniziale2(rete)
+
+
+    #Inserisco il nodo iniziale nell'array
+    nodi.append(nodo_attuale)
+
+    transizioni=[]
+
+    #variabile globale
+    global indice
+    global ridenominazione
+    ridenominazione = 0
+    indice=0
+
+    controllo_transizioni2_migliorato_nuova_ridenominazione(nodi, nodo_attuale, transizioni, osservazione)
+
+    nodi_finali=[]
+    nodi_iniziali=[]
+    for n in nodi:
+        if n.finale:
+            nodi_finali.append(n)
+        if n.iniziale:
+            nodi_iniziali.append(n)
+    spazio = Spazio_comportamentale("spazio1", nodi_finali, nodi_iniziali, nodi, transizioni)
+    sistema_transizioni(spazio)
+    #ridenominazione_spazio_appena_creato(spazio)
+    return spazio
+
+def controllo_transizioni2_migliorato_nuova_ridenominazione(nodi, nodo_attuale, transizioni_spazio, osservazione):
+    '''Partendo dal nodo attuale controllo tutte le transizioni che possono scattare e le faccio scattare'''
+    print("Controllo transizioni in nodo numero: "+str(nodi.index(nodo_attuale)))
+    print("\t"+nodo_attuale.to_string()+"\n")
+
+
+    #ricavo gli stati correnti del nodo analizzato, una transizione scatta solo se parte da uno di questi stati
+    stati_correnti = nodo_attuale.stati
+
+    #scorro gli stati
+    for s in stati_correnti:
+        print("Scorro stati, in nodo numero: "+str(nodi.index(nodo_attuale)))
+        print("il nodo ha transizioni (nodo attuale.transizioni): "+str(len(nodo_attuale.transizioni)))
+        print("FOR LOOP. stato: "+s.nome+"\n")
+
+
+        #scorro transizioni dello stato
+        for t in s.transizioni:
+            print("Scorro transizioni, in nodo numero (id): " +str(nodi.index(nodo_attuale)))
+            print("nodo: "+nodo_attuale.to_string())
+            print("transizione: "+t.nome+"\n")
+
+            #controllo se la transizione può scattare
+            scatta = scatto_transizione2_migliorato(t, nodo_attuale, osservazione, nodo_attuale.lunghezza_osservazione)
+
+            if(isinstance(scatta, Nodo)):
+                #creo il nuovo nodo generato dallo scatto della transizione
+                print("inizio a creare il nuovo nodo")
+                if t.osservazione!=" ":
+                    nodo_attuale.passata_osservazione=True
+                    listOfGlobals = globals()
+                    listOfGlobals['indice'] = listOfGlobals['indice']+1
+                nuovo_nodo = scatta
+                nuovo_nodo.iniziale = False
+                nuovo_nodo.passata_osservazione=False
+                nuovo_nodo = aggiorna_nodo2(nuovo_nodo, t, nodo_attuale.lunghezza_osservazione)
+                #nuovo
+                nuovo_nodo.finale = nuovo_nodo.is_finale_oss(len(osservazione))
+                nuovo_nodo.output = nuovo_nodo.get_output()
+
+                print("Nuovo nodo creato")
+                print("\t" + nuovo_nodo.to_string() + "\n")
+                #controllo che il nodo sia nuovo
+                contiene = contiene_nodo_con_osservazione(nuovo_nodo, nodi)
+                if (isinstance(contiene, Nodo)):
+                    print("Il nuovo nodo è già presente nella lista")
+                    if contiene.iniziale and contiene.lunghezza_osservazione==len(osservazione):
+                        contiene.finale = True
+                    print("aggionro l_osservazione del vecchio nodo")
+                    contiene.lunghezza_osservazione=nuovo_nodo.lunghezza_osservazione
+                    tra = crea_nuova_transizione(nodo_attuale, contiene, t)
+                    transizioni_spazio.append(tra)
+                    #nodo_attuale.transizioni.append(tra)
+                    print("Creata la nuova transizione: ")
+                    print("\t"+tra.to_string())
+                    print("numero totale di transizioni: "+str(len(transizioni_spazio)))
+                else:
+                    listOfGlobals = globals()
+                    rid = listOfGlobals['ridenominazione']
+                    print("Inserisco il nuovo nodo")
+                    nuovo_nodo.id=str(rid)
+                    listOfGlobals['ridenominazione'] = rid +1
+                    nodi.append(nuovo_nodo)
+                    print("Il suo indice è " + str(nodi.index(nuovo_nodo)))
+                    tra = crea_nuova_transizione(nodo_attuale, nuovo_nodo, t)
+                    transizioni_spazio.append(tra)
+                    #nodo_attuale.transizioni.append(tra)
+                    print("numero totale di transizioni: " + str(len(transizioni_spazio)))
+                    print("Creata la nuova transizione: ")
+                    print("\t" + tra.to_string())
+                    print("numero totale di transizioni: " + str(len(transizioni_spazio)))
+                    controllo_transizioni2(nodi, nuovo_nodo, transizioni_spazio, osservazione)
+
+            else:
+                print("La transizione non scatta, esco dal ciclo")
+
+    print("ho concluso tutte gli stati di nodo: " + str(nodi.index(nodo_attuale)))
+    nodo_attuale.check = True
+
+def scatto_transizione2_migliorato(transizione, nodo, osservazioni, l_osservazione):
+    '''data una transizione e il nodo attuale viene stabilito se la transizione può scattare
+    vengono fatte analisi solo sugli eventi presenti nei link
+    non sullo stato di partenza della transizione'''
+    scatta=True
+    print("Controllo transizione: "+transizione.nome)
+
+    nuovo_nodo = deepcopy(nodo)
+
+
+    if transizione.osservazione != " ":
+
+
+        if nodo.lunghezza_osservazione == len(osservazioni):
+            print("len osservazione è già uguale a: " + str(nodo.lunghezza_osservazione) + ", non posso aggiungerne altre")
+            return False
+        else:
+            if(osservazioni[nodo.lunghezza_osservazione]!=transizione.osservazione):
+                print("il valore che mi serve nelle osservazioni è: " + osservazioni[nodo.lunghezza_osservazione])
+                print("La transizione ha il seguente valore: "+transizione.osservazione)
+                print("NON coincidono")
+                return False
+            else:
+                print("il valore che mi serve nelle osservazioni è: " + osservazioni[nodo.lunghezza_osservazione])
+                print("La transizione ha il seguente valore: " + transizione.osservazione)
+                print("Coincidono")
+
+        if nodo.passata_osservazione:
+            print("IL nodo ha già una transizione uscente con l'etichetta di osservazione cercata")
+            print("NON SCATTA")
+            return False
+
+    #scorro eventi in input della transizione
+    for evento in transizione.input:
+        print("controllo INPUT")
+        #verifico che non sia un evento vuoto
+        if(evento.nome != "" and evento.link != None):
+            #ricavo il valore del link nel nodo
+            valore_nel_link = nodo.links[evento.link.nome][1]
+            print("Evento: "+evento.nome+" ("+evento.link.nome+") -> valore nel nodo: "+valore_nel_link)
+
+            if (evento.nome != valore_nel_link):
+                print("Non c'è l'input corretto, la transizione non può scattare\n")
+                return False
+            else:
+                nuovo_nodo.links[evento.link.nome][1] = ""
+                print("ho aggiornato " + evento.link.nome + " mettendolo a " + nodo.links[evento.link.nome][1])
+
+
+    # scorro eventi in output della transizione
+    for evento in transizione.output:
+        print("controllo Output")
+        # verifico che non sia un evento vuoto
+        if (evento.nome != "" and evento.link != None):
+            # ricavo il valore del link nel nodo
+            valore_nel_link = nodo.links[evento.link.nome][1]
+            print("Evento: " + evento.nome + " (" + evento.link.nome + ") -> valore nel nodo: " + valore_nel_link)
+
+            if (valore_nel_link != ""):
+                print("Il link di output non è vuoto, impossibile scattare\n")
+                return False
+            else:
+                nuovo_nodo.links[evento.link.nome][1] = evento.nome
+                print("ho aggiornato " + evento.link.nome + " mettendolo a " + nodo.links[evento.link.nome][1])
+
+    for index, s in enumerate(nuovo_nodo.stati):
+        print("Scorro stato: "+s.to_string()+" = "+str(s))
+        print("devo confrontarlo con: "+transizione.stato_sorgente.to_string()+" = "+str(transizione.stato_sorgente))
+        if s.id == transizione.stato_sorgente.id:
+            print("ho aggiornato lo stato "+nuovo_nodo.stati[index].nome)
+            nuovo_nodo.stati[index] = transizione.stato_destinazione
+            print(" mettendolo a " +nuovo_nodo.stati[index].nome)
+
+    if transizione.osservazione!=" ":
+        print("La transizione ha un valore di osservazione: "+transizione.osservazione)
+        nuovo_nodo.lunghezza_osservazione= l_osservazione + 1
+        print("Aggiornato il valore del nuovo nodo di l_osservazione")
+
+    return nuovo_nodo
+
 
 
 
@@ -2009,6 +2214,72 @@ def diagnosi_algoritmo_su_spazio(spazio):
     # print("SPAZIO: ")
     # print(spazio.to_string())
     return spazio
+
+def diagnosi_algoritmo_su_spazio_unito(spazio):
+    '''Metodo per eseguire una diagnosi sullo spazio dato in input'''
+
+    diagnosi_sistemo_spazio(spazio)
+    #print("DENTRO LA DIAGNOSI")
+    nodi = spazio.nodi
+    transizioni=spazio.transizioni
+
+    nodo_iniziale = spazio.nodi_iniziali[0] #prendo nodo iniziale
+    nodi_finali = spazio.nodi_finali
+    #print("TROVO NODO INIZIALE:")
+    #print(nodo_iniziale.to_string())
+
+    #se il nodo iniziale ha delle transizioni entranti va creato un nuovo nodo iniziale
+    #sistemo_nodo_iniziale(nodo_iniziale, nodi, transizioni)
+
+    #se ci sono più nodi finiali ne va creato solo uno
+    #sistemo_nodi_finali(nodi_finali, nodi, transizioni)
+
+
+    semplifico_transizioni_diagnosi(nodi, transizioni)
+
+
+    #fine output
+    nodi_finali=[]
+    nodi_iniziali=[]
+    for n in nodi:
+        if n.finale:
+            nodi_finali.append(n)
+        if n.iniziale:
+            nodi_iniziali.append(n)
+
+
+    # print("NODI TOTALI:")
+    # i=0
+    # for n in nodi:
+    #     print(str(i)+") "+n.to_string())
+    #     i=i+1
+    #
+    # print("TRANSIZIONI TOTALI:")
+    # i=0
+    # for t in transizioni:
+    #     print(str(i)+") "+t.to_string())
+    #     i=i+1
+    #
+    # print("NODI INZIALI:")
+    # i = 0
+    # for n in nodi_iniziali:
+    #     print(str(i) + ") " + n.to_string())
+    #     i = i + 1
+    #
+    # print("NODI FINALI:")
+    # i = 0
+    # for n in nodi_finali:
+    #     print(str(i) + ") " + n.to_string())
+    #     i = i + 1
+
+
+    spazio = Spazio_comportamentale("spazio1", nodi_finali, nodi_iniziali, nodi, transizioni)
+    sistema_transizioni(spazio)
+    #ridenominazione_spazio_appena_creato(spazio)
+    # print("SPAZIO: ")
+    # print(spazio.to_string())
+    return spazio
+
 
 def semplifico_transizioni_diagnosi(nodi, transizioni):
     '''Metodo per svolgere i passaggi della diagnosi
@@ -2622,7 +2893,7 @@ def diagnosi_algoritmo_su_spazio_migliorato(spazio):
     #     print(str(i) + ") " + n.to_string())
     #     i = i + 1
 
-
+    del spazio
     spazio = Spazio_comportamentale("spazio1", nodi_finali, nodi_iniziali, nodi, transizioni)
     sistema_transizioni(spazio)
     #ridenominazione_spazio_appena_creato(spazio)

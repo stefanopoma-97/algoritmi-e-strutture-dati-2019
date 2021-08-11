@@ -64,6 +64,8 @@ SETUP_RETE3= '''
 from Classi.GestioneFile.input_output import carica_automa_da_file_txt
 from Classi.GestioneFile.input_output import carica_links_da_file_txt
 from Classi.GestioneFile.input_output import carica_rete_da_file_txt
+from Classi.GestioneFile.grafici import stampa_spazio_su_file
+from Classi.GestioneFile.input_output import salva_spazio_su_file
 
 from Classi.Algoritmi.algoritmi_spazio_comportamentale import crea_spazio_comportamentale
 from Classi.Algoritmi.algoritmi_spazio_comportamentale import crea_spazio_comportamentale_migliorato
@@ -271,6 +273,18 @@ TEST_RETE_ALGORITMO1_NON_RICORSIVO='''
 spazio = crea_spazio_comportamentale_non_ricorsivo(rete)
 
 '''
+TEST_RETE_ALGORITMO1_NON_RICORSIVO_STAMPA='''
+
+spazio = crea_spazio_comportamentale_non_ricorsivo(rete)
+stampa_spazio_su_file(spazio,"Output")
+
+'''
+TEST_RETE_ALGORITMO1_NON_RICORSIVO_SALVA='''
+
+spazio = crea_spazio_comportamentale_non_ricorsivo(rete)
+salva_spazio_su_file(spazio,"Output")
+
+'''
 TEST_RETE1_ALGORITMO2='''
 spazio = crea_spazio_comportamentale2(rete, ["o3","o2"])
 
@@ -394,10 +408,10 @@ gc.collect(generation=2)
 '''
 
 
-dates = timeit.repeat(setup=SETUP_RETE1, stmt=TEST_RETE1_ALGORITMO2, repeat=200, number=1)
+dates = timeit.repeat(setup=SETUP_RETE3, stmt=TEST_RETE_ALGORITMO1_NON_RICORSIVO_SALVA, repeat=200, number=1)
 
 print("FINITO ESECUZIONE")
-out = open("Output/Test tempo/algoritmo2(rete) rete 1 - no ridenominazione.txt", "w")
+out = open("Output/Test tempo/algoritmo1 rete 3 - salva.txt", "w")
 
 for d in dates:
     out.write(str(d)+"\n")

@@ -1186,8 +1186,10 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                     listOfGlobals['spazio_comportamentale_oss'] = spazio_comportamentale_oss
 
                     if len(args) == 1:
-                        potatura3("/algoritmo3/")
-                        abilita_algoritmo3_diagnosi()
+                        p = potatura3("/algoritmo3/")
+                        print("POTATURA: " + str(p))
+                        if (p == True):
+                            abilita_algoritmo3_diagnosi()
                     else:
                         abilita_algoritmo2_creato_spazio()
 
@@ -1221,8 +1223,10 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
 
 
                 if len(args) == 1:
-                    potatura3("/algoritmo3/")
-                    abilita_algoritmo3_diagnosi()
+                    p = potatura3("/algoritmo3/")
+                    print("POTATURA: "+str(p))
+                    if (p==True):
+                        abilita_algoritmo3_diagnosi()
                 else:
                     abilita_algoritmo2_creato_spazio()
             else:
@@ -2140,12 +2144,12 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         spazio_comportamentale_potato_oss_per_diagnosi = potatura_e_ridenominazione(spazio_comportamentale_potato_oss_per_diagnosi)
         if spazio_comportamentale_potato_oss_per_diagnosi.nodi_finali is None:
             sg.Popup('Attenzione!',
-                     'Lo spazio comportamentale non ha nodi finali. Dopo la potatura è risultato vuoto')
-            return
+                     'L\'osservazione lineare non ha portato alla creazione di uno stato finale. Impossibile procedere')
+            return False
         if len(spazio_comportamentale_potato_oss_per_diagnosi.nodi_finali)==0:
             sg.Popup('Attenzione!',
-                     'Lo spazio comportamentale non ha nodi finali. Dopo la potatura è risultato vuoto')
-            return
+                     'L\'osservazione lineare non ha portato alla creazione di uno stato finale. Impossibile procedere')
+            return False
 
         spazio_salvataggio = crea_spazio_da_spazio_potato(spazio_comportamentale_potato_oss_per_diagnosi)
 
@@ -2165,6 +2169,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                 'informazioni'].get() + "\n" + spazio_comportamentale_potato_oss_per_diagnosi.riassunto_potatura())
 
         listOfGlobals['spazio_comportamentale_potato_oss_per_diagnosi'] = spazio_salvataggio
+        return True
 
     #ciclo while per gestire gli eventi dell'interfaccia grafica
     window_spazio_comportamentale = sg.Window('Spazio comportamentale', crea_layout_spazio_comportamentale())

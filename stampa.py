@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 
-nome="algoritmo3 spazio 5 (migliorato)"
+nome="algoritmo1 rete 3 - salva"
 file="Output/Test tempo/"+nome+".txt"
 out="Output/Test tempo/"+nome+".png"
 
