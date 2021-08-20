@@ -29,6 +29,8 @@ def carica_spazio_da_file(*args):
             return spazio_load
     else:
         file = filedialog.askopenfilename()
+        if file == None or file == '':
+            return "Nessun file selezionato"
         estensione = file.split(".")
         if len(estensione) != 1:
             return "Estensione del file errata. Seleziona il file corretto"
@@ -59,6 +61,8 @@ def carica_rete_da_file(*args):
             return rete_load
     else:
         file = filedialog.askopenfilename()
+        if file == None or file == '':
+            return "Nessun file selezionato"
         estensione = file.split(".")
         if len(estensione) != 1:
             return "Estensione del file errata. Seleziona il file corretto"
@@ -169,6 +173,9 @@ def carica_automa_da_file_txt(*args):
         if len(estensione) != 2 or estensione[1] != "txt":
             return "Estensione del file errata. Seleziona un file .txt"
         f = open(file, "r")
+
+    if f==None or f=='':
+        return "Nessun file selezionato"
 
     stringa_regex = f.read()
     x = re.fullmatch(REGEX_AUTOMA, stringa_regex)
