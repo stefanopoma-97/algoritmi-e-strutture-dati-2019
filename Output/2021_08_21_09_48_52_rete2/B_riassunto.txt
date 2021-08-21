@@ -1,0 +1,11 @@
+Numero di stati:2
+Stato: 0; Stato: 1;
+Numero di transizioni:8
+	Stato: 0>b1>Stato: 1[Oss: opn; ril:  ] {L:op;} { : }
+	Stato: 0>b3>Stato: 0[Oss:  ; ril: f3] {L:op;} { : }
+	Stato: 0>b5>Stato: 0[Oss: nop; ril:  ] {L:cl;} { : }
+	Stato: 0>b7>Stato: 1[Oss: opn; ril: f5] {L:cl;} { : }
+	Stato: 1>b2>Stato: 0[Oss: cls; ril:  ] {L:cl;} { : }
+	Stato: 1>b4>Stato: 1[Oss:  ; ril: f4] {L:cl;} { : }
+	Stato: 1>b6>Stato: 1[Oss: nop; ril:  ] {L:op;} { : }
+	Stato: 1>b8>Stato: 0[Oss: cls; ril: f6] {L:op;} { : }

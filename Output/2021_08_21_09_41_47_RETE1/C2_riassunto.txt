@@ -1,0 +1,5 @@
+Numero di stati:2
+Stato: 20; Stato: 21;
+Numero di transizioni:2
+	Stato: 20>t2a>Stato: 21[Oss: o2; ril:  ] {L2:e2;} {L3:e3;}
+	Stato: 21>t2b>Stato: 20[Oss:  ; ril: r] { : } {L3:e3;}

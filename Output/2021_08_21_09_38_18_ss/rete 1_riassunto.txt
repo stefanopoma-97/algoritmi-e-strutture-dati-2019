@@ -1,0 +1,34 @@
+Numero di automi:2
+Numero di link:2
+Rete: rete 1
+
+automi: 
+Nome: C2
+Stato corrente: Stato: 20;
+Stato iniziale: Stato: 20;
+Stati: Stato: 20; Stato: 21;
+Transizioni
+Stato: 20>t2a>Stato: 21[Oss: o2; ril:  ] {L2:e2;} {L3:e3;}
+Stato: 21>t2b>Stato: 20[Oss:  ; ril: r] { : } {L3:e3;}
+
+Nome: C3
+Stato corrente: Stato: 30;
+Stato iniziale: Stato: 30;
+Stati: Stato: 30; Stato: 31;
+Transizioni
+Stato: 30>t3a>Stato: 31[Oss: o3; ril:  ] { : } {L2:e2;}
+Stato: 31>t3c>Stato: 31[Oss:  ; ril: f] {L3:e3;} { : }
+Stato: 31>t3b>Stato: 30[Oss:  ; ril:  ] {L3:e3;} { : }
+
+
+links: 
+Nome link: L2
+automa sorgente: C3
+automa destinazione: C2
+evento: Vuoto
+
+Nome link: L3
+automa sorgente: C2
+automa destinazione: C3
+evento: Vuoto
+

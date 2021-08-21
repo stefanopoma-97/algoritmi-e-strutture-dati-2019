@@ -2248,31 +2248,6 @@ def diagnosi_algoritmo_su_spazio_unito(spazio):
             nodi_iniziali.append(n)
 
 
-    # print("NODI TOTALI:")
-    # i=0
-    # for n in nodi:
-    #     print(str(i)+") "+n.to_string())
-    #     i=i+1
-    #
-    # print("TRANSIZIONI TOTALI:")
-    # i=0
-    # for t in transizioni:
-    #     print(str(i)+") "+t.to_string())
-    #     i=i+1
-    #
-    # print("NODI INZIALI:")
-    # i = 0
-    # for n in nodi_iniziali:
-    #     print(str(i) + ") " + n.to_string())
-    #     i = i + 1
-    #
-    # print("NODI FINALI:")
-    # i = 0
-    # for n in nodi_finali:
-    #     print(str(i) + ") " + n.to_string())
-    #     i = i + 1
-
-
     spazio = Spazio_comportamentale("spazio1", nodi_finali, nodi_iniziali, nodi, transizioni)
     sistema_transizioni(spazio)
     #ridenominazione_spazio_appena_creato(spazio)
@@ -2846,6 +2821,7 @@ def semplifico_transizioni_diagnosi_migliorato(nodi, transizioni):
         # if (i==5):
         #     break
         i=i+1
+    return i
 
 def diagnosi_algoritmo_su_spazio_migliorato(spazio):
     '''Metodo per eseguire una diagnosi sullo spazio dato in input'''
@@ -2856,7 +2832,7 @@ def diagnosi_algoritmo_su_spazio_migliorato(spazio):
 
 
 
-    semplifico_transizioni_diagnosi_migliorato(nodi, transizioni)
+    i=semplifico_transizioni_diagnosi_migliorato(nodi, transizioni)
 
 
     #fine output
@@ -2869,37 +2845,13 @@ def diagnosi_algoritmo_su_spazio_migliorato(spazio):
             nodi_iniziali.append(n)
 
 
-    # print("NODI TOTALI:")
-    # i=0
-    # for n in nodi:
-    #     print(str(i)+") "+n.to_string())
-    #     i=i+1
-    #
-    # print("TRANSIZIONI TOTALI:")
-    # i=0
-    # for t in transizioni:
-    #     print(str(i)+") "+t.to_string())
-    #     i=i+1
-    #
-    # print("NODI INZIALI:")
-    # i = 0
-    # for n in nodi_iniziali:
-    #     print(str(i) + ") " + n.to_string())
-    #     i = i + 1
-    #
-    # print("NODI FINALI:")
-    # i = 0
-    # for n in nodi_finali:
-    #     print(str(i) + ") " + n.to_string())
-    #     i = i + 1
-
     del spazio
     spazio = Spazio_comportamentale("spazio1", nodi_finali, nodi_iniziali, nodi, transizioni)
     sistema_transizioni(spazio)
     #ridenominazione_spazio_appena_creato(spazio)
     #print("SPAZIO: ")
     #print(spazio.to_string())
-    return spazio
+    return spazio,i
 
 
 

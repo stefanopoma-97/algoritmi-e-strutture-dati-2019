@@ -1,0 +1,8 @@
+digraph diagnosi {
+	0 [shape=circle]
+	4 [shape=circle]
+	start [label="" shape=point]
+	4 [shape=doublecircle]
+	4 [shape=doublecircle]
+	0 -> 4 [label=<nome [<FONT COLOR="green"> </FONT>, <FONT COLOR="red">f3(f2f3)*</FONT>]>]
+}

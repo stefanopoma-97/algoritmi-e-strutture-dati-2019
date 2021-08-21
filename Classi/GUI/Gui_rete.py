@@ -1766,7 +1766,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         salva_su_file3("/algoritmo3/")
 
         #print("\n\n\nINIZIO DIAGNOSI")
-        diagnosi = diagnosi_algoritmo_su_spazio(spazio_comportamentale)
+        diagnosi, i = diagnosi_algoritmo_su_spazio_migliorato(spazio_comportamentale)
 
         listOfGlobals['diagnosi'] = diagnosi
         nodi=diagnosi.nodi
@@ -1778,31 +1778,13 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                 nodi_finali.append(n)
             if n.iniziale:
                 nodi_iniziali.append(n)
-        # print("NODI TOTALI:")
-        # i = 0
-        # for n in nodi:
-        #     print(str(i) + ") " + n.to_string())
-        #     i = i + 1
-        #
-        # print("TRANSIZIONI TOTALI:")
-        # i = 0
-        # for t in transizioni:
-        #     print(str(i) + ") " + t.to_string())
-        #     i = i + 1
-        #
-        # print("NODI INZIALI:")
-        # i = 0
-        # for n in nodi_iniziali:
-        #     print(str(i) + ") " + n.to_string())
-        #     i = i + 1
-        #
-        # print("NODI FINALI:")
-        # i = 0
-        # for n in nodi_finali:
-        #     print(str(i) + ") " + n.to_string())
-        #     i = i + 1
+
 
         salva_su_file3_diagnosi(nome)
+
+        window_spazio_comportamentale['informazioni'].update(
+            window_spazio_comportamentale[
+                'informazioni'].get() + "\nL'algoritmo 3 ha prodotto la diagnosi in "+str(i)+" iterazioni")
 
         abilita_algoritmo3_dopo_diagnosi()
 
@@ -1888,7 +1870,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             window_spazio_comportamentale['informazioni'].get() + "\n" + "Salvo file nella cartella: " + cartella_save)
 
         #stampa_spazio_su_file(spazio_comportamentale_oss, cartella_save+nome, "_oss")
-        stampa_spazio_ridenominato_su_file(diagnosi, cartella_save + nome)
+        stampa_diagnosi_su_file(diagnosi, cartella_save + nome)
 
 
     def stampa_grafici(nome):

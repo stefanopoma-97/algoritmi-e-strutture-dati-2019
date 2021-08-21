@@ -5,6 +5,7 @@ from Classi.Automa.automa import *
 from Classi.Automa.rete import *
 from  Classi.Spazio.spazio_comportamentale import *
 import os
+from pathlib import Path
 
 class Colour:
    PURPLE = '\033[95m'
@@ -93,9 +94,13 @@ def stampa_automa_su_file(automa, cartella):
 
     #print(gra.source)
 
-    gra.render(directory="Output/"+cartella)
+    directory = Path("Output/"+cartella)
+    gra.render(directory=directory)
 
-    riassunto = open("Output/"+cartella+"/"+automa.nome+"_riassunto.txt", "w")
+    #gra.render(directory="Output/"+cartella)
+
+    file = Path("Output/"+cartella+"/"+automa.nome+"_riassunto.txt")
+    riassunto = open(file, "w")
     riassunto.write("Numero di stati:"+str(len(automa.stati))+"\n")
     riassunto.write(stati_to_string(automa.stati)+"\n")
 
@@ -138,10 +143,11 @@ def stampa_spazio_su_file(spazio, cartella, *args):
     gra.edge("start", spazio.nodi_iniziali[0].output, label="")
 
     #print(gra.source)
+    directory=Path("Output/"+cartella)
+    gra.render(directory=directory)
 
-    gra.render(directory="Output/"+cartella)
-
-    riassunto = open("Output/"+cartella+"/"+spazio.nome+"_riassunto"+aggiunta+".txt", "w")
+    file = Path("Output/"+cartella+"/"+spazio.nome+"_riassunto"+aggiunta+".txt")
+    riassunto = open(file, "w")
     riassunto.write(spazio.riassunto())
     riassunto.close()
 
@@ -176,7 +182,39 @@ def stampa_spazio_ridenominato_su_file(spazio, cartella, *args):
     if (len(spazio.nodi_iniziali))==1:
         gra.edge("start", spazio.nodi_iniziali[0].id, label="")
 
-    gra.render(directory="Output/"+cartella)
+    directory=Path("Output/"+cartella)
+    gra.render(directory=directory)
+
+def stampa_diagnosi_su_file(spazio, cartella, *args):
+    '''Stampa l'automa su un file PNG
+    Input: automa, nome cartella di output
+            *args permette di specificare una stringa aggiuntiva da mettere in coda al nome del file generato
+    Output: viene generato un file nome_ridenominazione_grafico.png nella cartella selezionata
+    viene anche creato un file nome automa_riassunto.txt contenente le informazioni sull'automa in questione'''
+
+    if len(args)==1:
+        aggiunta=args[0]
+    else:
+        aggiunta=""
+
+    gra = Digraph(spazio.nome, filename=spazio.nome + "_ridenominazione_grafico"+aggiunta, format='png')
+
+    for s in spazio.nodi:
+        gra.node(s.id, shape='circle')
+
+    if len(spazio.nodi_finali) > 0:
+        if spazio.nodi_finali[0] is not None or spazio.nodi_finali[0] != "":
+            for s in spazio.nodi_finali:
+                if s.output != "":
+                    gra.node(s.id, shape='doublecircle')
+
+    for t in spazio.transizioni:
+        nome = "<" + t.nome + " [" + '<FONT COLOR="green">' + t.osservazione + '</FONT>' + ", " + '<FONT COLOR="red">' + t.rilevanza + '</FONT>' + "]>"
+        gra.edge(t.nodo_sorgente.id, t.nodo_destinazione.id, label=nome)
+
+
+    directory=Path("Output/"+cartella)
+    gra.render(directory=directory)
 
 
 def stampa_spazio_potato_su_file(spazio, cartella, *args):
@@ -220,9 +258,11 @@ def stampa_spazio_potato_su_file(spazio, cartella, *args):
 
     #print(gra.source)
 
-    gra.render(directory="Output/"+cartella)
+    directory=Path("Output/"+cartella)
+    gra.render(directory=directory)
 
-    riassunto = open("Output/"+cartella+"/"+spazio.nome+"_potatura_riassunto"+aggiunta+".txt", "w")
+    file = Path("Output/"+cartella+"/"+spazio.nome+"_potatura_riassunto"+aggiunta+".txt")
+    riassunto = open(file, "w")
     riassunto.write(spazio.riassunto_potatura())
     riassunto.close()
 
@@ -242,9 +282,11 @@ def stampa_rete_su_file(rete, cartella):
 
     #print(gra.source)
 
-    gra.render(directory="Output/" + cartella)
+    directory = Path("Output/" + cartella)
+    gra.render(directory=directory)
 
-    riassunto = open("Output/" + cartella+"/"+rete.nome+"_riassunto.txt", "w")
+    file = Path("Output/" + cartella+"/"+rete.nome+"_riassunto.txt")
+    riassunto = open(file, "w")
     riassunto.write("Numero di automi:" + str(len(rete.automi)) + "\n")
     riassunto.write("Numero di link:" + str(len(rete.links)) + "\n")
     riassunto.write(rete.to_string())

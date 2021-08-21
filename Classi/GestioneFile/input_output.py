@@ -6,6 +6,8 @@ import re
 from tkinter import filedialog
 from Classi.Spazio.spazio_comportamentale import *
 import os
+from pathlib import Path
+
 
 #Espressioni regolari per verificare la correttezza dei file txt di input per automi, link e transizioni
 #REGEX_AUTOMA="^[a-zA-Z0-9]+\\n[0-9]+(\,[0-9]+)*\\n([0-9]+(\,[0-9]+)*)?\\n[0-9]+\>[a-zA-Z0-9]+\>[0-9]+(\,[0-9]+\>[a-zA-Z0-9]+\>[0-9]+)*\\n"
@@ -82,7 +84,8 @@ def carica_rete_da_file(*args):
 
 def salva_rete_su_file(rete, cartella, filename):
     '''Salva la rete su un file. Utilizzabile poi per importare nel programma la rete stessa'''
-    with open('Output/'+cartella+'/'+filename, 'wb') as config_dictionary_file:
+    file = Path("Output/"+cartella+"/"+filename)
+    with open(file, 'wb') as config_dictionary_file:
         pickle.dump(rete, config_dictionary_file)
 
 def salva_spazio_su_file(spazio, cartella, *args):
@@ -100,10 +103,11 @@ def salva_spazio_su_file(spazio, cartella, *args):
         aggiunta=""
 
     filePath = 'Output/'+cartella+'/'+spazio.nome+"_salvataggio"+aggiunta
-    if os.path.exists(filePath):
-        os.remove(filePath)
+    file = Path(filePath)
+    if os.path.exists(file):
+        os.remove(file)
 
-    with open('Output/'+cartella+'/'+spazio.nome+"_salvataggio"+aggiunta, 'wb') as config_dictionary_file:
+    with open(file, 'wb') as config_dictionary_file:
         # Step 3
         pickle.dump(spazio, config_dictionary_file)
 
@@ -121,16 +125,18 @@ def salva_spazio_potato_su_file(spazio, cartella, *args):
     else:
         aggiunta=""
     filePath = 'Output/'+cartella+'/'+spazio.nome+"_potato_salvataggio"+aggiunta
-    if os.path.exists(filePath):
-        os.remove(filePath)
+    file = Path(filePath)
+    if os.path.exists(file):
+        os.remove(file)
 
-    with open('Output/'+cartella+'/'+spazio.nome+"_potato_salvataggio"+aggiunta, 'wb') as config_dictionary_file:
+    with open(file, 'wb') as config_dictionary_file:
         # Step 3
         pickle.dump(spazio, config_dictionary_file)
 
 def salva_automa_su_file(automa, cartella, filename):
     '''Salva l'automa su un file. Utilizzabile poi per importare nel programma l'automa stesso'''
-    with open('Output/'+cartella+'/'+filename, 'wb') as config_dictionary_file:
+    file = Path('Output/'+cartella+'/'+filename)
+    with open(file, 'wb') as config_dictionary_file:
         # Step 3
         pickle.dump(automa, config_dictionary_file)
 
@@ -139,21 +145,24 @@ def salva_automa_su_file(automa, cartella, filename):
 def salva_rete_su_file_txt(rete, cartella, filename):
     '''Salva la rete in un file txt, rispettando il formato corretto
     è quindi possibile utilizzare il file generato per importare la rete durante una nuova esecuzione del programma'''
-    file_txt = open('Output/'+cartella+'/'+filename+".txt", "w")
+    file=Path('Output/'+cartella+'/'+filename+".txt")
+    file_txt = open(file, "w")
     file_txt.write(rete.to_string_txt())
     file_txt.close()
 
 def salva_links_su_file_txt(rete, cartella, filename):
     '''Salva i links in un file txt, rispettando il formato corretto
     è quindi possibile utilizzare il file generato per importare i link durante una nuova esecuzione del programma'''
-    file_txt = open('Output/'+cartella+'/'+filename+".txt", "w")
+    file = Path('Output/'+cartella+'/'+filename+".txt")
+    file_txt = open(file, "w")
     file_txt.write(rete.to_string_link_txt())
     file_txt.close()
 
 def salva_automa_su_file_txt(automa, cartella, filename):
     '''Salva l'automa in un file txt, rispettando il formato corretto
     è quindi possibile utilizzare il file generato per importare l'automa durante una nuova esecuzione del programma'''
-    file_txt = open('Output/'+cartella+'/'+filename+".txt", "w")
+    file=Path('Output/'+cartella+'/'+filename+".txt")
+    file_txt = open(file, "w")
     file_txt.write(automa.to_string_txt())
     file_txt.close()
 

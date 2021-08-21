@@ -1,0 +1,13 @@
+rete 2
+B,b1,op(L)/{ },opn, 
+B,b3,op(L)/{ }, ,f3
+B,b5,cl(L)/{ },nop, 
+B,b7,cl(L)/{ },opn,f5
+B,b2,cl(L)/{ },cls, 
+B,b4,cl(L)/{ }, ,f4
+B,b6,op(L)/{ },nop, 
+B,b8,op(L)/{ },cls,f6
+S,s1, /{op(L)},act, 
+S,s3, /{cl(L)}, ,f1
+S,s2, /{cl(L)},sby, 
+S,s4, /{op(L)}, ,f2
