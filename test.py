@@ -73,6 +73,7 @@ from Classi.Algoritmi.algoritmi_spazio_comportamentale import crea_spazio_compor
 from Classi.Algoritmi.algoritmi_spazio_comportamentale import crea_spazio_comportamentale_non_ricorsivo
 from Classi.Algoritmi.algoritmi_spazio_comportamentale import istanzio_nodo_iniziale
 from Classi.Algoritmi.algoritmi_spazio_comportamentale import crea_spazio_comportamentale2_migliorato
+from Classi.Algoritmi.algoritmi_spazio_comportamentale import crea_spazio_comportamentale2_migliorato_nuova_ridenominazione
 
 from copy import deepcopy
 import gc
@@ -129,6 +130,7 @@ SETUP_SPAZIO1= '''
 from Classi.GestioneFile.input_output import carica_spazio_da_file
 
 from Classi.Algoritmi.algoritmi_spazio_comportamentale import crea_spazio_comportamentale2_da_spazio
+from Classi.Algoritmi.algoritmi_spazio_comportamentale import crea_spazio_comportamentale2_da_spazio_migliorato
 from Classi.Algoritmi.algoritmi_spazio_comportamentale import diagnosi_sistemo_spazio
 from Classi.Algoritmi.algoritmi_spazio_comportamentale import diagnosi_algoritmo_su_spazio
 from Classi.Algoritmi.algoritmi_spazio_comportamentale import potatura
@@ -289,6 +291,10 @@ TEST_RETE1_ALGORITMO2='''
 spazio = crea_spazio_comportamentale2(rete, ["o3","o2"])
 
 '''
+TEST_RETE1_ALGORITMO2_NUOVA_RIDENOMINAZIONE='''
+spazio = crea_spazio_comportamentale2_migliorato_nuova_ridenominazione(rete, ["o3","o2"])
+
+'''
 TEST_RETE2_ALGORITMO2='''
 spazio = crea_spazio_comportamentale2(rete2, ["act","sby","nop"])
 del a1
@@ -334,10 +340,7 @@ spazio = crea_spazio_comportamentale2_migliorato(rete, ["o1","o2"])
 
 '''
 TEST_SPAZIO1_ALGORITMO2='''
-spazio = crea_spazio_comportamentale2_da_spazio(spazio1, ["o3","o2"])
-del spazio1
-del spazio
-gc.collect(generation=2)
+spazio = crea_spazio_comportamentale2_da_spazio_migliorato(spazio, ["o3","o2"])
 '''
 TEST_SPAZIO2_ALGORITMO2='''
 spazio = crea_spazio_comportamentale2_da_spazio(spazio2, ["act","sby","nop"])
@@ -408,10 +411,10 @@ gc.collect(generation=2)
 '''
 
 
-dates = timeit.repeat(setup=SETUP_RETE3, stmt=TEST_RETE_ALGORITMO1_NON_RICORSIVO_SALVA, repeat=200, number=1)
+dates = timeit.repeat(setup=SETUP_RETE3, stmt=TEST_RETE1_ALGORITMO2_NUOVA_RIDENOMINAZIONE, repeat=200, number=1)
 
 print("FINITO ESECUZIONE")
-out = open("Output/Test tempo/algoritmo1 rete 3 - salva.txt", "w")
+out = open("Output/Test tempo/algoritmo2(rete) rete 3 Nuova ridenominazione.txt", "w")
 
 for d in dates:
     out.write(str(d)+"\n")

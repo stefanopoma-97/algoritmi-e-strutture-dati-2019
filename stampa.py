@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 
-nome="algoritmo1 rete 3 - salva"
+nome="algoritmo2(rete) rete 3 Nuova ridenominazione"
 file="Output/Test tempo/"+nome+".txt"
 out="Output/Test tempo/"+nome+".png"
 

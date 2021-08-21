@@ -1147,6 +1147,143 @@ def scatto_transizione2_da_spazio(transizione, nodo, osservazioni):
     return scatta
 
 
+#ALGORITMO 2 - da spazio migliorato
+def crea_spazio_comportamentale2_da_spazio_migliorato(spazio, osservazione):
+
+    nodi = []
+
+    #Istanzio il nodo iniziale partendo dagli stati iniziali dei vari automi e dal contenuto dei link
+    nodo_attuale = spazio.nodi[0]
+    for n in spazio.nodi:
+        n.lunghezza_osservazione=0
+    #nodo_attuale.lunghezza_osservazione=0
+
+    nodo_attuale.finale=False
+
+    nodi.append(nodo_attuale)
+
+    transizioni=[]
+
+
+    controllo_transizioni2_da_spazio_migliorato(nodi, transizioni, osservazione, nodo_attuale)
+
+
+    nodi_finali=[]
+    nodi_iniziali=[]
+    for n in nodi:
+        if n.finale:
+            nodi_finali.append(n)
+        if n.iniziale:
+            nodi_iniziali.append(n)
+    spazio_out = Spazio_comportamentale(spazio.nome, nodi_finali, nodi_iniziali, nodi, transizioni)
+    #print("Sistema transizioni")
+    sistema_transizioni2(spazio_out)
+    #print("ridenominazione")
+    #ridenominazione_spazio_appena_creato(spazio_out)
+    #print("FINE CREAZIONE SPAZIO COMPORTAMENTALE")
+    return spazio_out
+
+def controllo_transizioni2_da_spazio_migliorato(nodi, transizioni_spazio, osservazione, nodo_attuale):
+    '''Partendo dal nodo attuale controllo tutte le transizioni che possono scattare e le faccio scattare'''
+    nodo=nodo_attuale
+    #scorro nodi
+    # print("ANALIZZO NODO")
+    # print("NODO: "+nodo.to_string())
+
+
+    #scorro transizioni dello stato
+    for t in nodo.transizioni:
+        # print("FOR transizioni")
+        # print("nodo: "+nodo.to_string())
+        # print("transizione: "+t.nome)
+
+        #controllo se la transizione può scattare
+        scatta = scatto_transizione2_da_spazio_migliorato(t, nodo, osservazione)
+
+        if(scatta):
+            #creo il nuovo nodo generato dallo scatto della transizione
+            #print("inizio a creare il nuovo nodo")
+            if t.osservazione!=" ":
+                nodo.passata_osservazione=True
+
+            #calcolo indice nuovo nodo
+            if t.osservazione != " ":
+                #print("La transizione ha un valore di osservazione: " + t.osservazione)
+                indice=nodo.lunghezza_osservazione + 1
+                #print("Aggiornato il valore del nuovo nodo di l_osservazione")
+            else:
+                indice = nodo.lunghezza_osservazione
+
+            nuovo_nodo = deepcopy(t.nodo_destinazione)
+            nuovo_nodo.lunghezza_osservazione=indice
+            contiene = contiene_nodo_con_osservazione(nuovo_nodo, nodi)
+            if (isinstance(contiene, Nodo)):
+
+                if contiene.iniziale and contiene.lunghezza_osservazione == len(osservazione):
+                    contiene.finale = True
+                tra = Transizione_spazio(t.nome, nodo, contiene, t.osservazione, t.rilevanza)
+                transizioni_spazio.append(tra)
+            else:
+                nuovo_nodo.iniziale = False
+                nuovo_nodo.check = False
+                nuovo_nodo.finale = False
+                nuovo_nodo.lunghezza_osservazione = indice
+                nuovo_nodo.passata_osservazione = False
+                nuovo_nodo.finale = nuovo_nodo.is_finale_oss(len(osservazione))
+                nuovo_nodo.output = nuovo_nodo.get_output()
+
+                nodi.append(nuovo_nodo)
+                # print("Il suo indice è " + str(nodi.index(nuovo_nodo)))
+                tra = Transizione_spazio(t.nome, nodo, nuovo_nodo, t.osservazione, t.rilevanza)
+                transizioni_spazio.append(tra)
+                # nodo_attuale.transizioni.append(tra)
+                # print("numero totale di transizioni: " + str(len(transizioni_spazio)))
+                # print("Creata la nuova transizione: ")
+                # print("\t" + t.to_string())
+                # print("numero totale di transizioni: " + str(len(transizioni_spazio)))
+                controllo_transizioni2_da_spazio(nodi, transizioni_spazio, osservazione, nuovo_nodo)
+
+        else:
+            print("La transizione non scatta, esco dal ciclo")
+    #print("ho concluso tutte gli stati di nodo: " + str(nodi.index(nodo)))
+    nodo.check = True
+
+def scatto_transizione2_da_spazio_migliorato(transizione, nodo, osservazioni):
+    '''data una transizione e il nodo attuale viene stabilito se la transizione può scattare
+    vengono fatte analisi solo sugli eventi presenti nei link
+    non sullo stato di partenza della transizione'''
+    scatta=True
+    #print("Controllo transizione: "+transizione.nome)
+
+
+    if transizione.osservazione != " ":
+        # print("La transizione contiene un valore di osservazione: "+transizione.osservazione)
+        # print("Osservazioni con lunghezza: "+str(len(osservazioni)))
+        # print("Valore di l_osservazione nel nodo: " + str(nodo.lunghezza_osservazione))
+
+
+        if nodo.lunghezza_osservazione == len(osservazioni):
+            #print("len osservazione è già uguale a: " + str(nodo.lunghezza_osservazione) + ", non posso aggiungerne altre")
+            return False
+        else:
+            if(osservazioni[nodo.lunghezza_osservazione]!=transizione.osservazione):
+                # print("il valore che mi serve nelle osservazioni è: " + osservazioni[nodo.lunghezza_osservazione])
+                # print("La transizione ha il seguente valore: "+transizione.osservazione)
+                # print("NON coincidono")
+                return False
+            #else:
+                # print("il valore che mi serve nelle osservazioni è: " + osservazioni[nodo.lunghezza_osservazione])
+                # print("La transizione ha il seguente valore: " + transizione.osservazione)
+                #print("Coincidono")
+
+        if nodo.passata_osservazione:
+            # print("IL nodo ha già una transizione uscente con l'etichetta di osservazione cercata")
+            # print("NON SCATTA")
+            return False
+
+
+    return scatta
+
 
 #ALGORITMO 2 - da rete, Manuale
 def crea_spazio_comportamentale_manuale2(rete, osservazione, *args):
