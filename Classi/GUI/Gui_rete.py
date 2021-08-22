@@ -855,7 +855,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             window_spazio_comportamentale[
                 'informazioni'].get() + "\nL'algoritmo 3 è abilitato, verrà avviato sullo spazio comportamentale inserito")
 
-    def abilita_algoritmo3_dopo_diagnosi():
+    def abilita_algoritmo3_dopo_diagnosi(*args):
         '''Abilita le componenti grafiche dell'algoritmo 3 dopo che è stata eseguita la diagnosi'''
         window_spazio_comportamentale['input_osservazione_lineare_diagnosi'].update(disabled=True)
         window_spazio_comportamentale['conferma_osservazione_lineare_diagnosi'].update(disabled=True)
@@ -865,11 +865,12 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         window_spazio_comportamentale['reset_algoritmo3'].update(disabled=False)
         window_spazio_comportamentale['stampa_diagnosi'].update(disabled=False)
         listOfGlobals = globals()
-        diagnosi = listOfGlobals["diagnosi"]
-        etichetta= diagnosi.transizioni[0].rilevanza
-        window_spazio_comportamentale['informazioni'].update(
-            window_spazio_comportamentale[
-                'informazioni'].get() + "\nL'algoritmo 3 ha prodotto la diagnosi: "+etichetta)
+        if len(args)==0:
+            diagnosi = listOfGlobals["diagnosi"]
+            etichetta= diagnosi.transizioni[0].rilevanza
+            window_spazio_comportamentale['informazioni'].update(
+                window_spazio_comportamentale[
+                    'informazioni'].get() + "\nL'algoritmo 3 ha prodotto la diagnosi: "+etichetta)
 
     def abilita_algoritmo2_rete():
         '''Abilita le componenti grafiche dell'algoritmo 2 dopo che è stata importata una rete'''
@@ -1687,9 +1688,10 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                 listOfGlobals['diagnosi'] = diagnosi
                 if finito==True:
                     salva_su_file3_diagnosi("/algoritmo3/", diagnosi.transizioni[0].rilevanza, str(i))
+                    abilita_algoritmo3_dopo_diagnosi()
                 else:
                     salva_su_file3_diagnosi("/algoritmo3/", "Algoritmo non concluso", str(i))
-                abilita_algoritmo3_dopo_diagnosi()
+                    abilita_algoritmo3_dopo_diagnosi("Algoritmo non concluso")
                 if finito==False:
                     window_spazio_comportamentale['informazioni'].update(
                         window_spazio_comportamentale[
