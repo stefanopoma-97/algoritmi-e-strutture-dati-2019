@@ -209,12 +209,14 @@ def stampa_diagnosi_su_file(spazio, cartella, *args):
                     gra.node(s.id, shape='doublecircle')
 
     for t in spazio.transizioni:
-        nome = "<" + t.nome + " [" + '<FONT COLOR="green">' + t.osservazione + '</FONT>' + ", " + '<FONT COLOR="red">' + t.rilevanza + '</FONT>' + "]>"
+        #nome = "<" + t.nome + " [" + '<FONT COLOR="green">' + t.osservazione + '</FONT>' + ", " + '<FONT COLOR="red">' + t.rilevanza + '</FONT>' + "]>"
+        nome = "<" + " [" + '<FONT COLOR="red">' + t.rilevanza + '</FONT>' + "]>"
         gra.edge(t.nodo_sorgente.id, t.nodo_destinazione.id, label=nome)
 
 
     directory=Path("Output/"+cartella)
     gra.render(directory=directory)
+
 
 
 def stampa_spazio_potato_su_file(spazio, cartella, *args):

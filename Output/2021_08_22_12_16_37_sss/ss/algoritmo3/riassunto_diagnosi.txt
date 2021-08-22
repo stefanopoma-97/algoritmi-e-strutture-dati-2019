@@ -1,0 +1,2 @@
+Risultato diagnosi: f
+Iterazioni: 4

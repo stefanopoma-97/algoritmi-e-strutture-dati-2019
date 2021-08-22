@@ -1685,7 +1685,10 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             if event == sg.WINDOW_CLOSED or event == "concludi":
                 diagnosi.nome = "diagnosi"
                 listOfGlobals['diagnosi'] = diagnosi
-                salva_su_file3_diagnosi("/algoritmo3/")
+                if finito==True:
+                    salva_su_file3_diagnosi("/algoritmo3/", diagnosi.transizioni[0].rilevanza, str(i))
+                else:
+                    salva_su_file3_diagnosi("/algoritmo3/", "Algoritmo non concluso", str(i))
                 abilita_algoritmo3_dopo_diagnosi()
                 if finito==False:
                     window_spazio_comportamentale['informazioni'].update(
@@ -1702,42 +1705,9 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                 diagnosi.nome = "diagnosi"
                 listOfGlobals['diagnosi'] = diagnosi
 
-                ####
-                nodi = diagnosi.nodi
-                nodi_finali = diagnosi.nodi_finali
-                transizioni = diagnosi.transizioni
-                nodi_iniziali = diagnosi.nodi_iniziali
-                # for n in nodi:
-                #     if n.finale:
-                #         nodi_finali.append(n)
-                #     if n.iniziale:
-                #         nodi_iniziali.append(n)
-                # print("NODI TOTALI:")
-                # u = 0
-                # for n in nodi:
-                #     print(str(i) + ") " + n.to_string())
-                #     u = u + 1
-                #
-                # print("TRANSIZIONI TOTALI:")
-                # u = 0
-                # for t in transizioni:
-                #     print(str(i) + ") " + t.to_string())
-                #     u = u + 1
-                #
-                # print("NODI INZIALI:")
-                # u = 0
-                # for n in nodi_iniziali:
-                #     print(str(i) + ") " + n.to_string())
-                #     u = u + 1
-                #
-                # print("NODI FINALI:")
-                # u = 0
-                # for n in nodi_finali:
-                #     print(str(i) + ") " + n.to_string())
-                #     u = u + 1
-                ######
-                stampa_spazio_ridenominato_su_file(diagnosi, "SPAZIO", "__2__")
-                stampa_spazio_ridenominato_su_file(diagnosi, cartella_save + nome + "iterazione"+str(i))
+
+                #stampa_spazio_ridenominato_su_file(diagnosi, "SPAZIO", "__2__")
+                stampa_diagnosi_su_file(diagnosi, cartella_save + nome + "iterazione"+str(i))
                 window_crea_spazio_comportamentale_manuale["immagine"].update(
                     'Output/' + cartella_save + nome + 'iterazione' + str(i) + "/" + 'diagnosi_ridenominazione_grafico.png')
                 window_crea_spazio_comportamentale_manuale['informazioni_algoritmo'].update(
@@ -1780,7 +1750,8 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                 nodi_iniziali.append(n)
 
 
-        salva_su_file3_diagnosi(nome)
+        salva_su_file3_diagnosi(nome, diagnosi.transizioni[0].rilevanza, str(i))
+
 
         window_spazio_comportamentale['informazioni'].update(
             window_spazio_comportamentale[
@@ -1857,7 +1828,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         #stampa_spazio_su_file(spazio_comportamentale_oss, cartella_save+nome, "_oss")
         stampa_spazio_ridenominato_su_file(spazio_comportamentale_oss, cartella_save + nome, "_sistemati_nodi_iniziali_e_finali")
 
-    def salva_su_file3_diagnosi(nome):
+    def salva_su_file3_diagnosi(nome, risultato, iterazioni):
         '''Salva la diagnosi su file
         spazio_diagnosi_ridenominazione_grafico_sistemati_nodi_iniziali_e_finali.png
         '''
@@ -1871,6 +1842,14 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
 
         #stampa_spazio_su_file(spazio_comportamentale_oss, cartella_save+nome, "_oss")
         stampa_diagnosi_su_file(diagnosi, cartella_save + nome)
+
+        file = Path("Output/" + cartella_save + nome + "/" + "riassunto_diagnosi.txt")
+        riassunto = open(file, "w", encoding="utf-8")
+        s=""
+        s+="Risultato diagnosi: "+risultato+"\n"+"Iterazioni: "+iterazioni
+        print("RISULTATO: "+s)
+        riassunto.write(s)
+        riassunto.close()
 
 
     def stampa_grafici(nome):

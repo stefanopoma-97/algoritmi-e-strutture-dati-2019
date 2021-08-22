@@ -1,0 +1,2 @@
+Risultato diagnosi: Algoritmo non concluso
+Iterazioni: 7
