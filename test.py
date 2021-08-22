@@ -1,6 +1,5 @@
 import gc
 
-import cp as cp
 
 from Classi.GestioneFile.grafici import *
 from Classi.Automa.rete import *
@@ -291,8 +290,8 @@ TEST_RETE1_ALGORITMO2='''
 spazio = crea_spazio_comportamentale2(rete, ["o3","o2"])
 
 '''
-TEST_RETE1_ALGORITMO2_NUOVA_RIDENOMINAZIONE='''
-spazio = crea_spazio_comportamentale2_migliorato_nuova_ridenominazione(rete, ["o3","o2"])
+TEST_RETE3_ALGORITMO2_NUOVA_RIDENOMINAZIONE='''
+spazio = crea_spazio_comportamentale2_migliorato_nuova_ridenominazione(rete, ["o1","o2"])
 
 '''
 TEST_RETE2_ALGORITMO2='''
@@ -333,6 +332,11 @@ gc.collect(generation=2)
 '''
 TEST_RETE5_ALGORITMO2_MIGLIORATO='''
 spazio = crea_spazio_comportamentale2_migliorato(rete, ["accendoDaChiuso","apri","apertura","aperto","stopDaAperto","spento aperto","accendoDaAperto","chiudiDaAcceso","chiusura","chiuso","stopDaChiuso"])
+
+'''
+
+TEST_RETE1_ALGORITMO2_NO_RIDENOMINAZIONE='''
+spazio = crea_spazio_comportamentale2_migliorato(rete, ["o1","o2"])
 
 '''
 TEST_RETE3_ALGORITMO2_MIGLIORATO='''
@@ -411,7 +415,7 @@ gc.collect(generation=2)
 '''
 
 
-dates = timeit.repeat(setup=SETUP_RETE3, stmt=TEST_RETE1_ALGORITMO2_NUOVA_RIDENOMINAZIONE, repeat=200, number=1)
+dates = timeit.repeat(setup=SETUP_RETE3, stmt=TEST_RETE3_ALGORITMO2_NUOVA_RIDENOMINAZIONE, repeat=200, number=1)
 
 print("FINITO ESECUZIONE")
 out = open("Output/Test tempo/algoritmo2(rete) rete 3 Nuova ridenominazione.txt", "w")

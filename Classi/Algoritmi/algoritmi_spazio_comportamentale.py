@@ -267,8 +267,8 @@ def controllo_transizioni(nodi, nodo_attuale, transizioni_spazio):
                     # print("numero totale di transizioni: " + str(len(transizioni_spazio)))
                     controllo_transizioni(nodi, nuovo_nodo, transizioni_spazio)
 
-            else:
-                print("La transizione non scatta, esco dal ciclo")
+            # else:
+            #     print("La transizione non scatta, esco dal ciclo")
 
     #print("ho concluso tutte gli stati di nodo: " + str(nodi.index(nodo_attuale)))
     nodo_attuale.check = True
@@ -461,8 +461,8 @@ def controllo_transizioni_migliorato(nodi, nodo_attuale, transizioni_spazio):
                     # print("numero totale di transizioni: " + str(len(transizioni_spazio)))
                     controllo_transizioni(nodi, nuovo_nodo, transizioni_spazio)
 
-            else:
-                print("La transizione non scatta, esco dal ciclo")
+            # else:
+            #     print("La transizione non scatta, esco dal ciclo")
 
     #print("ho concluso tutte gli stati di nodo: " + str(nodi.index(nodo_attuale)))
     nodo_attuale.check = True
@@ -631,8 +631,8 @@ def controllo_transizioni_non_ricorsivo(nodi, transizioni_spazio):
                         # print("numero totale di transizioni: " + str(len(transizioni_spazio)))
                         controllo_transizioni(nodi, nuovo_nodo, transizioni_spazio)
 
-                else:
-                    print("La transizione non scatta, esco dal ciclo")
+                # else:
+                #     print("La transizione non scatta, esco dal ciclo")
 
         #print("ho concluso tutte gli stati di nodo: " + str(nodi.index(nodo_attuale)))
 
@@ -749,8 +749,8 @@ def controllo_transizioni_non_ricorsivo2(nodi, transizioni_spazio):
                         print("\t" + tra.to_string())
                         print("numero totale di transizioni: " + str(len(transizioni_spazio)))
 
-                else:
-                    print("La transizione non scatta, esco dal ciclo")
+                # else:
+                #     print("La transizione non scatta, esco dal ciclo")
 
         print("ho concluso tutte gli stati di nodo: " + str(nodi.index(nodo_attuale)))
         nodo_attuale.check = True
@@ -959,8 +959,8 @@ def controllo_transizioni_manualmente2_da_spazio(nodi, nodo_attuale, transizioni
                     # print("\t" + t.to_string())
                     commento = "creo transizione: " + tra.nome + ", che si collega al nuovo nodo: [" + nuovo_nodo.output + "]"
                     return [nodi, nuovo_nodo, transizioni_spazio, commento]
-            else:
-                print("La transizione non scatta, esco dal ciclo")
+            # else:
+            #     print("La transizione non scatta, esco dal ciclo")
 
 
     #print("CHECKED ho concluso tutte gli stati di nodo: " + str(nodi.index(nodo_attuale)))
@@ -1105,8 +1105,8 @@ def controllo_transizioni2_da_spazio(nodi, transizioni_spazio, osservazione, nod
                 # print("numero totale di transizioni: " + str(len(transizioni_spazio)))
                 controllo_transizioni2_da_spazio(nodi, transizioni_spazio, osservazione, nuovo_nodo)
 
-        else:
-            print("La transizione non scatta, esco dal ciclo")
+        # else:
+        #     print("La transizione non scatta, esco dal ciclo")
     #print("ho concluso tutte gli stati di nodo: " + str(nodi.index(nodo)))
     nodo.check = True
 
@@ -1243,8 +1243,8 @@ def controllo_transizioni2_da_spazio_migliorato(nodi, transizioni_spazio, osserv
                 # print("numero totale di transizioni: " + str(len(transizioni_spazio)))
                 controllo_transizioni2_da_spazio(nodi, transizioni_spazio, osservazione, nuovo_nodo)
 
-        else:
-            print("La transizione non scatta, esco dal ciclo")
+        # else:
+        #     print("La transizione non scatta, esco dal ciclo")
     #print("ho concluso tutte gli stati di nodo: " + str(nodi.index(nodo)))
     nodo.check = True
 
@@ -1419,8 +1419,8 @@ def controllo_transizioni_manualmente2(nodi, nodo_attuale, transizioni_spazio, o
                         # print("numero totale di transizioni: " + str(len(transizioni_spazio)))
                         commento = "creo transizione: " + tra.nome + ", che si collega al nuovo nodo: [" + nuovo_nodo.output + "]"
                         return [nodi, nuovo_nodo, transizioni_spazio, commento]
-                else:
-                    print("La transizione non scatta, esco dal ciclo")
+                # else:
+                #     print("La transizione non scatta, esco dal ciclo")
 
 
     #print("CHECKED ho concluso tutte gli stati di nodo: " + str(nodi.index(nodo_attuale)))
@@ -1552,8 +1552,8 @@ def controllo_transizioni2(nodi, nodo_attuale, transizioni_spazio, osservazione)
                     # print("numero totale di transizioni: " + str(len(transizioni_spazio)))
                     controllo_transizioni2(nodi, nuovo_nodo, transizioni_spazio, osservazione)
 
-            else:
-                print("La transizione non scatta, esco dal ciclo")
+            # else:
+            #     print("La transizione non scatta, esco dal ciclo")
 
     #print("ho concluso tutte gli stati di nodo: " + str(nodi.index(nodo_attuale)))
     nodo_attuale.check = True
@@ -1662,7 +1662,7 @@ def crea_nuova_transizione(sorgente, destinazione, transizione):
 #ALGORITMO 2 Da rete - Migliorato
 def crea_spazio_comportamentale2_migliorato(rete, osservazione):
 
-    print("\n\n\n---------------------------------\nCREO SPAZIO COMPORTAMENTALE CON OSSERVAZIONE")
+    #print("\n\n\n---------------------------------\nCREO SPAZIO COMPORTAMENTALE CON OSSERVAZIONE")
     rete = rete
     osservazione=osservazione
 
@@ -1700,13 +1700,13 @@ def crea_spazio_comportamentale2_migliorato(rete, osservazione):
             nodi_iniziali.append(n)
     spazio = Spazio_comportamentale("spazio1", nodi_finali, nodi_iniziali, nodi, transizioni)
     sistema_transizioni(spazio)
-    ridenominazione_spazio_appena_creato(spazio)
+    #ridenominazione_spazio_appena_creato(spazio)
     return spazio
 
 def controllo_transizioni2_migliorato(nodi, nodo_attuale, transizioni_spazio, osservazione):
     '''Partendo dal nodo attuale controllo tutte le transizioni che possono scattare e le faccio scattare'''
-    print("Controllo transizioni in nodo numero: "+str(nodi.index(nodo_attuale)))
-    print("\t"+nodo_attuale.to_string()+"\n")
+    # print("Controllo transizioni in nodo numero: "+str(nodi.index(nodo_attuale)))
+    # print("\t"+nodo_attuale.to_string()+"\n")
 
 
     #ricavo gli stati correnti del nodo analizzato, una transizione scatta solo se parte da uno di questi stati
@@ -1714,23 +1714,23 @@ def controllo_transizioni2_migliorato(nodi, nodo_attuale, transizioni_spazio, os
 
     #scorro gli stati
     for s in stati_correnti:
-        print("Scorro stati, in nodo numero: "+str(nodi.index(nodo_attuale)))
-        print("il nodo ha transizioni (nodo attuale.transizioni): "+str(len(nodo_attuale.transizioni)))
-        print("FOR LOOP. stato: "+s.nome+"\n")
+        # print("Scorro stati, in nodo numero: "+str(nodi.index(nodo_attuale)))
+        # print("il nodo ha transizioni (nodo attuale.transizioni): "+str(len(nodo_attuale.transizioni)))
+        # print("FOR LOOP. stato: "+s.nome+"\n")
 
 
         #scorro transizioni dello stato
         for t in s.transizioni:
-            print("Scorro transizioni, in nodo numero (id): " +str(nodi.index(nodo_attuale)))
-            print("nodo: "+nodo_attuale.to_string())
-            print("transizione: "+t.nome+"\n")
+            # print("Scorro transizioni, in nodo numero (id): " +str(nodi.index(nodo_attuale)))
+            # print("nodo: "+nodo_attuale.to_string())
+            # print("transizione: "+t.nome+"\n")
 
             #controllo se la transizione può scattare
             scatta = scatto_transizione2_migliorato(t, nodo_attuale, osservazione, nodo_attuale.lunghezza_osservazione)
 
             if(isinstance(scatta, Nodo)):
                 #creo il nuovo nodo generato dallo scatto della transizione
-                print("inizio a creare il nuovo nodo")
+               # print("inizio a creare il nuovo nodo")
                 if t.osservazione!=" ":
                     nodo_attuale.passata_osservazione=True
                     listOfGlobals = globals()
@@ -1743,39 +1743,39 @@ def controllo_transizioni2_migliorato(nodi, nodo_attuale, transizioni_spazio, os
                 nuovo_nodo.finale = nuovo_nodo.is_finale_oss(len(osservazione))
                 nuovo_nodo.output = nuovo_nodo.get_output()
 
-                print("Nuovo nodo creato")
-                print("\t" + nuovo_nodo.to_string() + "\n")
+                #print("Nuovo nodo creato")
+                #print("\t" + nuovo_nodo.to_string() + "\n")
                 #controllo che il nodo sia nuovo
                 contiene = contiene_nodo_con_osservazione(nuovo_nodo, nodi)
                 if (isinstance(contiene, Nodo)):
-                    print("Il nuovo nodo è già presente nella lista")
+                    #print("Il nuovo nodo è già presente nella lista")
                     if contiene.iniziale and contiene.lunghezza_osservazione==len(osservazione):
                         contiene.finale = True
-                    print("aggionro l_osservazione del vecchio nodo")
+                    #print("aggionro l_osservazione del vecchio nodo")
                     contiene.lunghezza_osservazione=nuovo_nodo.lunghezza_osservazione
                     tra = crea_nuova_transizione(nodo_attuale, contiene, t)
                     transizioni_spazio.append(tra)
                     #nodo_attuale.transizioni.append(tra)
-                    print("Creata la nuova transizione: ")
-                    print("\t"+tra.to_string())
-                    print("numero totale di transizioni: "+str(len(transizioni_spazio)))
+                    # print("Creata la nuova transizione: ")
+                    # print("\t"+tra.to_string())
+                    # print("numero totale di transizioni: "+str(len(transizioni_spazio)))
                 else:
-                    print("Inserisco il nuovo nodo")
+                    #print("Inserisco il nuovo nodo")
                     nodi.append(nuovo_nodo)
-                    print("Il suo indice è " + str(nodi.index(nuovo_nodo)))
+                    #print("Il suo indice è " + str(nodi.index(nuovo_nodo)))
                     tra = crea_nuova_transizione(nodo_attuale, nuovo_nodo, t)
                     transizioni_spazio.append(tra)
                     #nodo_attuale.transizioni.append(tra)
-                    print("numero totale di transizioni: " + str(len(transizioni_spazio)))
-                    print("Creata la nuova transizione: ")
-                    print("\t" + tra.to_string())
-                    print("numero totale di transizioni: " + str(len(transizioni_spazio)))
+                    #print("numero totale di transizioni: " + str(len(transizioni_spazio)))
+                    # print("Creata la nuova transizione: ")
+                    # print("\t" + tra.to_string())
+                    # print("numero totale di transizioni: " + str(len(transizioni_spazio)))
                     controllo_transizioni2(nodi, nuovo_nodo, transizioni_spazio, osservazione)
 
-            else:
-                print("La transizione non scatta, esco dal ciclo")
+            # else:
+            #     print("La transizione non scatta, esco dal ciclo")
 
-    print("ho concluso tutte gli stati di nodo: " + str(nodi.index(nodo_attuale)))
+    #print("ho concluso tutte gli stati di nodo: " + str(nodi.index(nodo_attuale)))
     nodo_attuale.check = True
 
 def scatto_transizione2_migliorato(transizione, nodo, osservazioni, l_osservazione):
@@ -1783,7 +1783,7 @@ def scatto_transizione2_migliorato(transizione, nodo, osservazioni, l_osservazio
     vengono fatte analisi solo sugli eventi presenti nei link
     non sullo stato di partenza della transizione'''
     scatta=True
-    print("Controllo transizione: "+transizione.nome)
+    #print("Controllo transizione: "+transizione.nome)
 
     nuovo_nodo = deepcopy(nodo)
 
@@ -1792,76 +1792,76 @@ def scatto_transizione2_migliorato(transizione, nodo, osservazioni, l_osservazio
 
 
         if nodo.lunghezza_osservazione == len(osservazioni):
-            print("len osservazione è già uguale a: " + str(nodo.lunghezza_osservazione) + ", non posso aggiungerne altre")
+            #print("len osservazione è già uguale a: " + str(nodo.lunghezza_osservazione) + ", non posso aggiungerne altre")
             return False
         else:
             if(osservazioni[nodo.lunghezza_osservazione]!=transizione.osservazione):
-                print("il valore che mi serve nelle osservazioni è: " + osservazioni[nodo.lunghezza_osservazione])
-                print("La transizione ha il seguente valore: "+transizione.osservazione)
-                print("NON coincidono")
+                # print("il valore che mi serve nelle osservazioni è: " + osservazioni[nodo.lunghezza_osservazione])
+                # print("La transizione ha il seguente valore: "+transizione.osservazione)
+                # print("NON coincidono")
                 return False
-            else:
-                print("il valore che mi serve nelle osservazioni è: " + osservazioni[nodo.lunghezza_osservazione])
-                print("La transizione ha il seguente valore: " + transizione.osservazione)
-                print("Coincidono")
+            # else:
+            #     print("il valore che mi serve nelle osservazioni è: " + osservazioni[nodo.lunghezza_osservazione])
+            #     print("La transizione ha il seguente valore: " + transizione.osservazione)
+            #     print("Coincidono")
 
         if nodo.passata_osservazione:
-            print("IL nodo ha già una transizione uscente con l'etichetta di osservazione cercata")
-            print("NON SCATTA")
+            # print("IL nodo ha già una transizione uscente con l'etichetta di osservazione cercata")
+            # print("NON SCATTA")
             return False
 
     #scorro eventi in input della transizione
     for evento in transizione.input:
-        print("controllo INPUT")
+        #print("controllo INPUT")
         #verifico che non sia un evento vuoto
         if(evento.nome != "" and evento.link != None):
             #ricavo il valore del link nel nodo
             valore_nel_link = nodo.links[evento.link.nome][1]
-            print("Evento: "+evento.nome+" ("+evento.link.nome+") -> valore nel nodo: "+valore_nel_link)
+            #print("Evento: "+evento.nome+" ("+evento.link.nome+") -> valore nel nodo: "+valore_nel_link)
 
             if (evento.nome != valore_nel_link):
-                print("Non c'è l'input corretto, la transizione non può scattare\n")
+                #print("Non c'è l'input corretto, la transizione non può scattare\n")
                 return False
             else:
                 nuovo_nodo.links[evento.link.nome][1] = ""
-                print("ho aggiornato " + evento.link.nome + " mettendolo a " + nodo.links[evento.link.nome][1])
+                #print("ho aggiornato " + evento.link.nome + " mettendolo a " + nodo.links[evento.link.nome][1])
 
 
     # scorro eventi in output della transizione
     for evento in transizione.output:
-        print("controllo Output")
+        #print("controllo Output")
         # verifico che non sia un evento vuoto
         if (evento.nome != "" and evento.link != None):
             # ricavo il valore del link nel nodo
             valore_nel_link = nodo.links[evento.link.nome][1]
-            print("Evento: " + evento.nome + " (" + evento.link.nome + ") -> valore nel nodo: " + valore_nel_link)
+            #print("Evento: " + evento.nome + " (" + evento.link.nome + ") -> valore nel nodo: " + valore_nel_link)
 
             if (valore_nel_link != ""):
-                print("Il link di output non è vuoto, impossibile scattare\n")
+                #print("Il link di output non è vuoto, impossibile scattare\n")
                 return False
             else:
                 nuovo_nodo.links[evento.link.nome][1] = evento.nome
-                print("ho aggiornato " + evento.link.nome + " mettendolo a " + nodo.links[evento.link.nome][1])
+                #print("ho aggiornato " + evento.link.nome + " mettendolo a " + nodo.links[evento.link.nome][1])
 
     for index, s in enumerate(nuovo_nodo.stati):
-        print("Scorro stato: "+s.to_string()+" = "+str(s))
-        print("devo confrontarlo con: "+transizione.stato_sorgente.to_string()+" = "+str(transizione.stato_sorgente))
+        # print("Scorro stato: "+s.to_string()+" = "+str(s))
+        # print("devo confrontarlo con: "+transizione.stato_sorgente.to_string()+" = "+str(transizione.stato_sorgente))
         if s.id == transizione.stato_sorgente.id:
-            print("ho aggiornato lo stato "+nuovo_nodo.stati[index].nome)
+            #print("ho aggiornato lo stato "+nuovo_nodo.stati[index].nome)
             nuovo_nodo.stati[index] = transizione.stato_destinazione
-            print(" mettendolo a " +nuovo_nodo.stati[index].nome)
+            #print(" mettendolo a " +nuovo_nodo.stati[index].nome)
 
     if transizione.osservazione!=" ":
-        print("La transizione ha un valore di osservazione: "+transizione.osservazione)
+        #print("La transizione ha un valore di osservazione: "+transizione.osservazione)
         nuovo_nodo.lunghezza_osservazione= l_osservazione + 1
-        print("Aggiornato il valore del nuovo nodo di l_osservazione")
+        #print("Aggiornato il valore del nuovo nodo di l_osservazione")
 
     return nuovo_nodo
 
 #ALGORITMO 2 Da rete - Migliorato (nuova ridenominazione)
 def crea_spazio_comportamentale2_migliorato_nuova_ridenominazione(rete, osservazione):
 
-    print("\n\n\n---------------------------------\nCREO SPAZIO COMPORTAMENTALE CON OSSERVAZIONE")
+    #print("\n\n\n---------------------------------\nCREO SPAZIO COMPORTAMENTALE CON OSSERVAZIONE")
     rete = rete
     osservazione=osservazione
 
@@ -1906,8 +1906,8 @@ def crea_spazio_comportamentale2_migliorato_nuova_ridenominazione(rete, osservaz
 
 def controllo_transizioni2_migliorato_nuova_ridenominazione(nodi, nodo_attuale, transizioni_spazio, osservazione):
     '''Partendo dal nodo attuale controllo tutte le transizioni che possono scattare e le faccio scattare'''
-    print("Controllo transizioni in nodo numero: "+str(nodi.index(nodo_attuale)))
-    print("\t"+nodo_attuale.to_string()+"\n")
+    # print("Controllo transizioni in nodo numero: "+str(nodi.index(nodo_attuale)))
+    # print("\t"+nodo_attuale.to_string()+"\n")
 
 
     #ricavo gli stati correnti del nodo analizzato, una transizione scatta solo se parte da uno di questi stati
@@ -1915,23 +1915,23 @@ def controllo_transizioni2_migliorato_nuova_ridenominazione(nodi, nodo_attuale, 
 
     #scorro gli stati
     for s in stati_correnti:
-        print("Scorro stati, in nodo numero: "+str(nodi.index(nodo_attuale)))
-        print("il nodo ha transizioni (nodo attuale.transizioni): "+str(len(nodo_attuale.transizioni)))
-        print("FOR LOOP. stato: "+s.nome+"\n")
+        # print("Scorro stati, in nodo numero: "+str(nodi.index(nodo_attuale)))
+        # print("il nodo ha transizioni (nodo attuale.transizioni): "+str(len(nodo_attuale.transizioni)))
+        # print("FOR LOOP. stato: "+s.nome+"\n")
 
 
         #scorro transizioni dello stato
         for t in s.transizioni:
-            print("Scorro transizioni, in nodo numero (id): " +str(nodi.index(nodo_attuale)))
-            print("nodo: "+nodo_attuale.to_string())
-            print("transizione: "+t.nome+"\n")
+            # print("Scorro transizioni, in nodo numero (id): " +str(nodi.index(nodo_attuale)))
+            # print("nodo: "+nodo_attuale.to_string())
+            # print("transizione: "+t.nome+"\n")
 
             #controllo se la transizione può scattare
             scatta = scatto_transizione2_migliorato(t, nodo_attuale, osservazione, nodo_attuale.lunghezza_osservazione)
 
             if(isinstance(scatta, Nodo)):
                 #creo il nuovo nodo generato dallo scatto della transizione
-                print("inizio a creare il nuovo nodo")
+                #print("inizio a creare il nuovo nodo")
                 if t.osservazione!=" ":
                     nodo_attuale.passata_osservazione=True
                     listOfGlobals = globals()
@@ -1944,43 +1944,43 @@ def controllo_transizioni2_migliorato_nuova_ridenominazione(nodi, nodo_attuale, 
                 nuovo_nodo.finale = nuovo_nodo.is_finale_oss(len(osservazione))
                 nuovo_nodo.output = nuovo_nodo.get_output()
 
-                print("Nuovo nodo creato")
-                print("\t" + nuovo_nodo.to_string() + "\n")
+                # print("Nuovo nodo creato")
+                # print("\t" + nuovo_nodo.to_string() + "\n")
                 #controllo che il nodo sia nuovo
                 contiene = contiene_nodo_con_osservazione(nuovo_nodo, nodi)
                 if (isinstance(contiene, Nodo)):
-                    print("Il nuovo nodo è già presente nella lista")
+                    #print("Il nuovo nodo è già presente nella lista")
                     if contiene.iniziale and contiene.lunghezza_osservazione==len(osservazione):
                         contiene.finale = True
-                    print("aggionro l_osservazione del vecchio nodo")
+                    #print("aggionro l_osservazione del vecchio nodo")
                     contiene.lunghezza_osservazione=nuovo_nodo.lunghezza_osservazione
                     tra = crea_nuova_transizione(nodo_attuale, contiene, t)
                     transizioni_spazio.append(tra)
                     #nodo_attuale.transizioni.append(tra)
-                    print("Creata la nuova transizione: ")
-                    print("\t"+tra.to_string())
-                    print("numero totale di transizioni: "+str(len(transizioni_spazio)))
+                    # print("Creata la nuova transizione: ")
+                    # print("\t"+tra.to_string())
+                    # print("numero totale di transizioni: "+str(len(transizioni_spazio)))
                 else:
                     listOfGlobals = globals()
                     rid = listOfGlobals['ridenominazione']
-                    print("Inserisco il nuovo nodo")
+                    #print("Inserisco il nuovo nodo")
                     nuovo_nodo.id=str(rid)
                     listOfGlobals['ridenominazione'] = rid +1
                     nodi.append(nuovo_nodo)
-                    print("Il suo indice è " + str(nodi.index(nuovo_nodo)))
+                    #print("Il suo indice è " + str(nodi.index(nuovo_nodo)))
                     tra = crea_nuova_transizione(nodo_attuale, nuovo_nodo, t)
                     transizioni_spazio.append(tra)
                     #nodo_attuale.transizioni.append(tra)
-                    print("numero totale di transizioni: " + str(len(transizioni_spazio)))
-                    print("Creata la nuova transizione: ")
-                    print("\t" + tra.to_string())
-                    print("numero totale di transizioni: " + str(len(transizioni_spazio)))
+                    # print("numero totale di transizioni: " + str(len(transizioni_spazio)))
+                    # print("Creata la nuova transizione: ")
+                    # print("\t" + tra.to_string())
+                    # print("numero totale di transizioni: " + str(len(transizioni_spazio)))
                     controllo_transizioni2(nodi, nuovo_nodo, transizioni_spazio, osservazione)
 
-            else:
-                print("La transizione non scatta, esco dal ciclo")
+            # else:
+            #     print("La transizione non scatta, esco dal ciclo")
 
-    print("ho concluso tutte gli stati di nodo: " + str(nodi.index(nodo_attuale)))
+    #print("ho concluso tutte gli stati di nodo: " + str(nodi.index(nodo_attuale)))
     nodo_attuale.check = True
 
 def scatto_transizione2_migliorato(transizione, nodo, osservazioni, l_osservazione):
@@ -1988,7 +1988,7 @@ def scatto_transizione2_migliorato(transizione, nodo, osservazioni, l_osservazio
     vengono fatte analisi solo sugli eventi presenti nei link
     non sullo stato di partenza della transizione'''
     scatta=True
-    print("Controllo transizione: "+transizione.nome)
+    #print("Controllo transizione: "+transizione.nome)
 
     nuovo_nodo = deepcopy(nodo)
 
@@ -1997,69 +1997,69 @@ def scatto_transizione2_migliorato(transizione, nodo, osservazioni, l_osservazio
 
 
         if nodo.lunghezza_osservazione == len(osservazioni):
-            print("len osservazione è già uguale a: " + str(nodo.lunghezza_osservazione) + ", non posso aggiungerne altre")
+            #print("len osservazione è già uguale a: " + str(nodo.lunghezza_osservazione) + ", non posso aggiungerne altre")
             return False
         else:
             if(osservazioni[nodo.lunghezza_osservazione]!=transizione.osservazione):
-                print("il valore che mi serve nelle osservazioni è: " + osservazioni[nodo.lunghezza_osservazione])
-                print("La transizione ha il seguente valore: "+transizione.osservazione)
-                print("NON coincidono")
+                # print("il valore che mi serve nelle osservazioni è: " + osservazioni[nodo.lunghezza_osservazione])
+                # print("La transizione ha il seguente valore: "+transizione.osservazione)
+                # print("NON coincidono")
                 return False
-            else:
-                print("il valore che mi serve nelle osservazioni è: " + osservazioni[nodo.lunghezza_osservazione])
-                print("La transizione ha il seguente valore: " + transizione.osservazione)
-                print("Coincidono")
+            # else:
+            #     print("il valore che mi serve nelle osservazioni è: " + osservazioni[nodo.lunghezza_osservazione])
+            #     print("La transizione ha il seguente valore: " + transizione.osservazione)
+            #     print("Coincidono")
 
         if nodo.passata_osservazione:
-            print("IL nodo ha già una transizione uscente con l'etichetta di osservazione cercata")
-            print("NON SCATTA")
+            # print("IL nodo ha già una transizione uscente con l'etichetta di osservazione cercata")
+            # print("NON SCATTA")
             return False
 
     #scorro eventi in input della transizione
     for evento in transizione.input:
-        print("controllo INPUT")
+        #print("controllo INPUT")
         #verifico che non sia un evento vuoto
         if(evento.nome != "" and evento.link != None):
             #ricavo il valore del link nel nodo
             valore_nel_link = nodo.links[evento.link.nome][1]
-            print("Evento: "+evento.nome+" ("+evento.link.nome+") -> valore nel nodo: "+valore_nel_link)
+            #print("Evento: "+evento.nome+" ("+evento.link.nome+") -> valore nel nodo: "+valore_nel_link)
 
             if (evento.nome != valore_nel_link):
-                print("Non c'è l'input corretto, la transizione non può scattare\n")
+                #print("Non c'è l'input corretto, la transizione non può scattare\n")
                 return False
             else:
                 nuovo_nodo.links[evento.link.nome][1] = ""
-                print("ho aggiornato " + evento.link.nome + " mettendolo a " + nodo.links[evento.link.nome][1])
+                #print("ho aggiornato " + evento.link.nome + " mettendolo a " + nodo.links[evento.link.nome][1])
 
 
     # scorro eventi in output della transizione
     for evento in transizione.output:
-        print("controllo Output")
+        #print("controllo Output")
         # verifico che non sia un evento vuoto
         if (evento.nome != "" and evento.link != None):
             # ricavo il valore del link nel nodo
             valore_nel_link = nodo.links[evento.link.nome][1]
-            print("Evento: " + evento.nome + " (" + evento.link.nome + ") -> valore nel nodo: " + valore_nel_link)
+            #print("Evento: " + evento.nome + " (" + evento.link.nome + ") -> valore nel nodo: " + valore_nel_link)
 
             if (valore_nel_link != ""):
-                print("Il link di output non è vuoto, impossibile scattare\n")
+                #print("Il link di output non è vuoto, impossibile scattare\n")
                 return False
             else:
                 nuovo_nodo.links[evento.link.nome][1] = evento.nome
-                print("ho aggiornato " + evento.link.nome + " mettendolo a " + nodo.links[evento.link.nome][1])
+                #print("ho aggiornato " + evento.link.nome + " mettendolo a " + nodo.links[evento.link.nome][1])
 
     for index, s in enumerate(nuovo_nodo.stati):
-        print("Scorro stato: "+s.to_string()+" = "+str(s))
-        print("devo confrontarlo con: "+transizione.stato_sorgente.to_string()+" = "+str(transizione.stato_sorgente))
+        # print("Scorro stato: "+s.to_string()+" = "+str(s))
+        # print("devo confrontarlo con: "+transizione.stato_sorgente.to_string()+" = "+str(transizione.stato_sorgente))
         if s.id == transizione.stato_sorgente.id:
-            print("ho aggiornato lo stato "+nuovo_nodo.stati[index].nome)
+            #print("ho aggiornato lo stato "+nuovo_nodo.stati[index].nome)
             nuovo_nodo.stati[index] = transizione.stato_destinazione
-            print(" mettendolo a " +nuovo_nodo.stati[index].nome)
+            #print(" mettendolo a " +nuovo_nodo.stati[index].nome)
 
     if transizione.osservazione!=" ":
-        print("La transizione ha un valore di osservazione: "+transizione.osservazione)
+        #print("La transizione ha un valore di osservazione: "+transizione.osservazione)
         nuovo_nodo.lunghezza_osservazione= l_osservazione + 1
-        print("Aggiornato il valore del nuovo nodo di l_osservazione")
+        #print("Aggiornato il valore del nuovo nodo di l_osservazione")
 
     return nuovo_nodo
 

@@ -1,0 +1,6 @@
+Numero di stati:2
+Stato: 30; Stato: 31;
+Numero di transizioni:3
+	Stato: 30>t3a>Stato: 31[Oss: o3; ril:  ] { : } {L2:e2;}
+	Stato: 31>t3c>Stato: 31[Oss:  ; ril: f] {L3:e3;} { : }
+	Stato: 31>t3b>Stato: 30[Oss:  ; ril:  ] {L3:e3;} { : }

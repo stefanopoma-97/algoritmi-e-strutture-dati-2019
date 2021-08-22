@@ -683,7 +683,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
     def abilita_algoritmo2(bool):
         '''abilita o disabilita tutta la sezione dell'algoritmo 2'''
         if bool==False:
-            window_spazio_comportamentale['algoritmo2'].update('Algoritmo 2 - Abilitato')
+            window_spazio_comportamentale['algoritmo2'].update('Algoritmo 2')
             window_spazio_comportamentale['informazioni'].update(
                 window_spazio_comportamentale[
                     'informazioni'].get() + "\nL'algoritmo 2 è disabilitato, inserire una rete o uno spazio comportamentale")
