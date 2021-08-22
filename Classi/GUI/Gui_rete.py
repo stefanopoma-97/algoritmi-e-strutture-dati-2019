@@ -819,7 +819,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
         window_spazio_comportamentale['avvio_algoritmo2_diagnosi'].update(disabled=True)
         window_spazio_comportamentale['informazioni'].update(
             window_spazio_comportamentale[
-                'informazioni'].get() + "\nL'algoritmo 3 ha generato uno spazio realitivo all'osservazione inserita. Ora è possibile eseguire la diagnosu")
+                'informazioni'].get() + "\nL'algoritmo 3 ha generato uno spazio realitivo all'osservazione inserita. Ora è possibile eseguire la diagnosi")
 
     def abilita_algoritmo2_salva():
         '''Abilita le componenti grafiche dell'algoritmo 2 relative al salvataggio delle informazioni'''
