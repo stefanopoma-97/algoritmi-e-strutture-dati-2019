@@ -2618,7 +2618,8 @@ def controllo_sequenza(nodi, transizioni):
             elif index==len(lista_sequenza)-1:
                 if tra.nodo_sorgente in nodi:
                     nodi.remove(tra.nodo_sorgente)
-                transizioni.remove(tra)
+                if tra in transizioni:
+                    transizioni.remove(tra)
             else:
                 if tra.nodo_sorgente in nodi:
                     nodi.remove(tra.nodo_sorgente)
@@ -2704,7 +2705,8 @@ def controllo_sequenza_migliorato(nodi, transizioni):
             elif index==len(lista_sequenza)-1:
                 if tra.nodo_sorgente in nodi:
                     nodi.remove(tra.nodo_sorgente)
-                transizioni.remove(tra)
+                if tra in transizioni:
+                    transizioni.remove(tra)
                 tra.nodo_destinazione.transizioni_sorgente.remove(tra)
             else:
                 if tra.nodo_sorgente in nodi:
