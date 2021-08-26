@@ -1,0 +1,7 @@
+digraph diagnosi {
+	0 [shape=circle]
+	39 [shape=circle]
+	39 [shape=doublecircle]
+	39 [shape=doublecircle]
+	0 -> 39 [label=< [<FONT COLOR="red">f1|f1|f1|ε|f1|ε|f1|f1|ε|f1|f1|f1|f1|ε|f1|f1|f1|f1|ε|f1|ε|f1|f1|ε|f1|f1|f1|f1|f1|f3|f1|f1|f3|f3|f3|f3|f1|f3|ε|f1|ε|f1|ε|f1|ε|f1|f1|ε|f1|ε|f1|ε|f1|f1|ε|f1|f1|f1|f3|f1|f3|f1|f3|ε|f1|ε|f1|ε|f1|ε|f1|f1|ε|f1|f1|f1|f1|ε|f1|f1|f1|f1|ε|f1|ε|f1|f1|ε|f1|ε|f1|ε|f1|f1|ε|f1|f1|f1|f1|ε|f1|f1|f1|f1|ε|f1|ε|f1|f1|ε|f1|f1|f1|f1|f1|f1|f1|f1|f1|f1|f1|f1|f1|f1|f1|f3|f3|f1|f3|ε|f1|ε|f1|ε|f1|ε|f1|f1|ε|f1|ε|f1|ε|f1|f1|ε|f3|f3|f3|f3|f1|f3|ε|f1|ε|f1|ε|f1|ε|f1|f1|ε|f1|ε|f1|ε|f1|f1|ε|f1|f1|f1|f3|f1|f3|f1|f3|ε|f1|ε|f1|ε|f1|ε|f1|f1|ε|f1|f1|f1|f1|ε|f1|f1|f1|f1|ε|f1|ε|f1|f1|ε|f1|ε|f1|ε|f1|f1|ε|f1|f1|f1|f1|ε|f1|f1|f1|f1|ε|f1|ε|f1|f1|ε|f1|f1|ε|f1|ε|f1|f1|ε|f1|f1|f1|f1|ε|f1|f1|f1|f1|ε|f1|ε|f1|f1|ε|f1|f1|f1|f1|f1|f3|f1|f1|f3|f3|f3|f3|f1|f3|ε|f1|ε|f1|ε|f1|ε|f1|f1|ε|f1|ε|f1|ε|f1|f1|ε|f1|f1|f1|f3|f1|f3|f1|f3|ε|f1|ε|f1|ε|f1|ε|f1|f1|ε|f1|f1|f1|f1|ε|f1|f1|f1|f1|ε|f1|ε|f1|f1|ε|f1|ε|f1|ε|f1|f1|ε|f1|f1|f1|f1|ε|f1|f1|f1|f1|ε|f1|ε|f1|f1|ε</FONT>]>]
+}

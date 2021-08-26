@@ -1,0 +1,29 @@
+Numero di nodi: 12
+Numero di nodi potati: 1
+Numero di nodi rimasti: 11
+	1) [ ID = 0; chiuso, spento_chiuso, , , 0]
+	2) [ ID = 1; chiuso, acceso_chiuso, , , 1]
+	3) [ ID = 2; chiuso, apri, apri, , 2]
+	4) [ ID = 3; apertura, apri, , , 3]
+	5) [ ID = 4; aperto, apri, , aperto, 4]
+	6) [ ID = 5; aperto, stop_aperto, , , 5]
+	7) [ ID = 6; aperto, spento_aperto, , , 6]
+	8) [ ID = 7; aperto, acceso_aperto, , , 7]
+	9) [ ID = 8; aperto, chiudi, chiudi, , 8]
+	10) [ ID = 9; chiusura, chiudi, , , 9]
+	11) [ ID = 10; blocco, chiudi, , , 9]
+
+Numero transizioni: 11
+Numero di transizioni potate: 1
+Numero di transizioni rimaste: 10
+	1) (0) > t1 > (1)
+	2) (1) > t2 > (2)
+	3) (2) > c1 > (3)
+	4) (3) > c2 > (4)
+	5) (4) > t4 > (5)
+	6) (5) > t5 > (6)
+	7) (6) > t6 > (7)
+	8) (7) > t7 > (8)
+	9) (8) > c3 > (9)
+	10) (9) > c6 > (10)
+Lo spazio è stato potato

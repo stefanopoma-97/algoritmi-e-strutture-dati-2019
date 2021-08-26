@@ -1,0 +1,27 @@
+Numero di nodi: 12
+	1) [ ID = 0; chiuso, spento_chiuso, , , 0]
+	2) [ ID = 1; chiuso, acceso_chiuso, , , 1]
+	3) [ ID = 2; chiuso, apri, apri, , 2]
+	4) [ ID = 3; apertura, apri, , , 3]
+	5) [ ID = 4; aperto, apri, , aperto, 4]
+	6) [ ID = 5; aperto, stop_aperto, , , 5]
+	7) [ ID = 6; aperto, spento_aperto, , , 6]
+	8) [ ID = 7; aperto, acceso_aperto, , , 7]
+	9) [ ID = 8; aperto, chiudi, chiudi, , 8]
+	10) [ ID = 9; chiusura, chiudi, , , 9]
+	11) [ ID = 10; blocco, chiudi, , , 9]
+	12) [ ID = 11; blocco, apri, , , 3]
+
+ Numero transizioni: 11
+	1) (chiuso, spento_chiuso, , , 0) > t1 > (chiuso, acceso_chiuso, , , 1)
+	2) (chiuso, acceso_chiuso, , , 1) > t2 > (chiuso, apri, apri, , 2)
+	3) (chiuso, apri, apri, , 2) > c1 > (apertura, apri, , , 3)
+	4) (apertura, apri, , , 3) > c2 > (aperto, apri, , aperto, 4)
+	5) (aperto, apri, , aperto, 4) > t4 > (aperto, stop_aperto, , , 5)
+	6) (aperto, stop_aperto, , , 5) > t5 > (aperto, spento_aperto, , , 6)
+	7) (aperto, spento_aperto, , , 6) > t6 > (aperto, acceso_aperto, , , 7)
+	8) (aperto, acceso_aperto, , , 7) > t7 > (aperto, chiudi, chiudi, , 8)
+	9) (aperto, chiudi, chiudi, , 8) > c3 > (chiusura, chiudi, , , 9)
+	10) (chiusura, chiudi, , , 9) > c6 > (blocco, chiudi, , , 9)
+	11) (apertura, apri, , , 3) > c5 > (blocco, apri, , , 3)
+Lo spazio NON è stato potato

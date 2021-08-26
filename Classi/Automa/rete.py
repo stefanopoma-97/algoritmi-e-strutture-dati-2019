@@ -112,14 +112,24 @@ class Rete:
     def controlla_osservazione(self, osservazioni):
         '''Data in input una lista di osservazioni (Stringhe). Il metodo verifica che le singole stringhe siano effettivamente
         delle osservazioni presenti all'interno delle transizioni della rete'''
-        out = False
+        out = True
         tra = []
+        oss = []
+        #print("OSSERVAZIONI: "+str(osservazioni))
         for a in self.automi:
             for s in a.stati:
                 tra += s.transizioni
         for t in tra:
-            if t.osservazione in osservazioni:
-                out = True
+            if t.osservazione != ' ':
+                oss.append(t.osservazione)
+
+        #print("OSS: "+str(oss))
+
+        for o in osservazioni:
+            #print("Controllo: "+str(o))
+            if o not in oss:
+                #print("non presente")
+                out = False
         return out
 
 

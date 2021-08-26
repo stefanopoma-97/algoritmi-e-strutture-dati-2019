@@ -1,0 +1,2 @@
+Risultato diagnosi: bloccoChiusura|ε
+Iterazioni: 6

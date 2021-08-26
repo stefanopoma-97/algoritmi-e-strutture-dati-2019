@@ -1,0 +1,7 @@
+digraph diagnosi {
+	0 [shape=circle]
+	30 [shape=circle]
+	30 [shape=doublecircle]
+	30 [shape=doublecircle]
+	0 -> 30 [label=< [<FONT COLOR="red">f1f3|f1f1|f1|f1f3|f1f1|f1f1|f1f1|f1|f1f1|f1f1|f1|f1f1|f1f3|f1f1|f1|f1f3|f1f3|f1f1|f1f1|f1|f1f1|f1f1|f1|f1f1|f1f1|f1|f1f1|f1f1|f1|f1f1|f1f1|f1|f1f1|f1f1|f1|f1f1|f1|ε|f1|f1|f1f1|f1f1|f1|f1|f1f3|f1f1|f1f3|f1f3|f1f1|f1f1|f1|f1f1|f3f1|f3|f3f1|f1f1|f1|f1f1|f1f1|f1|f1f1|f1f1|f1|f1f1|f3|f3f1|f1|f3|f1|f1f3|f3f1|f1f1|f1|ε|f1|f1|f1f1|f1f1|f1|ε|f1|f1|f1f1|f1f1|f1|f1|f1f3|f1f1|f1f3|f1f3|f1f1|f1f1|f1|f1f1|f1f1|f1|f1f1|f1f1|f1|f1f1|f1f1|f1|f1f1|f1f3|f1f1|f1|f1f3|f1f1|f1f1|f1f1|f1|f1f1|f1f1|f1|f1f1|f1f3|f1f1|f1|f1f3|f1f3|f1f1|f1f1|f1|f1f1|f1f1|f1|f1f1|f1f1|f1|f1f1|f1f1|f1|f1f1|f1|f1|f1f3|f1f1|f1f3|f1f3|f1f1|f1f1|f1|f1f1|f1f1|f1|f1f1|f1f1|f1|f1f1|f1f1|f1|f1f1|f3|f3f1|f1|f3|f1|f1f3|f3f1|f1f1|f1|ε|f1|f1|f1f1|f1f1|f1|ε|f1|f1|f1f1|f1f1|f1f1|f1|f1f1|f1f1|f1|f1f1|f1|ε|f1|f1|f1f1|f1f1|f1|f1|f1f3|f1f1|f1f3|f1f3|f1f1|f1f1|f1|f1f1|f3f1|f3|f3f1|f1f1|f1|f1f1|f1f1|f1|f1f1|f1f1|f1|f1f1|f3|f3f1|f1|f3|f1|f1f3|f3f1|f1f1|f1|ε|f1|f1|f1f1|f1f1|f1|ε|f1|f1|f1f1|f1f1</FONT>]>]
+}

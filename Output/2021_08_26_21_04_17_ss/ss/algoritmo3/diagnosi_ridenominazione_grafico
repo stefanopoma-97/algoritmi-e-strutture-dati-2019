@@ -1,0 +1,7 @@
+digraph diagnosi {
+	0 [shape=circle]
+	11 [shape=circle]
+	11 [shape=doublecircle]
+	11 [shape=doublecircle]
+	0 -> 11 [label=< [<FONT COLOR="red">bloccoChiusura|ε</FONT>]>]
+}
