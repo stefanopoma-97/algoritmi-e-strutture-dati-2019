@@ -356,10 +356,10 @@ TEST_SPAZIO3_ALGORITMO2='''
 spazio = crea_spazio_comportamentale2_da_spazio(spazio, ["o1","o2"])
 '''
 TEST_SPAZIO4_ALGORITMO2='''
-spazio = crea_spazio_comportamentale2_da_spazio(spazio, ["accendoDaChiuso","apri","apertura","aperto","stopDaAperto","spento aperto","accendoDaAperto","chiudiDaAcceso","chiusura"])
+spazio = crea_spazio_comportamentale2_da_spazio(spazio, ["accendoDaChiuso","apri","apertura","aperto","stopDaAperto","spentoAperto","accendoDaAperto","chiudiDaAcceso","chiusura"])
 '''
 TEST_SPAZIO5_ALGORITMO2='''
-spazio = crea_spazio_comportamentale2_da_spazio(spazio, ["accendoDaChiuso","apri","apertura","aperto","stopDaAperto","spento aperto","accendoDaAperto","chiudiDaAcceso","chiusura","chiuso","stopDaChiuso"])
+spazio = crea_spazio_comportamentale2_da_spazio(spazio, ["accendoDaChiuso","apri","apertura","aperto","stopDaAperto","spentoAperto","accendoDaAperto","chiudiDaAcceso","chiusura","chiuso","stopDaChiuso"])
 '''
 TEST_SPAZIO1_ALGORITMO3='''
 diagnosi_sistemo_spazio(spazio)

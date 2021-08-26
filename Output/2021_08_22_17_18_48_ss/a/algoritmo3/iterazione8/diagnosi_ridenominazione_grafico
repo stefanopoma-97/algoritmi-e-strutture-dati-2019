@@ -1,9 +1,0 @@
-digraph diagnosi {
-	0 [shape=circle]
-	2 [shape=circle]
-	8 [shape=circle]
-	8 [shape=doublecircle]
-	0 -> 2 [label=< [<FONT COLOR="red"> </FONT>]>]
-	2 -> 8 [label=< [<FONT COLOR="red"> </FONT>]>]
-	2 -> 8 [label=< [<FONT COLOR="red">frf|fr|f</FONT>]>]
-}

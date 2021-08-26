@@ -553,7 +553,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
     spazio_comportamentale_oss = None #spazio comportamentale generato con algoritmo 2
     spazio_comportamentale_potato_oss = None  # spazio comportamentale potato generato con algoritmo 2
     diagnosi = None #risultato della diagnosi
-    spazio_comportamentale_potato_oss_per_diagnosi = None #spazio comportamentale relativo ad un osservazione per diagnosi
+    spazio_comportamentale_potato_oss_per_diagnosi = None #spazio comportamentale relativo ad un'osservazione per diagnosi
     osservazione_lineare_diagnosi = None #osservazione lineare dell'algoritmo 3
 
 
@@ -583,7 +583,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                 #sg.Button("avvio 3", key="avvio3", disabled=True)
             ],
             [
-                sg.Button("Salva informazioni spazio su file", key="salva", disabled=True),
+                sg.Button("Salva informazioni su file", key="salva", disabled=True),
                 sg.Button("Mostra grafico spazio compotamentale", key="stampa", disabled=True)
             ],
             [
@@ -601,7 +601,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             ],
             [
 
-                sg.Text("Inserisci un osservazione lineare"),
+                sg.Text("Inserisci un'osservazione lineare"),
                 sg.Input(key='input_osservazione_lineare', size=(20, 1), disabled=True),
                 sg.Button('Conferma', key='conferma_osservazione_lineare', disabled=True)
 
@@ -614,7 +614,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                 #sg.Button("avvio 3", key="avvio3", disabled=True)
             ],
             [
-                sg.Button("Salva informazioni spazio su file", key="salva_spazio2", disabled=True),
+                sg.Button("Salva informazioni su file", key="salva_spazio2", disabled=True),
                 sg.Button("Mostra grafico spazio compotamentale", key="stampa_spazio2", disabled=True)
             ],
             [
@@ -632,7 +632,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             ],
             [
 
-                sg.Text("Inserisci un osservazione lineare"),
+                sg.Text("Inserisci un'osservazione lineare"),
                 sg.Input(key='input_osservazione_lineare_diagnosi', size=(20, 1), disabled=True),
                 sg.Button('Conferma', key='conferma_osservazione_lineare_diagnosi', disabled=True)
 

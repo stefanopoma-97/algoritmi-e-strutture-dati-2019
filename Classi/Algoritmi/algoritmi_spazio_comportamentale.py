@@ -1700,7 +1700,7 @@ def crea_spazio_comportamentale2_migliorato(rete, osservazione):
             nodi_iniziali.append(n)
     spazio = Spazio_comportamentale("spazio1", nodi_finali, nodi_iniziali, nodi, transizioni)
     sistema_transizioni(spazio)
-    #ridenominazione_spazio_appena_creato(spazio)
+    ridenominazione_spazio_appena_creato(spazio)
     return spazio
 
 def controllo_transizioni2_migliorato(nodi, nodo_attuale, transizioni_spazio, osservazione):

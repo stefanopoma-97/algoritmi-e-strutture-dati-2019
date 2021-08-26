@@ -1,0 +1,5 @@
+o3,o2
+act,sby,nop
+o1,o2
+accendoDaChiuso,apri,apertura,aperto,stopDaAperto,spentoAperto,accendoDaAperto,chiudiDaAcceso,chiusura
+accendoDaChiuso,apri,apertura,aperto,stopDaAperto,spentoAperto,accendoDaAperto,chiudiDaAcceso,chiusura,chiuso,stopDaChiuso
