@@ -1176,7 +1176,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                 nome_spazio = listOfGlobals['nome_spazio']
                 #print("OSS: "+str(osservazione_lineare))
 
-                if osservazione_lineare==None or (rete.controlla_osservazione(osservazione_lineare)):
+                if osservazione_lineare!=None and (rete.controlla_osservazione(osservazione_lineare)):
                     spazio_comportamentale_oss = crea_spazio_comportamentale2_migliorato(rete, osservazione_lineare)
                     spazio_comportamentale_oss.nome = nome_spazio
 
@@ -1211,8 +1211,10 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
 
             nome_spazio = listOfGlobals['nome_spazio']
             #print("OSS: " + str(osservazione_lineare))
-
-            if (osservazione_lineare != None):
+            #print("PRIMA IF")
+            controlla_oss=spazio.controlla_osservazione_spazio(osservazione_lineare)
+            #print("DOPO CONTROLLAs")
+            if (osservazione_lineare != None and controlla_oss):
                 spazio_comportamentale_oss = crea_spazio_comportamentale2_da_spazio(spazio, osservazione_lineare)
                 spazio_comportamentale_oss.nome = nome_spazio
 
@@ -1232,7 +1234,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
                     abilita_algoritmo2_creato_spazio()
             else:
                 sg.Popup('Attenzione!',
-                         'Le etichette dell\'osservazione lineare inserita non sono presenti nella rete. Cambiare l\'osservazione lineare per proseguire')
+                         'Le etichette dell\'osservazione lineare inserita non sono presenti nello spazio. Cambiare l\'osservazione lineare per proseguire')
                 window_spazio_comportamentale['informazioni'].update(
                     window_spazio_comportamentale[
                         'informazioni'].get() + "\nimpossibile procedere alla creazione dello spazio comportamentale relativo all'osservazione")
@@ -1367,7 +1369,7 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             nome_spazio = listOfGlobals['nome_spazio']
             spazio_comportamentale_oss = Spazio_comportamentale("")
 
-            if osservazione_lineare == None or (rete.controlla_osservazione(osservazione_lineare)):
+            if osservazione_lineare != None and (rete.controlla_osservazione(osservazione_lineare)):
                 #prima iterazione creo spazio
                 nodi_a, nodo_attuale_a, transizioni_a, fine_a, commento = crea_spazio_comportamentale_manuale2(rete, osservazione_lineare)
                 #print("Nodo attuale: "+nodo_attuale_a.to_string())
@@ -1471,7 +1473,9 @@ def gui_crea_spazio_comportamentale(a, l, r, c, c2, s, spazio, nome_S):
             nome_spazio = listOfGlobals['nome_spazio']
             spazio_comportamentale_oss = Spazio_comportamentale("")
 
-            if (osservazione_lineare != None):
+            controlla_oss = spazio.controlla_osservazione_spazio(osservazione_lineare)
+            # print("DOPO CONTROLLAs")
+            if (osservazione_lineare != None and controlla_oss):
                 # prima iterazione creo spazio
                 nodi_a, nodo_attuale_a, transizioni_a, fine_a, commento = crea_spazio_comportamentale_manuale2_da_spazio(spazio,
                                                                                                                osservazione_lineare)

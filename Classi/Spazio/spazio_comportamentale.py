@@ -92,6 +92,25 @@ class Spazio_comportamentale:
             stringa += "Lo spazio NON è stato potato"
         return stringa
 
+    def controlla_osservazione_spazio(self, osservazioni):
+        '''Data in input una lista di osservazioni (Stringhe). Il metodo verifica che le singole stringhe siano effettivamente
+        delle osservazioni presenti all'interno delle transizioni dello spazio'''
+        out = True
+        oss = []
+        print("OSSERVAZIONI: "+str(osservazioni))
+        for t in self.transizioni:
+            if t.osservazione != ' ':
+                oss.append(t.osservazione)
+
+        print("OSS: "+str(oss))
+
+        for o in osservazioni:
+            print("Controllo: "+str(o))
+            if o not in oss:
+                print("non presente")
+                out = False
+        return out
+
 
 def get_transizioni_spazio(spazio):
     '''Restituisce tutte le transizioni presenti nello spazio (scorrendo tutti i nodi)'''
